@@ -57,7 +57,7 @@ public class Common {
 	 * @param session - phiên làm việc
 	 * @return boolean - true nếu user admin đang đăng nhập | false nếu ngược lại
 	 */
-	public static boolean checkAdminLogin(HttpSession session) {
+	public static boolean checkLogin(HttpSession session) {
 		// lấy thông tin của admin
 		Map<String, String> adminInfo = AdminProperties.getAdminInfo();
 		// nếu session null hoặc không có thuộc tính currentUser, return false

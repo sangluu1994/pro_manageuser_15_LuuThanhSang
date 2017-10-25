@@ -5,23 +5,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="<%= request.getContextPath() %>/view/css/style.css" rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" href="view/img/logo-icon.png">
+<link href="view/css/style.css" rel="stylesheet" type="text/css" />
 <title>ユーザ管理</title>
 </head>
 <body>
-	<!-- Begin vung header -->	
-		<div>			
-			<div>
-			<table>
-			<tr>
-			<td width = "80%"><img src="<%= request.getContextPath() %>/view/img/logo-manager-user.gif" alt="Luvina" /><td>
-			<td align="left"><a href = "logout.do">ログアウト</a> &nbsp; <a href = "ADM002.html">トップ</a><td>
-			</tr>
-			</table>
-			</div>
-		</div>
-
-<!-- End vung header -->	
+<%@ include file = "../layout/header.jsp" %>		
 
 <!-- Begin vung dieu kien tim kiem -->	
 <form action="" method="post" name="mainform">

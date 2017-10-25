@@ -8,6 +8,9 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%@ include file = "../layout/header.jsp" %>
 
+
+<%@ include file = "../layout/footer.jsp" %>
 </body>
 </html>

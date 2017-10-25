@@ -231,13 +231,13 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	 */
 	@Override
 	public boolean deleteUser(TblUser tblUser, Connection connection) throws SQLException {
-		String sql = "DELETE FROM tbl_user WHERE user_id = ? AND rule <> 0";
+		String query = "DELETE FROM tbl_user WHERE user_id = ?";
 		boolean result = false;
 		int rowChange = -1;
 		try {
-			PreparedStatement ptmt = connection.prepareStatement(sql);
-			ptmt.setInt(1, tblUser.getUserId());
-			rowChange = ptmt.executeUpdate();
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, tblUser.getUserId());
+			rowChange = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

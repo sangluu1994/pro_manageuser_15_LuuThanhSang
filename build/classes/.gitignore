@@ -1,5 +1,4 @@
-/entity/
-/dao/
 /properties/
 /common/
-/database/
+/filter/
+/dao/

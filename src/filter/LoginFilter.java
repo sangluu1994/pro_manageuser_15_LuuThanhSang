@@ -57,7 +57,7 @@ public class LoginFilter implements Filter {
 		// nếu gọi đến controller login hoặc đến đường dẫn mặc định "/"
 		if (Constant.LOG_IN_PATH.equals(path) || Constant.ROOT_PATH.equals(path)) {
 			// kiểm tra đã đăng nhập chưa
-			if (Common.checkAdminLogin(req.getSession())) {
+			if (Common.checkLogin(req.getSession())) {
 				// nếu đã đăng nhập thì redirect về trang list user
 				res.sendRedirect(req.getContextPath() + Constant.LIST_USER_PATH);
 				return;
@@ -79,7 +79,7 @@ public class LoginFilter implements Filter {
 		
 		// nếu không phải các đường dẫn trên
 		// kiểm tra đã đăng nhập chưa
-		if (Common.checkAdminLogin(req.getSession())) {
+		if (Common.checkLogin(req.getSession())) {
 			// nếu đã đăng nhập
 			// cho phép request vượt qua Filter
 			chain.doFilter(req, res);

@@ -1,5 +1,7 @@
 eclipse.preferences.version=1
 encoding//WebContent/view/jsp/ADM001.jsp=UTF-8
+encoding//WebContent/view/layout/footer.jsp=UTF-8
+encoding//WebContent/view/layout/header.jsp=UTF-8
 encoding//src/common/Common.java=UTF-8
 encoding//src/common/Constant.java=UTF-8
 encoding//src/controller/LoginController.java=UTF-8
