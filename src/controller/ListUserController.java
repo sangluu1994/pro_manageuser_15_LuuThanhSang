@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import common.Constant;
+
 /**
  * Servlet implementation class ListUserController
  */
-@WebServlet("/userList.do")
+@WebServlet(Constant.LIST_USER_PATH)
 public class ListUserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -30,7 +32,7 @@ public class ListUserController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// forward sang màn hình ADM002
 		RequestDispatcher dispatcher = request.getServletContext()
-                .getRequestDispatcher("/view/jsp/ADM002.jsp");
+                .getRequestDispatcher(Constant.ADM002);
         dispatcher.forward(request, response);
 	}
 

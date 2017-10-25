@@ -14,8 +14,8 @@
 			<div>
 			<table>
 			<tr>
-			<td width = "80%"><img src="<%= request.getContextPath() %>/view/imgs/logo-manager-user.gif" alt="Luvina" /><td>
-			<td align="left"><a href = "logout">ログアウト</a> &nbsp; <a href = "ADM002.html">トップ</a><td>
+			<td width = "80%"><img src="<%= request.getContextPath() %>/view/img/logo-manager-user.gif" alt="Luvina" /><td>
+			<td align="left"><a href = "logout.do">ログアウト</a> &nbsp; <a href = "ADM002.html">トップ</a><td>
 			</tr>
 			</table>
 			</div>

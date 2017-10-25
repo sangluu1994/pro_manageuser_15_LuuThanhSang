@@ -9,37 +9,35 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import common.Constant;
+
 /**
  * @author luuthanhsang
  *
  */
 public class AdminProperties {
-	@SuppressWarnings("finally")
 	public static Map<String, String> getAdminInfo() {
+		// khởi tạo map lưu trữ thông tin admin sẽ trả về
 		Map<String, String> adminInfo = new HashMap<String, String>();
 		
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		Properties prop = new Properties();
 		try {
-			// load a properties file
-			prop.load(classLoader.getResourceAsStream(ConstantProperties.ADMIN_PROPERTIES_PATH));
-		
+			// load file admin.properties
+			prop.load(classLoader.getResourceAsStream(Constant.ADMIN_PROPERTIES_PATH));
 			
-			// read information
-			adminInfo.put("system_admin", prop.getProperty("system_admin"));
-			adminInfo.put("passwd_salt", prop.getProperty("passwd_salt"));
-			adminInfo.put("passwd_hash", prop.getProperty("passwd_hash"));
-			adminInfo.put("hash_function", prop.getProperty("hash_function"));
+			// lấy thông tin admin_user và password hash để gán vào map
+			adminInfo.put(Constant.ADMIN_USER, prop.getProperty(Constant.ADMIN_USER));
+			adminInfo.put(Constant.ADMIN_PASS_HASH, prop.getProperty(Constant.ADMIN_PASS_HASH));
+			// trả về thông tin admin được lưu vào map
 			return adminInfo;
 		} catch (Exception e) {
-			// Print error message and return
-			System.out.println("Error.");
+			// trả về null
 			return null;
 		} 
 	}
 //	public static void main(String[] args) {
-//		for (String t : getAdminInfo()) {
-//			System.out.println(t);
-//		}
+//			System.out.println(getAdminInfo().get(Constant.ADMIN_USER));
+//			System.out.println(getAdminInfo().get(Constant.ADMIN_PASS_HASH));
 //	}
 }

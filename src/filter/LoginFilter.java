@@ -1,8 +1,6 @@
 package filter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -14,14 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.Common;
-import properties.ConstantProperties;
+import common.Constant;
 
 /**
  * Servlet Filter implementation class LoginFilter
  */
-//@WebFilter(urlPatterns = "*")
+@WebFilter(urlPatterns = Constant.FILTER_URL_PATTERN)
 public class LoginFilter implements Filter {
-	private ArrayList<String> allowedURLList;// store list url allow
 
     /**
      * Default constructor. 
@@ -43,54 +40,62 @@ public class LoginFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
-		// lấy đường dẫn
+		// thiết lập charset cho request và response
+		req.setCharacterEncoding(Constant.DEFAULT_CHARSET_ENCODING);
+		res.setCharacterEncoding(Constant.DEFAULT_CHARSET_ENCODING);
+		// lấy đường dẫn của request gửi đến
 		String path = req.getRequestURI().substring(req.getContextPath().length());
-
-		// nếu path là /login
-		if (ConstantProperties.LOG_IN_ANNOTATION.equals(path)) {
+		System.out.println(path);
+		
+		// nếu gọi đến controller logout
+		if (Constant.LOG_OUT_PATH.equals(path)) {
+			// cho phép vượt qua LoginFilter, đi tiếp đến controller logout
+			chain.doFilter(req, res);
+			return;
+		}
+		
+		// nếu gọi đến controller login hoặc đến đường dẫn mặc định "/"
+		if (Constant.LOG_IN_PATH.equals(path) || Constant.ROOT_PATH.equals(path)) {
+			// kiểm tra đã đăng nhập chưa
 			if (Common.checkAdminLogin(req.getSession())) {
-				res.sendRedirect(req.getContextPath() + ConstantProperties.LIST_USER_ANNOTATION);
-				// cho phép request vượt qua Filter
+				// nếu đã đăng nhập thì redirect về trang list user
+				res.sendRedirect(req.getContextPath() + Constant.LIST_USER_PATH);
 				return;
 			} else {
+				// nếu chưa đăng nhập:
+				// cho phép request vượt qua Filter, đi tiếp đến controller login
 				chain.doFilter(req, res);
 				return;
 			}
 		}
 		
-		if (Common.checkAdminLogin(req.getSession())) {
-			// cho phép request vượt qua Filter
+		// nếu gọi đến các thư mục js/css/img
+		if (path.matches(Constant.CSS_FOLDER_PATTERN) || path.matches(Constant.JS_FOLDER_PATTERN)
+				|| path.matches(Constant.IMG_FOLDER_PATTERN)) {
+			// cho phép vượt qua Filter
 			chain.doFilter(req, res);
-		}
-
-//		// if is folder /css/, /image/, /js/ then pass
-//		if (path.indexOf(Constant.FOLDER_CSS) > 0 || path.indexOf(Constant.FOLDER_IMAGES) > 0
-//				|| path.indexOf(Constant.FOLDER_JS) > 0) {
-//			chain.doFilter(request, response);
-//			return;
-//		}
-
-		// nếu đã đăng nhập
-		if (Common.checkAdminLogin(req.getSession())) {
-			if (!allowedURLList.contains(path)) {
-				res.sendRedirect(req.getContextPath() + ConstantProperties.LIST_USER_ANNOTATION);
-				return;
-			}
-			chain.doFilter(request, response);
 			return;
 		}
+		
+		// nếu không phải các đường dẫn trên
+		// kiểm tra đã đăng nhập chưa
+		if (Common.checkAdminLogin(req.getSession())) {
+			// nếu đã đăng nhập
+			// cho phép request vượt qua Filter
+			chain.doFilter(req, res);
+			return;
+		} else {
+			// nếu chưa đăng nhập, redirect về trang login
+			res.sendRedirect(req.getContextPath() + Constant.LOG_IN_PATH);
+		}
 
-		// nếu chưa đăng nhập
-		res.sendRedirect(req.getContextPath() + ConstantProperties.LOG_IN_ANNOTATION);
 	}
 
 	/**
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-		allowedURLList = new ArrayList<String>();
-		allowedURLList.add(ConstantProperties.LOG_IN_ANNOTATION);
-		allowedURLList.add(ConstantProperties.LOG_OUT_ANNOTATION);
+		// TODO Auto-generated method stub
 	}
 
 }

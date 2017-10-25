@@ -1,3 +1,8 @@
+/**
+ * Copyright(C) 2017 Luvina Software Company
+ *
+ * LogoutController.java, 2017-10-23 luuthanhsang
+ */
 package controller;
 
 import java.io.IOException;
@@ -8,15 +13,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import properties.ConstantProperties;
+import common.Constant;
 
 /**
  * Controller xử lí thao tác logout 
- * Servlet implementation class LogoutController
  * 
  * @author luuthanhsang
+ * 
  */
-@WebServlet("/logout")
+@WebServlet(Constant.LOG_OUT_PATH)
 public class LogoutController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -32,10 +37,10 @@ public class LogoutController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// hủy session và redirect về màn hình ADM001
+		// hủy session và redirect về màn hình login
 		HttpSession session = request.getSession();
 		session.invalidate();
-		response.sendRedirect(request.getContextPath() + ConstantProperties.LOG_IN_ANNOTATION);
+		response.sendRedirect(request.getContextPath() + Constant.LOG_IN_PATH);
 	}
 
 	/**

@@ -15,28 +15,27 @@ import javax.servlet.http.HttpSession;
 import properties.AdminProperties;
 
 /**
- * @author sanglt
+ * Class chứa các phương thức chung thường dùng
+ * 
+ * @author luuthanhsang
  *
  */
 public class Common {
 	/**
 	 * Phương thức kiểm tra một chuỗi đầu vào có null hoặc rỗng không.
 	 * 
-	 * @param input
-	 *            Chuỗi cần kiểm tra.
-	 * @return true nếu chuỗi đầu vào null hoặc rỗng.<br />
-	 *         false trong các trường hợp còn lại.
+	 * @param input - Chuỗi cần kiểm tra.
+	 * @return boolean - true nếu chuỗi đầu vào null hoặc rỗng | false trong các trường hợp còn lại.
 	 */
 	public static boolean isNullOrEmpty(String input) {
 		return (input == null || input.isEmpty());
 	}
 	
 	/**
-	 * Mã hóa MD5
+	 * Phương thức băm MD5
 	 * 
-	 * @param text
-	 *            chuỗi cần mã hóa
-	 * @return chuỗi được mã hóa MD5
+	 * @param text - chuỗi cần băm
+	 * @return chuỗi băm
 	 * @throws NoSuchAlgorithmException
 	 */
 	public static String encodeMD5(String text) {
@@ -55,21 +54,23 @@ public class Common {
 	/**
 	 * Kiểm tra admin login
 	 * 
-	 * @param session
-	 *            phiên làm việc
-	 * @return boolean
+	 * @param session - phiên làm việc
+	 * @return boolean - true nếu user admin đang đăng nhập | false nếu ngược lại
 	 */
 	public static boolean checkAdminLogin(HttpSession session) {
+		// lấy thông tin của admin
 		Map<String, String> adminInfo = AdminProperties.getAdminInfo();
-//		System.out.println("filter: " + session.getAttribute("loginName"));
-		if (session == null || session.getAttribute("loginName") == null) {
+		// nếu session null hoặc không có thuộc tính currentUser, return false
+		if (session == null || session.getAttribute(Constant.CURRENT_LOGIN_USER) == null) {
 			return false;
-		} else {
-			if (adminInfo.get("system_admin").equals(session.getAttribute("loginName"))) {
+		} else { // ngược lại:
+			// nếu user đang đăng nhập là admin, return true và ngược lại
+			if (adminInfo.get(Constant.ADMIN_USER).equals(session.getAttribute(Constant.CURRENT_LOGIN_USER))) {
 				return true;
 			} else {
 				return false;
 			}
 		}
 	}
+	
 }

@@ -5,33 +5,20 @@
  */
 package logic;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpSession;
-
 /**
+ * Interface chứa các phương thức của class AdminLogicImpl
+ * 
  * @author luuthanhsang
  *
  */
 public interface AdminLogic {
 	/**
-	 * Phương thức kiểm tra thông tin đăng nhập của admin
+	 * Phương thức xác thực đăng nhập trên trang login
 	 * 
-	 * @param username
-	 * @param password
-	 * @return boolean
+	 * @param username - tài khoản đăng nhập
+	 * @param password - mật khẩu đăng nhập
+	 * @return boolean - true nếu xác thực thành công | false nếu ngược lại
 	 */
 	public boolean authAdminLogin(String username, String password);
-	
-	/**
-	 * Phương thức thiết lập giá trị loginUser lên session
-	 * 
-	 * @param session Đối tượng session cần thiết lập
-	 * @param loginName user đang login
-	 */
-	public void setSession(HttpSession session, String loginName);
-	
-	public boolean matchAdminInfo(Map<String, String> loginInfo, Map<String, String> adminInfo);
 	
 }

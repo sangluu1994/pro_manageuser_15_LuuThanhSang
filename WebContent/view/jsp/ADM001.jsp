@@ -10,7 +10,7 @@
 <title>ユーザ管理</title>
 </head>
 <body align="center">
-	<form action="login" method="post">
+	<form action="login.do" method="post">
 		<center>
 			<table class="tbl_input" cellpadding="4" cellspacing="0" width="400px">
 				<tr>
@@ -32,7 +32,7 @@
 				<tr align="left">
 					<td class="lbl_left">アカウント名:</td>
 					<td align="left">
-						<input class="txBox" type="text" name="loginId" value="" size="20" onfocus="this.style.borderColor='#0066ff';"
+						<input class="txBox" type="text" name="loginId" value="<c:out value="${txtUsername}"/>" size="20" onfocus="this.style.borderColor='#0066ff';"
 						onblur="this.style.borderColor='#aaaaaa';" />
 					</td>
 				</tr>
