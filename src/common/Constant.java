@@ -55,4 +55,15 @@ public class Constant {
 	
 	public static final String TXT_USERNAME = "txtUsername";
 	
+	public static final String EMPTY_STRING = "";
+	public static final String OK = "OK";
+	public static final String SEARCH = "search";
+	public static final String SORT = "sort";
+	public static final String PAGING = "paging";
+	public static final String ID = "ID";
+	public static final String TYPE_SORT = "typeSort";
+	public static final String SORT_NAME = "sortName";
+	public static final String SORT_CODE = "sortCode";
+	public static final String SORT_DATE = "sortDate";
+	
 }
