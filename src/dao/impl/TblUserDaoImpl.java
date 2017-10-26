@@ -22,12 +22,12 @@ import entity.UserInfor;
  * @author luuthanhsang
  *
  */
+@SuppressWarnings("finally")
 public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 
 	/* (non-Javadoc)
 	 * @see dao.TblUserDao#getTotalUsers(int, java.lang.String, java.lang.String)
 	 */
-	@SuppressWarnings("finally")
 	@Override
 	public int getTotalUsers(int groupId, String fullName) throws SQLException {
 		int total = 0, i = 0;
@@ -66,7 +66,6 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	/* (non-Javadoc)
 	 * @see dao.TblUserDao#getListUsers(int, int, int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
-	@SuppressWarnings("finally")
 	@Override
 	public List<UserInfor> getListUsers(int offset, int limit, int groupId, String fullName, String sortType,
 			String sortByFullName, String sortByCodeLevel, String sortByEndDate) {
@@ -77,7 +76,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		// khởi tạo kết nối đến db
 		Connection conn = getConnection();
 		// xây dựng truy vấn
-		queryBuilder.append("SELECT u.user_id, u.login_name, u.full_name, u.full_name_kana, u.email, u.tel, u.birthday, g.group_name, j.name_level, de.start_date, de.end_date, de.total ");
+		queryBuilder.append("SELECT u.user_id, u.full_name, u.birthday, g.group_name, u.email, u.tel, j.name_level, de.end_date, de.total ");
 		queryBuilder.append("FROM tbl_user u LEFT JOIN (mst_japan j INNER JOIN  tbl_detail_user_japan de ON de.code_level = j.code_level) ");
 		queryBuilder.append("ON u.user_id = de.user_id ");
 		queryBuilder.append("INNER JOIN mst_group g ON u.group_id = g.group_id ");
@@ -89,19 +88,19 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			PreparedStatement ps = conn.prepareStatement(query);
 			// lấy dữ liệu trả về
 			ResultSet rs = ps.executeQuery();
-			// format dữ liệu trả về sang đối tượng UserInfor tương ứng
+			// thiết lập danh sách các đối tượng UserInfor trả về dựa trên dữ liệu đã lấy được
 			while (rs.next()) {
-				UserInfor tblUserInfo = new UserInfor();
-				tblUserInfo.setUserId(rs.getInt("user_id"));
-				tblUserInfo.setFullName(rs.getString("full_name"));
-				tblUserInfo.setEmail(rs.getString("email"));
-				tblUserInfo.setTel(rs.getString("tel"));
-				tblUserInfo.setBirthDay(rs.getString("birthday"));
-				tblUserInfo.setGroupName(rs.getString("group_name"));
-				tblUserInfo.setNameLevel(rs.getString("name_level"));
-				tblUserInfo.setEndDate(rs.getString("end_date"));
-				tblUserInfo.setTotal(rs.getString("total"));
-				listUser.add(tblUserInfo);
+				UserInfor userInfor = new UserInfor();
+				userInfor.setUserId(rs.getInt("user_id"));
+				userInfor.setFullName(rs.getString("full_name"));
+				userInfor.setBirthday(rs.getDate("birthday"));
+				userInfor.setGroupName(rs.getString("group_name"));
+				userInfor.setEmail(rs.getString("email"));
+				userInfor.setTel(rs.getString("tel"));
+				userInfor.setNameLevel(rs.getString("name_level"));
+				userInfor.setEndDate(rs.getDate("end_date"));
+				userInfor.setTotal(rs.getInt("total"));
+				listUser.add(userInfor);
 			}
 		} catch (SQLException e) {
 			// show console log ngoại lệ
@@ -120,51 +119,49 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	@Override
 	public UserInfor getUsersById(int id) {
 		// khởi tạo kết nối
-		Connection conn = getConnection();
+		Connection con = getConnection();
 		// khai báo đối tượng tblUserInfor sẽ trả về
 		UserInfor tblUserInfo = new UserInfor();
 		// khởi tạo câu truy vấn
 		StringBuilder queryBuilder = new StringBuilder();
-		queryBuilder.append("SELECT u.user_id, u.login_name, u.full_name, u.full_name_kana, u.email, u.tel, u.birthday, u.rule, u.salt, u.passwords, g.group_id, g.group_name, j.code_level, j.name_level, de.start_date, de.end_date, de.total ");
+		queryBuilder.append("SELECT u.login_name, g.group_name, u.full_name, u.full_name_kana, u.birthday, u.email, u.tel, j.name_level, de.start_date, de.end_date, de.total ");
 		queryBuilder.append("FROM tbl_user u LEFT JOIN (mst_japan j INNER JOIN  tbl_detail_user_japan de ON de.code_level = j.code_level) ");
 		queryBuilder.append("ON u.user_id = de.user_id ");
 		queryBuilder.append("INNER JOIN mst_group g ON u.group_id = g.group_id ");
-		queryBuilder.append("WHERE u.user_id = ? ");
+		queryBuilder.append("WHERE u.user_id = ?");
 		String query = queryBuilder.toString();
 		
 		try {
 			// truy vấn sử dụng preparedStatement
-			PreparedStatement ps = conn.prepareStatement(query);
-			// 
+			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, id);
+			// lấy dữ liệu trả về
 			ResultSet rs = ps.executeQuery();
+			// thiết lập đối tượng UserInfor sẽ trả về dựa vào dữ liệu đã lấy được
 			if (rs.next()) {
-				tblUserInfo.setUserId(rs.getInt("user_id"));
 				tblUserInfo.setLoginName(rs.getString("login_name"));
 				tblUserInfo.setFullName(rs.getString("full_name"));
-				tblUserInfo.setKataName(rs.getString("full_name_kana"));
+				tblUserInfo.setFullNameKana(rs.getString("full_name_kana"));
 				tblUserInfo.setEmail(rs.getString("email"));
 				tblUserInfo.setTel(rs.getString("tel"));
-				tblUserInfo.setBirthDay(rs.getString("birthday"));
+				tblUserInfo.setBirthday(rs.getDate("birthday"));
 				tblUserInfo.setGroupName(rs.getString("group_name"));
-				tblUserInfo.setGroupId(rs.getInt("group_id"));
-				tblUserInfo.setCodeLevel(rs.getString("code_level"));
 				tblUserInfo.setNameLevel(rs.getString("name_level"));
-				tblUserInfo.setStartDate(rs.getString("start_date"));
-				tblUserInfo.setEndDate(rs.getString("end_date"));
-				tblUserInfo.setTotal(rs.getString("total"));
-				tblUserInfo.setSalt(rs.getString("salt"));
-				tblUserInfo.setPassword(rs.getString("passwords"));
-				tblUserInfo.setPasswordConfirm(rs.getString("passwords"));
+				tblUserInfo.setStartDate(rs.getDate("start_date"));
+				tblUserInfo.setEndDate(rs.getDate("end_date"));
+				tblUserInfo.setTotal(rs.getInt("total"));
 			} else {
 				tblUserInfo = null;
 			}
 		} catch (SQLException e) {
+			// show console log ngoại lệ
 			e.printStackTrace();
 		} finally {
-			close(conn);
+			// đóng kết nối và trả về dữ liệu
+			close(con);
+			return tblUserInfo;
 		}
-		return tblUserInfo;
+		
 	}
 
 }

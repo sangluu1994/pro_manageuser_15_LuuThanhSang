@@ -64,5 +64,38 @@ public class Common {
 		}
 		return ioString;
 	}
+
+	/**
+	 * Phương thức chuyển đổi dữ liệu String sang Int
+	 * 
+	 * @param inputString - chuỗi đầu vào
+	 * @return outputInt - số nguyên đầu ra
+	 */
+	@SuppressWarnings("finally")
+	public static int convertStringToInt(String inputString) {
+		// khởi tạo giá trị trả về
+		int outputInt = 0;
+		try {
+			// parse String đầu vào sang kiểu int
+			outputInt = Integer.parseInt(inputString);
+		} catch (Exception e) {
+			// show console log ngoại lệ
+			e.printStackTrace();
+		} finally {
+			// trả về kết quả
+			return outputInt;
+		}
+	}
+	
+	/**
+	 * Lấy offset của trang hiện tại
+	 * 
+	 * @param currentPage - trang hiện tại
+	 * @param limit - giới hạn số user trên 1 trang
+	 * @return offset của trang hiện tại
+	 */
+	public static int getOffset(int currentPage, int limit) {
+		return (currentPage - 1) * limit;
+	}
 	
 }

@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import common.Common;
 import common.Constant;
 import entity.MstGroup;
 import entity.UserInfor;
@@ -54,48 +55,47 @@ public class ListUserController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+			// khởi tạo các tham số để lấy danh sách user
+			int offset = 1;
+			int limit = Constant.LIMIT_RECORD_ON_PAGE;
+			int groupId = Common.convertStringToInt(request.getParameter("group_id"));
+			String fullName = request.getParameter("full_name");
+			String sortType = Constant.EMPTY_STRING;
+			String sortByFullName = Constant.ASC;
+			String sortByCodeLevel = Constant.ASC;
+			String sortByEndDate = Constant.ASC;
 			
-			String type = request.getParameter(Constant.TYPE); // lấy type param
-			HttpSession session = request.getSession(); // lấy session
-			List<MstGroup> listGroup = mstGroupLogicImpl.getAllGroups(); // lấy danh sách group
-			List<UserInfor> listUser = null;
+			// lấy session
+			HttpSession session = request.getSession(); 
 			
+			// kiểm tra trường hợp gọi đến màn hình listUser:
+			// lấy type param
+			String type = request.getParameter(Constant.TYPE);
 			if (type == null) { // trường hợp lần đầu vào trang
-				int offset = 0;
-				int limit = 0;
-				int groupId = 0;
-				String fullName = "";
-				String sortType = "";
-				String sortByFullName = "";
-				String sortByCodeLevel = "";
-				String sortByEndDate = "";
-				// lấy danh sách user
-				listUser = tblUserLogicImpl.getListUsers(offset, limit, groupId, fullName, sortType, sortByFullName, sortByCodeLevel, sortByEndDate);
-				// gửi danh sách tất cả nhóm, group sang view
-				request.setAttribute("listUser", listUser);
-				request.setAttribute("listGroup", listGroup);
-			} else if (Constant.SEARCH.equals(type)) { // trường hợp tìm kiếm
+				
+			} else if (Constant.TYPE_SEARCH.equals(type)) { // trường hợp tìm kiếm
 				
 			} else if (Constant.TYPE_SORT.equals(type)) { // trường hợp click vào các button sắp xếp
 				
-			} else if (Constant.TYPE_BACK.equals(type)) { // trường hợp quay lại từ màn hình ADM00
+			} else if (Constant.TYPE_PAGING.equals(type)) { // trường hợp click vào phân trang
+				
+			} else if (Constant.TYPE_BACK.equals(type)) { // trường hợp quay lại màn hình listUser
 				
 			}
 			
-			for (UserInfor user : listUser) {
-				System.out.println("id: " + user.getUserId());
-				System.out.println("fullName: " + user.getFullName());
-				System.out.println("groupId: " + user.getGroupId());
-				System.out.println("loginName: " + user.getLoginName());
-				System.out.println("kataName: " + user.getKataName());
-				System.out.println("email: " + user.getEmail());
-				System.out.println("tel: " + user.getTel());
-				System.out.println("salt: " + user.getSalt());
-				System.out.println("birthday: " + user.getBirthDay());
-			}
+			// lấy danh sách user và truyền sang view
+			List<UserInfor> listUser = tblUserLogicImpl.getListUsers(offset, limit, groupId, fullName, sortType, sortByFullName, sortByCodeLevel, sortByEndDate);
+			request.setAttribute("listUser", listUser);
+			// lấy và truyền danh sách group sang view
+			List<MstGroup> listGroup = mstGroupLogicImpl.getAllGroups();
+			request.setAttribute("listGroup", listGroup);
 			
-//			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM002);
-//			rd.forward(request, response); // forward sang ADM002
+			// forward sang ADM002
+			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher(Constant.ADM002);
+			dispatcher.forward(request, response);
+			
+//			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM006);
+//			rd.forward(request, response); 
 			
 		} catch (Exception e) {
 			

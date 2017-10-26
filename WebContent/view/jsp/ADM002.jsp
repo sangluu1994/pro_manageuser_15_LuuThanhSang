@@ -43,14 +43,7 @@
 								<select name="group_id">
 									<option value="0" selected="selected">全て</option>
 									<c:forEach var="group" items="${listGroup}">
-										<c:choose>
-											<c:when test="${group.groupId}">
-												<option value="${group.groupId}">${group.groupName}</option>
-											</c:when>
-											<c:otherwise>
-												<option value="${group.groupId}">${group.groupName}</option>
-											</c:otherwise>
-										</c:choose>
+										<option value="${group.groupId}">${group.groupName}</option>
 									</c:forEach>
 								</select></td>
 							<td align="left">
@@ -90,7 +83,7 @@
 						<td>${item.groupName}</td>
 						<td>${item.email}</td>
 						<td>${item.tel}</td>
-						<td>${item.nameLevel }</td>
+						<td>${item.nameLevel}</td>
 						<td align="center"><fmt:formatDate pattern="yyyy/MM/dd" value="${item.endDate}" /></td>
 						<td align="right">${item.total}</td>
 					</tr>
@@ -99,7 +92,7 @@
 			<c:otherwise>
 				<tbody>
 					<tr align="center">
-						<td colspan="9">${MessageProperties.messageProperties.get(ConstantProperties.MSG005)}</td>
+						<td colspan="9">Not found</td>
 					</tr>
 				</tbody>
 			</c:otherwise>
