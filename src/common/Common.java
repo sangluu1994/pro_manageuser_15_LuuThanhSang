@@ -8,11 +8,6 @@ package common;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
-
-import javax.servlet.http.HttpSession;
-
-import properties.AdminProperties;
 
 /**
  * Class chứa các phương thức chung thường dùng
@@ -50,27 +45,24 @@ public class Common {
 		}
 		return encryptedPass;
 	}
-
+	
 	/**
-	 * Kiểm tra admin login
+	 * Phương thức format điều kiện search, format lại kí tự đặc biệt
 	 * 
-	 * @param session - phiên làm việc
-	 * @return boolean - true nếu user admin đang đăng nhập | false nếu ngược lại
+	 * @param ioString
+	 * @return ioString
 	 */
-	public static boolean checkLogin(HttpSession session) {
-		// lấy thông tin của admin
-		Map<String, String> adminInfo = AdminProperties.getAdminInfo();
-		// nếu session null hoặc không có thuộc tính currentUser, return false
-		if (session == null || session.getAttribute(Constant.CURRENT_LOGIN_USER) == null) {
-			return false;
-		} else { // ngược lại:
-			// nếu user đang đăng nhập là admin, return true và ngược lại
-			if (adminInfo.get(Constant.ADMIN_USER).equals(session.getAttribute(Constant.CURRENT_LOGIN_USER))) {
-				return true;
-			} else {
-				return false;
+	public static String formatCondSearch(String ioString) {
+		// Khai báo danh sách các kí tự đặc biệt
+		final String[] specialChars = { "\\", "%", "_", "[", "]", "-", "!" };
+		// Thêm \ vào trước các kí tự đặc biệt
+		int specialCharsLeng = specialChars.length;
+		for (int i = 0; i < specialCharsLeng; i++) {
+			if (ioString.contains(specialChars[i])) {
+				ioString = ioString.replace(specialChars[i], "\\" + specialChars[i]);
 			}
 		}
+		return ioString;
 	}
 	
 }

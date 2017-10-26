@@ -5,6 +5,8 @@
  */
 package logic;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Interface chứa các phương thức của class AdminLogicImpl
  * 
@@ -13,12 +15,19 @@ package logic;
  */
 public interface AdminLogic {
 	/**
-	 * Phương thức xác thực đăng nhập trên trang login
+	 * Phương thức đăng nhập vào trang admin bằng username, password được nhập vào
 	 * 
 	 * @param username - tài khoản đăng nhập
 	 * @param password - mật khẩu đăng nhập
 	 * @return boolean - true nếu xác thực thành công | false nếu ngược lại
 	 */
-	public boolean authAdminLogin(String username, String password);
+	public boolean attemptLogin(String username, String password);
 	
+	/**
+	 * Phương thức kiểm tra đăng nhập dựa trên session
+	 * 
+	 * @param curSession - phiên làm việc hiện thời
+	 * @return boolean - true nếu user admin đang đăng nhập | false nếu ngược lại
+	 */
+	public boolean checkLogin(HttpSession curSession);
 }

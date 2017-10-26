@@ -7,6 +7,8 @@ package logic.impl;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import common.Common;
 import common.Constant;
 import logic.AdminLogic;
@@ -19,15 +21,12 @@ import properties.AdminProperties;
  *
  */
 public class AdminLogicImpl implements AdminLogic {
-	/**
-	 * Phương thức xác thực đăng nhập trên trang login
-	 * 
-	 * @param username - tài khoản đăng nhập
-	 * @param password - mật khẩu đăng nhập
-	 * @return boolean - true nếu xác thực thành công | false nếu ngược lại
-	 */ 
+
+	/* (non-Javadoc)
+	 * @see logic.AdminLogic#attemptLogin(java.lang.String, java.lang.String)
+	 */
 	@Override
-	public boolean authAdminLogin(String username, String password) {
+	public boolean attemptLogin(String username, String password) {
 		// lấy thông tin admin
 		Map<String, String> adminInfo = AdminProperties.getAdminInfo();
 		
@@ -42,6 +41,26 @@ public class AdminLogicImpl implements AdminLogic {
 		}
 		// nếu không có sai khác, return true
 		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see logic.AdminLogic#checkLogin(javax.servlet.http.HttpSession)
+	 */
+	@Override
+	public boolean checkLogin(HttpSession curSession) {
+		// lấy thông tin của admin
+		Map<String, String> adminInfo = AdminProperties.getAdminInfo();
+		// nếu session null hoặc không có thuộc tính currentUser, return false
+		if (curSession == null || curSession.getAttribute(Constant.CURRENT_LOGIN_USER) == null) {
+			return false;
+		} else { // ngược lại:
+			// nếu user đang đăng nhập là admin, return true và ngược lại
+			if (adminInfo.get(Constant.ADMIN_USER).equals(curSession.getAttribute(Constant.CURRENT_LOGIN_USER))) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 	
 }

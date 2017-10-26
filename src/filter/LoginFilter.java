@@ -11,14 +11,15 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import common.Common;
 import common.Constant;
+import logic.impl.AdminLogicImpl;
 
 /**
  * Servlet Filter implementation class LoginFilter
  */
 @WebFilter(urlPatterns = Constant.FILTER_URL_PATTERN)
 public class LoginFilter implements Filter {
+	private AdminLogicImpl adminLogicImpl;
 
     /**
      * Default constructor. 
@@ -57,7 +58,7 @@ public class LoginFilter implements Filter {
 		// nếu gọi đến controller login hoặc đến đường dẫn mặc định "/"
 		if (Constant.LOG_IN_PATH.equals(path) || Constant.ROOT_PATH.equals(path)) {
 			// kiểm tra đã đăng nhập chưa
-			if (Common.checkLogin(req.getSession())) {
+			if (adminLogicImpl.checkLogin(req.getSession())) {
 				// nếu đã đăng nhập thì redirect về trang list user
 				res.sendRedirect(req.getContextPath() + Constant.LIST_USER_PATH);
 				return;
@@ -79,7 +80,7 @@ public class LoginFilter implements Filter {
 		
 		// nếu không phải các đường dẫn trên
 		// kiểm tra đã đăng nhập chưa
-		if (Common.checkLogin(req.getSession())) {
+		if (adminLogicImpl.checkLogin(req.getSession())) {
 			// nếu đã đăng nhập
 			// cho phép request vượt qua Filter
 			chain.doFilter(req, res);
@@ -95,7 +96,7 @@ public class LoginFilter implements Filter {
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO Auto-generated method stub
+		adminLogicImpl = new AdminLogicImpl();
 	}
 
 }

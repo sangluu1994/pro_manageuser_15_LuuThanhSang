@@ -66,7 +66,7 @@ public class LoginController extends HttpServlet {
 			rd.forward(request, response);
 		} else { // nếu không có lỗi nhập liệu
 			// kiểm tra thông tin đăng nhập có khớp với thông tin admin
-			if (adminLogicImpl.authAdminLogin(loginName, password)) { // nếu trùng khớp
+			if (adminLogicImpl.attemptLogin(loginName, password)) { // nếu trùng khớp
 				// thiết lập thông tin về user đang đăng nhập cho session
 				request.getSession().setAttribute(Constant.CURRENT_LOGIN_USER, loginName);
 				request.getSession().setMaxInactiveInterval(10);
