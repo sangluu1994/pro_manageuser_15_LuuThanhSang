@@ -13,6 +13,7 @@ package entity;
  *
  */
 public class UserInfor {
+	
 	private int userId;
 	private String loginName;
 	private String fullName;
@@ -33,6 +34,10 @@ public class UserInfor {
 	private int rule;
 	private int boxId;
 	private String oldPass;
+	
+	public static final String FULL_NAME = "full_name";
+	public static final String GROUP_ID = "group_id";
+	
 	/**
 	 * @return the userId
 	 */

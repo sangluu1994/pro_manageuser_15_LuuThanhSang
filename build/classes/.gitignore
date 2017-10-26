@@ -3,3 +3,7 @@
 /controller/
 /logic/
 /dao/
+/database/
+/entity/
+/properties/
+/validate/

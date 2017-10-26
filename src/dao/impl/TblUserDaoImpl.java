@@ -70,21 +70,26 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	@Override
 	public List<UserInfor> getListUsers(int offset, int limit, int groupId, String fullName, String sortType,
 			String sortByFullName, String sortByCodeLevel, String sortByEndDate) {
+		// khởi tạo danh sách user trả về
 		List<UserInfor> listUser = new ArrayList<UserInfor>();
+		// khởi tạo câu truy vấn
 		StringBuilder queryBuilder = new StringBuilder();
+		// khởi tạo kết nối đến db
 		Connection conn = getConnection();
-		queryBuilder.append(
-				"SELECT u.user_id, u.login_name, u.full_name, u.full_name_kana, u.email, u.tel, u.birthday, g.group_name, j.name_level, de.start_date, de.end_date, de.total ");
-		queryBuilder.append("FROM tbl_user u LEFT JOIN( ");
-		queryBuilder.append(
-				"mst_japan j INNER JOIN  tbl_detail_user_japan de ON de.code_level = j.code_level) ON u.user_id = de.user_id ");
+		// xây dựng truy vấn
+		queryBuilder.append("SELECT u.user_id, u.login_name, u.full_name, u.full_name_kana, u.email, u.tel, u.birthday, g.group_name, j.name_level, de.start_date, de.end_date, de.total ");
+		queryBuilder.append("FROM tbl_user u LEFT JOIN (mst_japan j INNER JOIN  tbl_detail_user_japan de ON de.code_level = j.code_level) ");
+		queryBuilder.append("ON u.user_id = de.user_id ");
 		queryBuilder.append("INNER JOIN mst_group g ON u.group_id = g.group_id ");
 		queryBuilder.append("WHERE 1 = 1 ");
-		
 		String query = queryBuilder.toString();
+		
 		try {
+			// truy vấn sử dụng preparedStatement
 			PreparedStatement ps = conn.prepareStatement(query);
+			// lấy dữ liệu trả về
 			ResultSet rs = ps.executeQuery();
+			// format dữ liệu trả về sang đối tượng UserInfor tương ứng
 			while (rs.next()) {
 				UserInfor tblUserInfo = new UserInfor();
 				tblUserInfo.setUserId(rs.getInt("user_id"));
@@ -99,8 +104,10 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 				listUser.add(tblUserInfo);
 			}
 		} catch (SQLException e) {
+			// show console log ngoại lệ
 			e.printStackTrace();
 		} finally {
+			// đóng kết nối và trả về danh sách user
 			close(conn);
 			return listUser;
 		}
@@ -112,18 +119,25 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	 */
 	@Override
 	public UserInfor getUsersById(int id) {
+		// khởi tạo kết nối
 		Connection conn = getConnection();
+		// khai báo đối tượng tblUserInfor sẽ trả về
 		UserInfor tblUserInfo = new UserInfor();
-		String sql = "SELECT u.user_id, u.login_name, u.full_name, u.full_name_kana, u.email, u.tel, u.birthday, u.rule, u.salt, u.passwords , g.group_id, g.group_name,j.code_level, j.name_level,de.start_date, de.end_date,de.total ";
-		sql = sql.concat(" FROM tbl_user u LEFT JOIN(");
-		sql = sql.concat(
-				" mst_japan j INNER JOIN  tbl_detail_user_japan de ON de.code_level = j.code_level) ON u.user_id = de.user_id ");
-		sql = sql.concat("INNER JOIN mst_group g ON u.group_id = g.group_id");
-		sql = sql.concat(" WHERE u.user_id = ?");
+		// khởi tạo câu truy vấn
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT u.user_id, u.login_name, u.full_name, u.full_name_kana, u.email, u.tel, u.birthday, u.rule, u.salt, u.passwords, g.group_id, g.group_name, j.code_level, j.name_level, de.start_date, de.end_date, de.total ");
+		queryBuilder.append("FROM tbl_user u LEFT JOIN (mst_japan j INNER JOIN  tbl_detail_user_japan de ON de.code_level = j.code_level) ");
+		queryBuilder.append("ON u.user_id = de.user_id ");
+		queryBuilder.append("INNER JOIN mst_group g ON u.group_id = g.group_id ");
+		queryBuilder.append("WHERE u.user_id = ? ");
+		String query = queryBuilder.toString();
+		
 		try {
-			PreparedStatement ptmt = conn.prepareStatement(sql);
-			ptmt.setInt(1, id);
-			ResultSet rs = ptmt.executeQuery();
+			// truy vấn sử dụng preparedStatement
+			PreparedStatement ps = conn.prepareStatement(query);
+			// 
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				tblUserInfo.setUserId(rs.getInt("user_id"));
 				tblUserInfo.setLoginName(rs.getString("login_name"));
@@ -139,7 +153,6 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 				tblUserInfo.setStartDate(rs.getString("start_date"));
 				tblUserInfo.setEndDate(rs.getString("end_date"));
 				tblUserInfo.setTotal(rs.getString("total"));
-				tblUserInfo.setRule(rs.getInt("rule"));
 				tblUserInfo.setSalt(rs.getString("salt"));
 				tblUserInfo.setPassword(rs.getString("passwords"));
 				tblUserInfo.setPasswordConfirm(rs.getString("passwords"));

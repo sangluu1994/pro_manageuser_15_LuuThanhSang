@@ -3,6 +3,6 @@
   <display-name>pro_manageuser_15_LuuThanhSang</display-name>
   
   <welcome-file-list>
-    <welcome-file>view/jsp/ADM003.jsp</welcome-file>
+    <welcome-file>view/jsp/ADM001.jsp</welcome-file>
   </welcome-file-list>
 </web-app>

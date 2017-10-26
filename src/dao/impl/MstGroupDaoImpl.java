@@ -30,12 +30,18 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 	@SuppressWarnings("finally")
 	@Override
 	public List<MstGroup> getAllMstGroup() {
-		Connection conn = getConnection();
+		// khởi tạo connection
+		Connection con = getConnection();
+		// khởi tạo danh sách trả về
 		List<MstGroup> listGroup = new ArrayList<MstGroup>();
+		// khai báo câu truy vấn
 		String query = "SELECT group_id, group_name FROM mst_group";
 		try {
-			PreparedStatement ptmt = conn.prepareStatement(query);
-			ResultSet rs = ptmt.executeQuery();
+			// truy vấn sử dụng preparedStatement
+			PreparedStatement ps = con.prepareStatement(query);
+			// lấy dữ liệu trả về
+			ResultSet rs = ps.executeQuery();
+			// format dữ liệu trả về thành các đối tượng MstGroup tương ứng
 			while (rs.next()) {
 				MstGroup mstGroup = new MstGroup();
 				mstGroup.setGroupId(rs.getInt("group_id"));
@@ -43,9 +49,11 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 				listGroup.add(mstGroup);
 			}
 		} catch (SQLException e) {
+			// show console log ngoại lệ
 			e.printStackTrace();
 		} finally {
-			close(conn);
+			// đóng kết nối và trả về danh sách
+			close(con);
 			return listGroup;
 		}
 		
@@ -54,15 +62,22 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 	/* (non-Javadoc)
 	 * @see dao.MstGroupDao#getGroup(int)
 	 */
+	@SuppressWarnings("finally")
 	@Override
 	public MstGroup getGroup(int id) {
-		Connection conn = getConnection();
-		String sql = "SELECT group_id,group_name FROM mst_group where group_id = ?";
+		// khởi tạo connection
+		Connection con = getConnection();
+		// khai báo câu truy vấn
+		String query = "SELECT group_id,group_name FROM mst_group where group_id = ?";
+		// khởi tạo đối tượng MstGroup sẽ trả về
 		MstGroup mstGroup = new MstGroup();
 		try {
-			PreparedStatement pst = conn.prepareStatement(sql);
-			pst.setInt(1, id);
-			ResultSet rs = pst.executeQuery();
+			// truy vấn sử dụng preparedStatement
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setInt(1, id);
+			// lấy dữ liệu trả về
+			ResultSet rs = ps.executeQuery();
+			// format dữ liệu trả về sang đối tượng MstGroup tương ứng
 			if (rs.next()) {
 				mstGroup.setGroupId(rs.getInt("group_id"));
 				mstGroup.setGroupName(rs.getString("group_name"));
@@ -70,11 +85,23 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 				mstGroup = null;
 			}
 		} catch (SQLException e) {
+			// show console log ngoại lệ
 			e.printStackTrace();
 		} finally {
-			close(conn);
+			// đóng kết nối và trả về kết quả
+			close(con);
+			return mstGroup;
 		}
-		return mstGroup;
+		
 	}
 
+//	public static void main(String[] args) {
+//		MstGroupDaoImpl mstGroupDaoImpl = new MstGroupDaoImpl();
+//		List<MstGroup> ls = mstGroupDaoImpl.getAllMstGroup();
+//		for (MstGroup group : ls) {
+//			System.out.println(group.getGroupId());
+//			System.out.println(group.getGroupName());
+//		}
+//	}
+	
 }

@@ -66,4 +66,22 @@ public class Constant {
 	public static final String SORT_CODE = "sortCode";
 	public static final String SORT_DATE = "sortDate";
 	
+	public static final String PAGE = "page";
+	
+	public static final String TYPE = "type";
+	public static final String TYPE_PAGING = "paging";
+	
+	public static final String ASC = "ASC";
+	public static final String DESC = "DESC";
+	public static final String SORT_TYPE = "sortType";
+	public static final String SORT_BY_FULL_NAME = "sortByFullName";
+	public static final String SORT_BY_CODE_LEVEL = "sortByCodeLevel";
+	public static final String SORT_BY_END_DATE = "sortByEndDate";
+	
+	public static final String FULL_NAME = "fullName";
+	public static final String GROUP_ID = "groupId";
+	
+	public static final String SESSION_LOGGINED_USER = "LOGINED_USER";
+	public static final String SESSION_CONDITION_STORE = "CONDITION_STORE";
+	public static final String TYPE_BACK = "back";
 }
