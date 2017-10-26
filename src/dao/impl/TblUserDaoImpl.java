@@ -30,35 +30,43 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	 */
 	@Override
 	public int getTotalUsers(int groupId, String fullName) throws SQLException {
-		int total = 0, i = 0;
-		Connection conn = getConnection();
+		// khởi tạo tổng số user trả về
+		int totalUsers = 0;
+		// khởi tạo kết nối đến db
+		Connection con = getConnection();
+		// xây dựng truy vấn
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT COUNT(user_id) FROM tbl_user u INNER JOIN mst_group g ON u.group_id = g.group_id ");
 		queryBuilder.append("WHERE 1 = 1 ");
 		if (groupId != 0) {
 			queryBuilder.append("AND u.group_id = ? ");
 		}
-		if (!Constant.EMPTY_STRING.equals(fullName)) {
-			queryBuilder.append("AND u.full_name LIKE ? ");
+		if (!Constant.EMPTY_STRING.equals(fullName) && fullName != null) {
+			queryBuilder.append("AND u.full_name REGEXP ?");
 		}
 		String query = queryBuilder.toString();
 		try {
-			PreparedStatement ps = conn.prepareStatement(query);
+			// truy vấn sử dụng preparedStatement
+			PreparedStatement ps = con.prepareStatement(query);
+			int i = 0;
 			if (groupId != 0) {
 				ps.setInt(++i, groupId);
 			}
 			if (!Constant.EMPTY_STRING.equals(fullName)) {
-				ps.setString(++i, "%" + Common.formatCondSearch(fullName) + "%");
+				ps.setString(++i, fullName);
 			}
+			// lấy kết quả trả về
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				total = rs.getInt(1);
+				totalUsers = rs.getInt(1);
 			}
 		} catch (SQLException e) {
+			// show console log ngoại lệ
 			e.printStackTrace();
 		} finally {
-			close(conn);
-			return total;
+			// đóng kết nối và trả về tổng số user
+			close(con);
+			return totalUsers;
 		}
 		
 	}
@@ -81,11 +89,40 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		queryBuilder.append("ON u.user_id = de.user_id ");
 		queryBuilder.append("INNER JOIN mst_group g ON u.group_id = g.group_id ");
 		queryBuilder.append("WHERE 1 = 1 ");
+		if (groupId != 0) {
+			queryBuilder.append("AND u.group_id = ? ");
+		}
+		if (!Constant.EMPTY_STRING.equals(fullName) && fullName != null) {
+			queryBuilder.append("AND u.full_name REGEXP ? ");
+		}
+		queryBuilder.append("ORDER BY ");
+		if (Constant.SORT_BY_FULL_NAME.equals(sortType)) {
+			queryBuilder.append("u.full_name ").append(sortByFullName).append(", j.name_level ASC, de.end_date DESC ");
+		} else if (Constant.SORT_BY_CODE_LEVEL.equals(sortType)) {
+			queryBuilder.append("j.name_level ").append(sortByCodeLevel).append(", u.full_name ASC, de.end_date DESC ");
+		} else if (Constant.SORT_BY_END_DATE.equals(sortType)) {
+			queryBuilder.append("de.end_date ").append(sortByEndDate).append(", u.full_name ASC, j.name_level ASC ");
+		} else {
+			queryBuilder.append("u.full_name ASC, j.name_level ASC, de.end_date DESC ");
+		}
+		queryBuilder.append("LIMIT ? ");
+		queryBuilder.append("OFFSET ?");
 		String query = queryBuilder.toString();
 		
 		try {
 			// truy vấn sử dụng preparedStatement
 			PreparedStatement ps = conn.prepareStatement(query);
+			int i = 0;
+			if (groupId != 0) {
+				ps.setInt(++i, groupId);
+			}
+			if (!Constant.EMPTY_STRING.equals(fullName) && fullName != null) {
+				ps.setString(++i, fullName);
+			}
+			ps.setInt(++i, limit);
+			ps.setInt(++i, offset);
+			
+			System.out.println(ps.toString());
 			// lấy dữ liệu trả về
 			ResultSet rs = ps.executeQuery();
 			// thiết lập danh sách các đối tượng UserInfor trả về dựa trên dữ liệu đã lấy được

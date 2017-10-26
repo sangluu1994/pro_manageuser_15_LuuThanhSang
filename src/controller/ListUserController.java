@@ -7,7 +7,9 @@
 package controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,6 +25,7 @@ import entity.MstGroup;
 import entity.UserInfor;
 import logic.impl.MstGroupLogicImpl;
 import logic.impl.TblUserLogicImpl;
+import properties.ConfigProperties;
 
 /**
  * Controller xử lí in, tìm kiếm danh sách user
@@ -55,33 +58,92 @@ public class ListUserController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+			// lấy session
+			HttpSession session = request.getSession();
+			// khởi tạo map lưu trữ điều kiện tìm kiếm trước đó trên session
+			Map<String, Object> preSearchCondition = (Map<String, Object>) session.getAttribute(Constant.SEARCH_CONDITION);;
+			
 			// khởi tạo các tham số để lấy danh sách user
-			int offset = 1;
-			int limit = Constant.LIMIT_RECORD_ON_PAGE;
-			int groupId = Common.convertStringToInt(request.getParameter("group_id"));
-			String fullName = request.getParameter("full_name");
+			int currentPage = Constant.DEFAULT_PAGE;
+			int offset = Constant.DEFAULT_OFFSET;
+			int limit = Common.convertStringToInt(ConfigProperties.getString(Constant.LIMIT));
+			int groupId = Constant.DEFAULT_GROUP_ID;
+			String fullName = Constant.EMPTY_STRING;
 			String sortType = Constant.EMPTY_STRING;
 			String sortByFullName = Constant.ASC;
 			String sortByCodeLevel = Constant.ASC;
-			String sortByEndDate = Constant.ASC;
+			String sortByEndDate = Constant.DESC;
 			
-			// lấy session
-			HttpSession session = request.getSession(); 
-			
-			// kiểm tra trường hợp gọi đến màn hình listUser:
 			// lấy type param
 			String type = request.getParameter(Constant.TYPE);
+			// kiểm tra trường hợp gọi đến màn hình listUser:
 			if (type == null) { // trường hợp lần đầu vào trang
 				
 			} else if (Constant.TYPE_SEARCH.equals(type)) { // trường hợp tìm kiếm
+				// lấy điều kiện tìm kiếm
+				groupId = Common.convertStringToInt(request.getParameter("group_id"));
+				fullName = request.getParameter("full_name");
 				
 			} else if (Constant.TYPE_SORT.equals(type)) { // trường hợp click vào các button sắp xếp
+				// lấy điều kiện tìm kiếm
+				groupId = (Integer) preSearchCondition.get(Constant.GROUP_ID);
+				fullName = (String) preSearchCondition.get(Constant.FULL_NAME);
+				// lấy điều kiện sắp xếp
+				sortType = request.getParameter("sortType");
+				
+				// kiểm tra sortType
+				if (Constant.SORT_BY_FULL_NAME.equals(sortType)) { // trường hợp sắp xếp theo tên
+					// lấy kiểu sortByFullName trước đó được lưu trên session
+					String preSortByFullName = (String) preSearchCondition.get(Constant.SORT_BY_FULL_NAME);
+					// thay đổi kiểu của sortByFullName ngược lại so với trước đó
+					sortByFullName = Constant.ASC.equals(preSortByFullName) ? Constant.DESC : Constant.ASC;
+					
+				} else if (Constant.SORT_BY_CODE_LEVEL.equals(sortType)) { // trường hợp sắp xếp theo trình độ tiếng Nhật
+					// lấy kiểu sortByCodeLevel trước đó được lưu trên session
+					String preSortByCodeLevel = (String) preSearchCondition.get(Constant.SORT_BY_CODE_LEVEL);
+					// thay đổi kiểu của sortByCodeLevel ngược lại so với trước đó
+					sortByCodeLevel = Constant.ASC.equals(preSortByCodeLevel) ? Constant.DESC : Constant.ASC;
+					
+				} else if (Constant.SORT_BY_END_DATE.equals(sortType)) { // trường hợp sắp xếp theo ngày hết hạn
+					// lấy kiểu sortByEndDate trước đó được lưu trên session
+					String preSortByEndDate = (String) preSearchCondition.get(Constant.SORT_BY_END_DATE);
+					// thay đổi kiểu của sortByEndDate ngược lại so với trước đó
+					sortByEndDate = Constant.ASC.equals(preSortByEndDate) ? Constant.DESC : Constant.ASC;
+					
+				}
 				
 			} else if (Constant.TYPE_PAGING.equals(type)) { // trường hợp click vào phân trang
+				// lấy điều kiện tìm kiếm
+				groupId = (Integer) preSearchCondition.get(Constant.GROUP_ID);
+				fullName = (String) preSearchCondition.get(Constant.FULL_NAME);
+				sortType = (String) preSearchCondition.get(Constant.SORT_TYPE);
+				sortByFullName = (String) preSearchCondition.get(Constant.SORT_BY_FULL_NAME);
+				sortByCodeLevel = (String) preSearchCondition.get(Constant.SORT_BY_CODE_LEVEL);
+				sortByEndDate = (String) preSearchCondition.get(Constant.SORT_BY_END_DATE);
+				// lấy trang hiện tại
+				currentPage = Common.convertStringToInt(request.getParameter("page"));
+				// lấy offset tương ứng
+				offset = Common.getOffset(currentPage, limit);
 				
 			} else if (Constant.TYPE_BACK.equals(type)) { // trường hợp quay lại màn hình listUser
-				
+				// lấy điều kiện tìm kiếm
+				offset = (Integer) preSearchCondition.get(Constant.OFFSET);
+				limit = (Integer) preSearchCondition.get(Constant.LIMIT);
+				groupId = (Integer) preSearchCondition.get(Constant.GROUP_ID);
+				fullName = (String) preSearchCondition.get(Constant.FULL_NAME);
+				sortType = (String) preSearchCondition.get(Constant.SORT_TYPE);
+				sortByFullName = (String) preSearchCondition.get(Constant.SORT_BY_FULL_NAME);
+				sortByCodeLevel = (String) preSearchCondition.get(Constant.SORT_BY_CODE_LEVEL);
+				sortByEndDate = (String) preSearchCondition.get(Constant.SORT_BY_END_DATE);
 			}
+			
+			// lấy danh sách phân trang, lưu lên session
+			int totalUsers = tblUserLogicImpl.getTotalUsers(groupId, fullName);
+			List<Integer> listPaging = Common.getListPaging(totalUsers, limit, currentPage);
+			session.setAttribute(Constant.LIST_PAGING, listPaging);
+//			for (int ii : listPaging) {
+//				System.out.println(ii);
+//			}
 			
 			// lấy danh sách user và truyền sang view
 			List<UserInfor> listUser = tblUserLogicImpl.getListUsers(offset, limit, groupId, fullName, sortType, sortByFullName, sortByCodeLevel, sortByEndDate);
@@ -90,12 +152,24 @@ public class ListUserController extends HttpServlet {
 			List<MstGroup> listGroup = mstGroupLogicImpl.getAllGroups();
 			request.setAttribute("listGroup", listGroup);
 			
-			// forward sang ADM002
-			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher(Constant.ADM002);
-			dispatcher.forward(request, response);
+			// khai báo đối tượng lưu trữ các thông tin trên màn hình listUser
+			Map<String, Object> searchCondition = new HashMap<String, Object>();
+			// lưu các thông tin cần thiết vào đối tượng lưu trữ
+			searchCondition.put(Constant.OFFSET, offset);
+			searchCondition.put(Constant.LIMIT, limit);
+			searchCondition.put(Constant.GROUP_ID, groupId);
+			searchCondition.put(Constant.FULL_NAME, fullName);
+			searchCondition.put(Constant.SORT_TYPE, sortType);
+			searchCondition.put(Constant.SORT_BY_FULL_NAME, sortByFullName);
+			searchCondition.put(Constant.SORT_BY_CODE_LEVEL, sortByCodeLevel);
+			searchCondition.put(Constant.SORT_BY_END_DATE, sortByEndDate);
+			// lưu các thông tin cần thiết vào session
+			session.setAttribute(Constant.SEARCH_CONDITION, searchCondition);
 			
-//			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM006);
-//			rd.forward(request, response); 
+			
+			// forward sang ADM002
+			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM002);
+			rd.forward(request, response);
 			
 		} catch (Exception e) {
 			

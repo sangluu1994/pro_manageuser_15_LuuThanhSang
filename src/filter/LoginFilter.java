@@ -44,6 +44,8 @@ public class LoginFilter implements Filter {
 		// thiết lập charset cho request và response
 		req.setCharacterEncoding(Constant.DEFAULT_CHARSET_ENCODING);
 		res.setCharacterEncoding(Constant.DEFAULT_CHARSET_ENCODING);
+		// set timeout
+		req.getSession().setMaxInactiveInterval(300);
 		// lấy đường dẫn của request gửi đến
 		String path = req.getRequestURI().substring(req.getContextPath().length());
 		System.out.println(path);

@@ -48,6 +48,7 @@ public class Constant {
 	public static final String DATABASE_PROPERTIES_PATH = "properties/files/database.properties";
 	public static final String MESSAGE_ERROR_PROPERTIES_PATH = "properties/files/message_error_ja.properties";
 	public static final String MESSAGE_PROPERTIES_PATH = "properties/files/message_ja.properties";
+	public static final String CONFIG_PROPERTIES_PATH = "properties/files/config.properties";
 	
 	// tên key admin_user, password_hash trong file admin.properties
 	public static final String ADMIN_USER = "admin_user";
@@ -73,12 +74,21 @@ public class Constant {
 	
 	public static final String FULL_NAME = "fullName";
 	public static final String GROUP_ID = "groupId";
+	public static final String OFFSET = "offset";
+	public static final String LIMIT = "limit";
+	public static final int DEFAULT_OFFSET = 0;
+	public static final int DEFAULT_GROUP_ID = 0;
+	public static final int DEFAULT_PAGE = 1;
+	
+	public static final String SEARCH_CONDITION = "searchCondition";
+	public static final String LIST_PAGING = "listPaging";
 	
 	// khác...
 	public static final String EMPTY_STRING = "";
 	public static final String OK = "OK";
-	public static final int LIMIT_RECORD_ON_PAGE = 0;
 	public static final String DEFAULT_CHARSET_ENCODING = "UTF-8";
 	public static final String LIST_ERROR = "errList";
+	
+	
 	
 }

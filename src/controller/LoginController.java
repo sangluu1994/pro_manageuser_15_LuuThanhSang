@@ -69,7 +69,6 @@ public class LoginController extends HttpServlet {
 			if (adminLogicImpl.attemptLogin(loginName, password)) { // nếu trùng khớp
 				// thiết lập thông tin về user đang đăng nhập cho session
 				request.getSession().setAttribute(Constant.CURRENT_LOGIN_USER, loginName);
-				request.getSession().setMaxInactiveInterval(10);
 				System.out.println(request.getSession().getAttribute(Constant.CURRENT_LOGIN_USER));
 				// redirect sang màn hình list user
 				response.sendRedirect(request.getContextPath() + Constant.LIST_USER_PATH);

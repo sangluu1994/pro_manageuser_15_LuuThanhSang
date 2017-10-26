@@ -26,6 +26,7 @@ encoding//src/logic/TblUserLogic.java=UTF-8
 encoding//src/logic/impl/AdminLogicImpl.java=UTF-8
 encoding//src/logic/impl/TblUserLogicImpl.java=UTF-8
 encoding//src/properties/AdminProperties.java=UTF-8
+encoding//src/properties/ConfigProperties.java=UTF-8
 encoding//src/properties/DatabaseProperties.java=UTF-8
 encoding//src/properties/MessageErrorProperties.java=UTF-8
 encoding//src/validate/ValidateAdmin.java=UTF-8

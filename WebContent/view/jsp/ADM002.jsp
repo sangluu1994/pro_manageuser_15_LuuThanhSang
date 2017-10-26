@@ -15,7 +15,7 @@
 	<%@ include file="../layout/header.jsp"%>
 
 	<!-- Begin vung dieu kien tim kiem -->
-	<form action="" method="post" name="mainform">
+	<form action="listAllUser.do?type=search" method="post" name="mainform">
 		<table class="tbl_input" border="0" width="90%" cellpadding="0"
 			cellspacing="0">
 			<tr>
@@ -31,7 +31,7 @@
 							<td class="lbl_left">氏名:</td>
 							<td align="left">
 								<input class="txBox" type="text" name="full_name"
-									value="<c:out value="" escapeXml="true" />"
+									value="<c:out value="${sessionScope.searchCondition.fullName}" escapeXml="true" />"
 									size="20" onfocus="this.style.borderColor='#0066ff';"
 									onblur="this.style.borderColor='#aaaaaa';" />
 							</td>
@@ -41,9 +41,16 @@
 							<td class="lbl_left">グループ:</td>
 							<td align="left" width="80px">
 								<select name="group_id">
-									<option value="0" selected="selected">全て</option>
+									<option value="0">全て</option>
 									<c:forEach var="group" items="${listGroup}">
-										<option value="${group.groupId}">${group.groupName}</option>
+										<c:choose>
+											<c:when test="${group.groupId == sessionScope.searchCondition.groupId}">
+												<option value="${group.groupId}" selected="selected">${group.groupName}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${group.groupId}">${group.groupName}</option>
+											</c:otherwise>
+										</c:choose>
 									</c:forEach>
 								</select></td>
 							<td align="left">
@@ -63,13 +70,13 @@
 
 		<tr class="tr2">
 			<th align="center" width="20px">ID</th>
-			<th align="left">氏名 <a href="">▲▽</a></th>
+			<th align="left">氏名 <a href="listAllUser.do?type=sort&sortType=sortByFullName">▲▽</a></th>
 			<th align="left">生年月日</th>
 			<th align="left">グループ</th>
 			<th align="left">メールアドレス</th>
 			<th align="left" width="70px">電話番号</th>
-			<th align="left">日本語能力 <a href="">▲▽</a></th>
-			<th align="left">失効日 <a href="">△▼</a></th>
+			<th align="left">日本語能力 <a href="listAllUser.do?type=sort&sortType=sortByCodeLevel">▲▽</a></th>
+			<th align="left">失効日 <a href="listAllUser.do?type=sort&sortType=sortByEndDate">△▼</a></th>
 			<th align="left">点数</th>
 		</tr>
 
@@ -104,8 +111,11 @@
 	<!-- Begin vung paging -->
 	<table>
 		<tr>
-			<td class="lbl_paging"><a href="#">1</a> &nbsp;<a href="#">2</a>
-				&nbsp;<a href="#">3</a>&nbsp;<a href="#">>></a></td>
+			<td class="lbl_paging">
+			<c:forEach var="paginate" items="${sessionScope.listPaging}">
+				<a href="listAllUser.do?type=paginate&page=${paginate}">${paginate}</a>&nbsp;
+			</c:forEach>
+			</td>
 		</tr>
 	</table>
 	<!-- End vung paging -->
