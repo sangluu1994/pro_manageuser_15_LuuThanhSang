@@ -2,7 +2,6 @@
  * Copyright(C) 2017 Luvina Software Company
  * 
  * MstGroupDao.java, 2017-10-25 luuthanhsang
- *
  */
 package dao;
 
@@ -14,7 +13,6 @@ import entity.MstGroup;
  * Interface chứa các thao tác với bảng mst_group
  * 
  * @author luuthanhsang
- *
  */
 public interface MstGroupDao extends BaseDao {
 	/**

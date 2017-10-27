@@ -23,7 +23,6 @@ import validate.ValidateAdmin;
  * Class xử lí hoạt động login
  * 
  * @author luuthanhsang
- * 
  */
 @WebServlet(Constant.LOG_IN_PATH)
 public class LoginController extends HttpServlet {
@@ -55,6 +54,7 @@ public class LoginController extends HttpServlet {
 		String password = request.getParameter("password").trim();
 		// gán giá trị trường txtUsername vào request để view in ra
 		request.setAttribute(Constant.TXT_USERNAME, loginName);
+		
 		// khởi tạo danh sách lỗi nhập liệu
 		ArrayList<String> errMsgList = ValidateAdmin.validateLogin(loginName, password);
 		AdminLogicImpl adminLogicImpl = new AdminLogicImpl();
@@ -64,19 +64,21 @@ public class LoginController extends HttpServlet {
 			request.setAttribute(Constant.LIST_ERROR, errMsgList);
 			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM001);
 			rd.forward(request, response);
+			
 		} else { // nếu không có lỗi nhập liệu
 			// kiểm tra thông tin đăng nhập có khớp với thông tin admin
 			if (adminLogicImpl.attemptLogin(loginName, password)) { // nếu trùng khớp
 				// thiết lập thông tin về user đang đăng nhập cho session
 				request.getSession().setAttribute(Constant.CURRENT_LOGIN_USER, loginName);
-				System.out.println(request.getSession().getAttribute(Constant.CURRENT_LOGIN_USER));
 				// redirect sang màn hình list user
 				response.sendRedirect(request.getContextPath() + Constant.LIST_USER_PATH);
+				
 			} else { // nếu không khớp
 				// thiết lập biến lỗi và forward về view ADM001
 				request.setAttribute(Constant.LIST_ERROR, MessageErrorProperties.getString("ER016"));
 				RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM001);
 				rd.forward(request, response);
+				
 			}
 		}
 	}

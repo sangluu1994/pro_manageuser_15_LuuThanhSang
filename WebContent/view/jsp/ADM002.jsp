@@ -112,7 +112,7 @@
 	<table>
 		<tr>
 			<td class="lbl_paging">
-			<c:forEach var="paginate" items="${sessionScope.listPaging}">
+			<c:forEach var="paginate" items="${listPaging}">
 				<a href="listAllUser.do?type=paginate&page=${paginate}">${paginate}</a>&nbsp;
 			</c:forEach>
 			</td>

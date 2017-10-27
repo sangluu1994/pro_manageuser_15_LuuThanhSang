@@ -2,7 +2,6 @@
  * Copyright(C) 2017 Luvina Software Company
  * 
  * BaseDao.java, 2017-10-25 luuthanhsang
- *
  */
 package dao;
 
@@ -10,8 +9,8 @@ import java.sql.Connection;
 
 /**
  * Interface chứa các phương thức thao tác cơ bản với cơ sở dữ liệu
+ * 
  * @author luuthanhsang
- *
  */
 public interface BaseDao {
 	/**
@@ -31,26 +30,22 @@ public interface BaseDao {
 	/**
 	 * Phương thức commit một Connection.
 	 * 
-	 * @param connection
-	 *          Connection cần commit và đóng.
-	 * 
+	 * @param connection - Connection cần commit và đóng.
 	 */
 	public void commit(Connection connection);
 
 	/**
 	 * Phương thức rollback bất kỳ thay đổi nào được thực hiện bởi Connection.
 	 * 
-	 * @param connection
-	 *          Connection muốn rollback.
-	 * 
+	 * @param connection - Connection muốn rollback.
 	 */
 	public void rollback(Connection connection);
 
 	/**
 	 * Disable autocommit
 	 * 
-	 * @param connection
-	 *          Connection cần disable.
+	 * @param connection - Connection cần disable.
 	 */
 	public void disableAutoCommit(Connection connection);
+	
 }

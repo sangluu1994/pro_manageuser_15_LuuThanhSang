@@ -8,22 +8,10 @@
 <link href="<%= request.getContextPath() %>/view/css/style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-	<!-- Begin vung header -->	
-			<div>			
-				<div>
-				<table>
-				<tr>
-				<td width = "80%"><img src="../images/logo-manager-user.gif" alt="Luvina" /><td>
-				<td align="left"><a href = "ADM001.html">ログアウト</a> &nbsp; <a href = "ADM002.html">トップ</a><td>
-				</tr>
-				</table>
-				</div>
-			</div>
-	
-	<!-- End vung header -->	
+	<%@ include file="../layout/header.jsp"%>
 	
 	<!-- Begin vung input-->	
-		<form action="ADM002.html" method="post" name="inputform">
+		<form action="listAllUser.do?type=back" method="post" name="inputform">
 		<table  class="tbl_input"   border="0" width="80%"  cellpadding="0" cellspacing="0" >	
 			<tr>
 				<td align="center" colspan="2">
@@ -49,11 +37,7 @@
 		</form>
 	<!-- End vung input -->
 	
-	<!-- Begin vung footer -->
-	<div class = "lbl_footer">
-		<br><br><br><br>
-				Copyright ©　2010　ルビナソフトウエア株式会社. All rights reserved.
-	</div>
-	<!-- End vung footer -->
+	<%@ include file = "../layout/footer.jsp" %>
+	
 </body>
 </html>

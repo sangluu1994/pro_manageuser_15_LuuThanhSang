@@ -12,13 +12,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import common.Common;
 import common.Constant;
 import dao.TblUserDao;
 import entity.UserInfor;
 
 /**
+ * Class chứa các phương thức thao tác với bảng tbl_user 
+ * 
  * @author luuthanhsang
  *
  */

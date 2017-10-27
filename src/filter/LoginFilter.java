@@ -1,3 +1,8 @@
+/**
+ * Copyright(C) 2017 Luvina Software Company
+ * 
+ * LoginFilter.java, 2017-10-25 luuthanhsang
+ */
 package filter;
 
 import java.io.IOException;
@@ -15,7 +20,9 @@ import common.Constant;
 import logic.impl.AdminLogicImpl;
 
 /**
- * Servlet Filter implementation class LoginFilter
+ * Filter kiểm tra login
+ * 
+ * @author luuthanhsang
  */
 @WebFilter(urlPatterns = Constant.FILTER_URL_PATTERN)
 public class LoginFilter implements Filter {
@@ -41,9 +48,6 @@ public class LoginFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
-		// thiết lập charset cho request và response
-		req.setCharacterEncoding(Constant.DEFAULT_CHARSET_ENCODING);
-		res.setCharacterEncoding(Constant.DEFAULT_CHARSET_ENCODING);
 		// set timeout
 		req.getSession().setMaxInactiveInterval(300);
 		// lấy đường dẫn của request gửi đến
@@ -52,7 +56,7 @@ public class LoginFilter implements Filter {
 		
 		// nếu gọi đến controller logout
 		if (Constant.LOG_OUT_PATH.equals(path)) {
-			// cho phép vượt qua LoginFilter, đi tiếp đến controller logout
+			// cho phép vượt qua LoginFilter
 			chain.doFilter(req, res);
 			return;
 		}
@@ -66,7 +70,7 @@ public class LoginFilter implements Filter {
 				return;
 			} else {
 				// nếu chưa đăng nhập:
-				// cho phép request vượt qua Filter, đi tiếp đến controller login
+				// cho phép request vượt qua Filter
 				chain.doFilter(req, res);
 				return;
 			}

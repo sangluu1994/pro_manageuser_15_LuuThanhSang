@@ -66,22 +66,22 @@ public class Constant {
 	public static final String TYPE_BACK = "back";
 	public static final String ASC = "ASC";
 	public static final String DESC = "DESC";
-	
+	public static final String FULL_NAME = "fullName";
+	public static final String GROUP_ID = "groupId";
 	public static final String SORT_TYPE = "sortType";
 	public static final String SORT_BY_FULL_NAME = "sortByFullName";
 	public static final String SORT_BY_CODE_LEVEL = "sortByCodeLevel";
 	public static final String SORT_BY_END_DATE = "sortByEndDate";
-	
-	public static final String FULL_NAME = "fullName";
-	public static final String GROUP_ID = "groupId";
-	public static final String OFFSET = "offset";
+	public static final String CURRENT_PAGE = "currentPage";
 	public static final String LIMIT = "limit";
-	public static final int DEFAULT_OFFSET = 0;
 	public static final int DEFAULT_GROUP_ID = 0;
 	public static final int DEFAULT_PAGE = 1;
-	
 	public static final String SEARCH_CONDITION = "searchCondition";
 	public static final String LIST_PAGING = "listPaging";
+	public static final String LIST_USER = "listUser";
+	
+	public static final String TXT_FULL_NAME = "full_name";
+	public static final String SL_GROUP_ID = "group_id";
 	
 	// khác...
 	public static final String EMPTY_STRING = "";
