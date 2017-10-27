@@ -74,7 +74,7 @@ public class ListUserController extends HttpServlet {
 				// khởi tạo các tham số để lấy danh sách user
 				groupId = Constant.DEFAULT_GROUP_ID;
 				fullName = Constant.EMPTY_STRING;
-				sortType = Constant.EMPTY_STRING;
+				sortType = Constant.DEFAULT_SORT_TYPE;
 				sortByFullName = Constant.ASC;
 				sortByCodeLevel = Constant.ASC;
 				sortByEndDate = Constant.DESC;
@@ -100,26 +100,35 @@ public class ListUserController extends HttpServlet {
 					// thiết lập trang hiện tại về trang 1
 					currentPage = Constant.DEFAULT_PAGE;
 					// lấy điều kiện sắp xếp
-					sortType = request.getParameter("sortType");
+					sortType = request.getParameter(Constant.SORT_TYPE_PARAM);
 					
 					// kiểm tra sortType
 					if (Constant.SORT_BY_FULL_NAME.equals(sortType)) { // trường hợp sắp xếp theo tên
 						// thay đổi kiểu của sortByFullName ngược lại so với trạng thái lưu trên session trước đó
 						sortByFullName = Constant.ASC.equals(sortByFullName) ? Constant.DESC : Constant.ASC;
+						// thiết lập kiểu sắp xếp theo trình độ tiếng Nhật, endDate về mặc định
+						sortByCodeLevel = Constant.ASC;
+						sortByEndDate = Constant.DESC;
 						
 					} else if (Constant.SORT_BY_CODE_LEVEL.equals(sortType)) { // trường hợp sắp xếp theo trình độ tiếng Nhật
 						// thay đổi kiểu của sortByCodeLevel ngược lại so với trạng thái lưu trên session trước đó
 						sortByCodeLevel = Constant.ASC.equals(sortByCodeLevel) ? Constant.DESC : Constant.ASC;
+						// thiết lập kiểu sắp xếp theo fullName, endDate về mặc định
+						sortByFullName = Constant.ASC;
+						sortByEndDate = Constant.DESC;
 						
 					} else if (Constant.SORT_BY_END_DATE.equals(sortType)) { // trường hợp sắp xếp theo ngày hết hạn
 						// thay đổi kiểu của sortByEndDate ngược lại so với trạng thái lưu trên session trước đó
 						sortByEndDate = Constant.ASC.equals(sortByEndDate) ? Constant.DESC : Constant.ASC;
+						// thiết lập kiểu sắp xếp theo fullName, trình độ tiếng Nhật về mặc định
+						sortByFullName = Constant.ASC;
+						sortByCodeLevel = Constant.ASC;
 						
 					}
 					
 				} else if (Constant.TYPE_PAGING.equals(type)) { // trường hợp click vào phân trang
 					// lấy trang được yêu cầu
-					currentPage = Common.convertStringToInt(request.getParameter("page"));
+					currentPage = Common.convertStringToInt(request.getParameter(Constant.PAGE_PARAM));
 					
 				} else if (Constant.TYPE_BACK.equals(type)) { // trường hợp quay lại màn hình listUser
 					// sử dụng các điều kiện tìm kiếm đã lấy từ session
@@ -128,7 +137,7 @@ public class ListUserController extends HttpServlet {
 			
 			// lấy và gán danh sách tất cả group lên request
 			List<MstGroup> listGroup = mstGroupLogicImpl.getAllGroups();
-			request.setAttribute("listGroup", listGroup);
+			request.setAttribute(Constant.LIST_GROUP, listGroup);
 			
 			// lấy danh sách phân trang, lưu lên request
 			int totalUsers = tblUserLogicImpl.getTotalUsers(groupId, fullName);
@@ -138,7 +147,7 @@ public class ListUserController extends HttpServlet {
 			// lấy danh sách user của trang hiện tại và lưu lên request
 			int offset = Common.getOffset(currentPage, limit);
 			List<UserInfor> listUser = tblUserLogicImpl.getListUsers(offset, limit, groupId, fullName, sortType, sortByFullName, sortByCodeLevel, sortByEndDate);
-			request.setAttribute("listUser", listUser);
+			request.setAttribute(Constant.LIST_USER, listUser);
 			
 			// khai báo đối tượng lưu trữ, lưu các thông tin cần thiết vào đối tượng lưu trữ
 			Map<String, Object> searchCondition = new HashMap<String, Object>();
@@ -153,7 +162,6 @@ public class ListUserController extends HttpServlet {
 			
 			// lưu đối tượng lưu trữ vào session
 			session.setAttribute(Constant.SEARCH_CONDITION, searchCondition);
-			int ex = 9 / 0;
 			
 			// forward sang màn hình listUser
 			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM002);

@@ -76,12 +76,16 @@ public class Constant {
 	public static final String LIMIT = "limit";
 	public static final int DEFAULT_GROUP_ID = 0;
 	public static final int DEFAULT_PAGE = 1;
+	public static final String DEFAULT_SORT_TYPE = "sortByFullName";
 	public static final String SEARCH_CONDITION = "searchCondition";
 	public static final String LIST_PAGING = "listPaging";
 	public static final String LIST_USER = "listUser";
+	public static final String LIST_GROUP = "listGroup";
 	
 	public static final String TXT_FULL_NAME = "full_name";
 	public static final String SL_GROUP_ID = "group_id";
+	public static final String SORT_TYPE_PARAM = "sortType";
+	public static final String PAGE_PARAM = "page";
 	
 	// khác...
 	public static final String EMPTY_STRING = "";

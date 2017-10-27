@@ -15,7 +15,6 @@ import java.util.List;
  * Class chứa các phương thức chung thường dùng
  * 
  * @author luuthanhsang
- *
  */
 public class Common {
 	/**
@@ -140,7 +139,11 @@ public class Common {
 		if (totalRecords <= 0) {
 			return 0;
 		}
-		return ((totalRecords - 1) / limit + 1);
+		return (int) Math.ceil((double) totalRecords / limit);
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(getTotalPage(1001, 10));
 	}
 	
 }

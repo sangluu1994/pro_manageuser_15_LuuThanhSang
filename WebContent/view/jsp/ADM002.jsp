@@ -70,13 +70,52 @@
 
 		<tr class="tr2">
 			<th align="center" width="20px">ID</th>
-			<th align="left">氏名 <a href="listAllUser.do?type=sort&sortType=sortByFullName">▲▽</a></th>
+			<th align="left">氏名 
+				<a href="listAllUser.do?type=sort&sortType=sortByFullName" 
+					class="
+						<c:choose>
+							<c:when test="${sessionScope.searchCondition.sortType == 'sortByFullName'}">is-sorted</c:when>
+							<c:otherwise>unsorted</c:otherwise>
+						</c:choose>
+						">
+					<c:choose>
+						<c:when test="${sessionScope.searchCondition.sortByFullName == 'ASC'}">▲▽</c:when>
+						<c:otherwise>△▼</c:otherwise>
+					</c:choose>
+				</a>
+			</th>
 			<th align="left">生年月日</th>
 			<th align="left">グループ</th>
 			<th align="left">メールアドレス</th>
 			<th align="left" width="70px">電話番号</th>
-			<th align="left">日本語能力 <a href="listAllUser.do?type=sort&sortType=sortByCodeLevel">▲▽</a></th>
-			<th align="left">失効日 <a href="listAllUser.do?type=sort&sortType=sortByEndDate">△▼</a></th>
+			<th align="left">日本語能力 
+				<a href="listAllUser.do?type=sort&sortType=sortByCodeLevel"
+					class="
+						<c:choose>
+							<c:when test="${sessionScope.searchCondition.sortType == 'sortByCodeLevel'}">is-sorted</c:when>
+							<c:otherwise>unsorted</c:otherwise>
+						</c:choose>
+						">
+					<c:choose>
+						<c:when test="${sessionScope.searchCondition.sortByCodeLevel == 'ASC'}">▲▽</c:when>
+						<c:otherwise>△▼</c:otherwise>
+					</c:choose>
+				</a>
+			</th>
+			<th align="left">失効日 
+				<a href="listAllUser.do?type=sort&sortType=sortByEndDate"
+					class="
+						<c:choose>
+							<c:when test="${sessionScope.searchCondition.sortType == 'sortByEndDate'}">is-sorted</c:when>
+							<c:otherwise>unsorted</c:otherwise>
+						</c:choose>
+						">
+					<c:choose>
+						<c:when test="${sessionScope.searchCondition.sortByEndDate == 'ASC'}">▲▽</c:when>
+						<c:otherwise>△▼</c:otherwise>
+					</c:choose>
+				</a>
+			</th>
 			<th align="left">点数</th>
 		</tr>
 

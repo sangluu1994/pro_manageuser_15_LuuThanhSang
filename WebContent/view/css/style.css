@@ -27,8 +27,8 @@
 
 .tr2, .td2 {
 	background-image: url(../img/bg_td2.gif);
-	background-repeat:repeat-x;
-	background-position:center;
+	background-repeat: repeat-x;
+	background-position: center;
 	font-weight: normal;
 	background-color: #f0f0f0;
 	padding: 3px;
@@ -38,7 +38,7 @@
 	font-size: 11px;
 	font-weight: normal;
 	background-image: url(../img/btn_bg.gif);
-	background-repeat:no-repeat;
+	background-repeat: no-repeat;
 	width: 50px;
 	height: 18px;
 	border: 0px;
@@ -89,4 +89,10 @@
 	width: 850px;
 }
 
+.unsorted {
+	text-decoration: none;
+}
 
+.is-sorted {
+	text-decoration: underline;
+}
