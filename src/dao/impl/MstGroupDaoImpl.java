@@ -2,7 +2,6 @@
  * Copyright(C) 2017 Luvina Software Company
  * 
  * MstGroupDaoImpl.java, 2017-10-25 luuthanhsang
- *
  */
 package dao.impl;
 
@@ -20,7 +19,6 @@ import entity.MstGroup;
  * Class thực thi Interface MstGroupDao
  * 
  * @author luuthanhsang
- *
  */
 public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 

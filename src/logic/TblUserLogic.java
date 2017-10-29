@@ -14,7 +14,6 @@ import entity.UserInfor;
  * Interface chứa các thao tác với bảng tbl_user
  *
  * @author luuthanhsang
- *
  */
 public interface TblUserLogic {
 	/**

@@ -2,7 +2,6 @@
  * Copyright(C) 2017 Luvina Software Company
  * 
  * TblUser.java, 2017-10-25 luuthanhsang
- *
  */
 package entity;
 
@@ -10,7 +9,6 @@ package entity;
  * Class mô phỏng bảng tbl_user
  * 
  * @author luuthanhsang
- *
  */
 public class TblUser {
 	private int userId;

@@ -13,7 +13,6 @@ import common.Constant;
  * Class chứa phương thức lấy các thông tin config
  *
  * @author luuthanhsang
- *
  */
 public class ConfigProperties {
 	/**
@@ -22,7 +21,7 @@ public class ConfigProperties {
 	 * @param key - key của giá trị muốn lấy
 	 * @return Giá trị tương ứng với key đầu vào
 	 */
-	public static String getString(String key) {
+	public static String getValue(String key) {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		Properties properties = new Properties();
 		try {

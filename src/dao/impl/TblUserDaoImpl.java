@@ -2,7 +2,6 @@
  * Copyright(C) 2017 Luvina Software Company
  * 
  * TblUserDaoImpl.java, 2017-10-25 luuthanhsang
- *
  */
 package dao.impl;
 
@@ -20,7 +19,6 @@ import entity.UserInfor;
  * Class chứa các phương thức thao tác với bảng tbl_user 
  * 
  * @author luuthanhsang
- *
  */
 @SuppressWarnings("finally")
 public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {

@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
  * Interface chứa các phương thức của class AdminLogicImpl
  * 
  * @author luuthanhsang
- *
  */
 public interface AdminLogic {
 	/**

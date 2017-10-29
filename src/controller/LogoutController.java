@@ -19,7 +19,6 @@ import common.Constant;
  * Controller xử lí thao tác logout 
  * 
  * @author luuthanhsang
- * 
  */
 @WebServlet(Constant.LOG_OUT_PATH)
 public class LogoutController extends HttpServlet {

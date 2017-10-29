@@ -9,7 +9,6 @@ package common;
  * Class lưu trữ các giá trị hằng số thường sử dụng
  * 
  * @author luuthanhsang
- *
  */
 public class Constant {
 	// các đường dẫn chính tương ứng với các controller
@@ -74,6 +73,7 @@ public class Constant {
 	public static final String SORT_BY_END_DATE = "sortByEndDate";
 	public static final String CURRENT_PAGE = "currentPage";
 	public static final String LIMIT = "limit";
+	public static final String PAGE_LIMIT = "pageLimit";
 	public static final int DEFAULT_GROUP_ID = 0;
 	public static final int DEFAULT_PAGE = 1;
 	public static final String DEFAULT_SORT_TYPE = "sortByFullName";
@@ -86,13 +86,13 @@ public class Constant {
 	public static final String SL_GROUP_ID = "group_id";
 	public static final String SORT_TYPE_PARAM = "sortType";
 	public static final String PAGE_PARAM = "page";
+	public static final String TOTAL_PAGE = "totalPage";
 	
 	// khác...
 	public static final String EMPTY_STRING = "";
 	public static final String OK = "OK";
 	public static final String DEFAULT_CHARSET_ENCODING = "UTF-8";
 	public static final String LIST_ERROR = "errList";
-	
 	
 	
 }

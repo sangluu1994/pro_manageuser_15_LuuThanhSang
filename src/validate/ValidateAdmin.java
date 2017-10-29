@@ -14,7 +14,6 @@ import properties.MessageErrorProperties;
  * Class validate admin login
  * 
  * @author luuthanhsang
- *
  */
 public class ValidateAdmin {
 	/**

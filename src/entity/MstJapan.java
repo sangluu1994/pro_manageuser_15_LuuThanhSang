@@ -2,7 +2,6 @@
  * Copyright(C) 2017 Luvina Software Company
  * 
  * MstJapan.java, 2017-10-25 luuthanhsang
- *
  */
 package entity;
 
@@ -10,7 +9,6 @@ package entity;
  * Class mô phỏng bảng mst_japan
  * 
  * @author luuthanhsang
- *
  */
 public class MstJapan {
 	private String codeLevel;

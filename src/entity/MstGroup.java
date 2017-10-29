@@ -2,7 +2,6 @@
  * Copyright(C) 2017 Luvina Software Company
  * 
  * MstGroup.java, 2017-10-25 luuthanhsang
- *
  */
 package entity;
 
@@ -10,7 +9,6 @@ package entity;
  * Class mô phỏng bảng mst_group
  * 
  * @author luuthanhsang
- *
  */
 public class MstGroup {
 	private int groupId;

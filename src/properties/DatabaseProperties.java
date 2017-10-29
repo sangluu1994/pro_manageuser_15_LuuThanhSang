@@ -2,7 +2,6 @@
  * Copyright(C) 2017 Luvina Software Company
  * 
  * DatabaseProperties.java, 2017-10-25 luuthanhsang
- *
  */
 package properties;
 
@@ -14,7 +13,6 @@ import common.Constant;
  * Class chứa phương thức lấy các thông tin database config
  * 
  * @author luuthanhsang
- *
  */
 public class DatabaseProperties {
 	/**
@@ -27,11 +25,16 @@ public class DatabaseProperties {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		Properties properties = new Properties();
 		try {
+			// nạp file properties vào đối tượng Properties
 			properties.load(classLoader.getResourceAsStream(Constant.DATABASE_PROPERTIES_PATH));
+			// trả về thông tin cần lấy
+			return properties.getProperty(key);
 		} catch (Exception e) {
+			// show console log ngoại lệ và trả về null
 			System.out.println(e.getMessage());
+			return null;
 		}
 
-		return properties.getProperty(key);
 	}
+	
 }

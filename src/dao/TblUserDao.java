@@ -2,7 +2,6 @@
  * Copyright(C) 2017 Luvina Software Company
  * 
  * TblUserDao.java, 2017-10-25 luuthanhsang
- *
  */
 package dao;
 
@@ -15,7 +14,6 @@ import entity.UserInfor;
  * Interface chứa các thao tác với bảng tbl_user
  * 
  * @author luuthanhsang
- *
  */
 public interface TblUserDao extends BaseDao {
 	/**

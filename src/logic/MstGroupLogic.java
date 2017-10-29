@@ -12,7 +12,6 @@ import entity.MstGroup;
  * Interface chứa các phương thức thao tác với bảng mst_group
  *
  * @author luuthanhsang
- *
  */
 public interface MstGroupLogic {
 	public List<MstGroup> getAllGroups();

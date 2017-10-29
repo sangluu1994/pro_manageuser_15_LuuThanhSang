@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import common.Constant;
 
 /**
- * Filter set charset cho các request và response
+ * Filter thiết lập charset cho các request và response
  * 
  * @author luuthanhsang
  */
@@ -49,7 +49,6 @@ public class CharSetEncodingFilter implements Filter {
 		// thiết lập charset cho request và response
 		req.setCharacterEncoding(Constant.DEFAULT_CHARSET_ENCODING);
 		res.setCharacterEncoding(Constant.DEFAULT_CHARSET_ENCODING);
-		System.out.println("Encoded.");
 		// cho phép đi qua filter hiện tại
 		chain.doFilter(request, response);
 	}

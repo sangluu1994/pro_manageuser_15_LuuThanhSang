@@ -2,7 +2,6 @@
  * Copyright(C) 2017 Luvina Software Company
  * 
  * BaseDaoImpl.java, 2017-10-25 luuthanhsang
- *
  */
 package dao.impl;
 
@@ -14,8 +13,9 @@ import dao.BaseDao;
 import properties.DatabaseProperties;
 
 /**
+ * Class cài đặt các phương thức thao tác cơ bản với cơ sở dữ liệu
+ * 
  * @author luuthanhsang
- *
  */
 public class BaseDaoImpl implements BaseDao{
 

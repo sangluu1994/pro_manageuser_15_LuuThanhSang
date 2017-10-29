@@ -13,7 +13,6 @@ import common.Constant;
  * Class lấy các câu thông báo lỗi
  * 
  * @author luuthanhsang
- *
  */
 public class MessageErrorProperties {
 	/**
@@ -26,12 +25,13 @@ public class MessageErrorProperties {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		Properties properties = new Properties();
 		try {
+			// nạp file properties vào đối tượng Properties
 			properties.load(classLoader.getResourceAsStream(Constant.MESSAGE_ERROR_PROPERTIES_PATH));
 			// trả về thông tin cần lấy trong file properties
 			return properties.getProperty(key);
 		} catch (Exception e) {
-//			System.out.println("err!");
-			// trả về null
+			// show console log ngoại lệ và trả về null
+			e.printStackTrace();
 			return null;
 		}
 		

@@ -2,7 +2,6 @@
  * Copyright(C) 2017 Luvina Software Company
  * 
  * TblDetailUserJapan.java, 2017-10-25 luuthanhsang
- *
  */
 package entity;
 
@@ -10,7 +9,6 @@ package entity;
  * Class mô phỏng bảng TblDetailUserJapan
  * 
  * @author luuthanhsang
- *
  */
 public class TblDetailUserJapan {
 	private int detailUserJapanId;

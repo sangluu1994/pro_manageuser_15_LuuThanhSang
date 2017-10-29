@@ -26,6 +26,7 @@ import logic.impl.AdminLogicImpl;
  */
 @WebFilter(urlPatterns = Constant.FILTER_URL_PATTERN)
 public class LoginFilter implements Filter {
+	// khai báo đối tượng xử lí logic được sử dụng đến trong filter
 	private AdminLogicImpl adminLogicImpl;
 
     /**
@@ -52,7 +53,6 @@ public class LoginFilter implements Filter {
 		req.getSession().setMaxInactiveInterval(300);
 		// lấy đường dẫn của request gửi đến
 		String path = req.getRequestURI().substring(req.getContextPath().length());
-		System.out.println(path);
 		
 		// nếu gọi đến controller logout
 		if (Constant.LOG_OUT_PATH.equals(path)) {
@@ -102,6 +102,7 @@ public class LoginFilter implements Filter {
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
+		// khởi tạo đối tượng logic sẽ được sử dụng trong filter
 		adminLogicImpl = new AdminLogicImpl();
 	}
 

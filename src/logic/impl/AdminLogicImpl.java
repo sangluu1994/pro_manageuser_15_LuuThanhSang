@@ -18,7 +18,6 @@ import properties.AdminProperties;
  * Class xử lí logic của những trang quản lí của admin
  * 
  * @author luuthanhsang
- *
  */
 public class AdminLogicImpl implements AdminLogic {
 

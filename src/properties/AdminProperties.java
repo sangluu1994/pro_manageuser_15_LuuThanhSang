@@ -12,8 +12,9 @@ import java.util.Properties;
 import common.Constant;
 
 /**
+ * Class cài đặt phương thức lấy thông tin từ file properties
+ * 
  * @author luuthanhsang
- *
  */
 public class AdminProperties {
 	public static Map<String, String> getAdminInfo() {

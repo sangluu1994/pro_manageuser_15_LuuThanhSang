@@ -2,7 +2,6 @@
  * Copyright(C) 2017 Luvina Software Company
  * 
  * UserInfo.java, 2017-10-25 luuthanhsang
- *
  */
 package entity;
 
@@ -12,7 +11,6 @@ import java.sql.Date;
  * Class chứa các thuộc tính của một đối tượng user
  * 
  * @author luuthanhsang
- *
  */
 public class UserInfor {
 	

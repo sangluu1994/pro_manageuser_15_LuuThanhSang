@@ -16,7 +16,6 @@ import logic.TblUserLogic;
  * Class thao tác với bảng tbl_user
  *
  * @author luuthanhsang
- *
  */
 public class TblUserLogicImpl implements TblUserLogic {
 	private TblUserDaoImpl tblUserDaoImpl;

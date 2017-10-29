@@ -11,6 +11,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import properties.ConfigProperties;
+
 /**
  * Class chứa các phương thức chung thường dùng
  * 
@@ -63,6 +65,7 @@ public class Common {
 				ioString = ioString.replace(specialChars[i], "\\" + specialChars[i]);
 			}
 		}
+		// trả về chuỗi đã format
 		return ioString;
 	}
 
@@ -112,7 +115,7 @@ public class Common {
 		List<Integer> listPaging = new ArrayList<>();
 		// lấy tổng số trang
 		int totalPage = getTotalPage(totalRecords, limit);
-		// kiểm tra trang hiện tại có không nằm trong danh sách phân trang không
+		// định dạng lại trang hiện tại nếu có lỗi
 		if (currentPage > totalPage || currentPage <= 0) {
 			currentPage = Constant.DEFAULT_PAGE;
 		}
@@ -120,14 +123,66 @@ public class Common {
 		if (totalPage == 0 || totalPage == 1) {
 			return listPaging;
 		}
+		// lấy số trang tối đa được hiển thị trên vùng phân trang
+		int pageLimit = convertStringToInt(ConfigProperties.getValue("pageLimit"));
+		// lấy trang bắt đầu của vùng phân trang sẽ hiển thị
+		int startPage = getStartPage(currentPage, pageLimit);
+		// lấy trang kết thúc của vùng phân trang sẽ hiển thị
+		int endPage = getEndPage(startPage, pageLimit, totalPage);
 		// truyền các phân trang vào danh sách phân trang
-		for (int i = 1; i <= totalPage; i++) {
+		for (int i = startPage; i <= endPage; i++) {
 			listPaging.add(i);
 		}
 		// trả về danh sách phân trang
 		return listPaging;
 	}
 	
+	/**
+	 * Phương thức tính trang cuối cùng của vùng phân trang sẽ hiển thị
+	 * 
+	 * @param startPage - trang bắt đầu của vùng phân trang sẽ hiển thị
+	 * @param pageLimit - số trang tối đa của 1 phân đoạn
+	 * @param totalPage - tổng số trang
+	 * @return trang cuối cùng của vùng phân trang sẽ hiển thị
+	 */
+	public static int getEndPage(int startPage, int pageLimit, int totalPage) {
+		// khởi tạo giá trị của trang cuối của vùng phân trang sẽ hiển thị
+		int endPage = pageLimit;
+		// nếu endPage là bội số của số trang tối đa của 1 phân đoạn
+		if (startPage + pageLimit - 1 <= totalPage) {
+			endPage = startPage + pageLimit - 1;
+		} else { // nếu trang cuối không là bội số của số trang tối đa của 1 phân đoạn
+			endPage = totalPage;
+		}
+		// trả về endPage
+		return endPage;
+	}
+
+	/**
+	 * Phương thức tính trang bắt đầu của vùng phân trang sẽ hiển thị
+	 * @param currentPage - trang hiện tại
+	 * @param pageLimit - số trang tối đa của 1 phân đoạn
+	 * @return trang bắt đầu của vùng phân trang sẽ hiển thị
+	 */
+	public static int getStartPage(int currentPage, int pageLimit) {
+		// lấy đoạn phân trang hiện tại
+		int currentSegment = getCurrentSegment(currentPage, pageLimit);
+		// lấy và trả về trang bắt đầu của vùng phân trang sẽ hiển thị
+		int startPage = ((currentSegment - 1) * pageLimit) + 1;
+		return startPage;
+	}
+
+	/**
+	 * Phương thức tính phân đoạn hiện tại của trang hiện tại
+	 * 
+	 * @param currentPage - trang hiện tại
+	 * @param pageLimit - số trang tối đa của 1 phân đoạn
+	 * @return chỉ số phân đoạn hiện tại
+	 */
+	public static int getCurrentSegment(int currentPage, int pageLimit) {
+		return (int) Math.ceil((double) currentPage / pageLimit);
+	}
+
 	/**
 	 * Phương thức tính tổng số trang của chức năng phân trang
 	 * 
@@ -140,10 +195,6 @@ public class Common {
 			return 0;
 		}
 		return (int) Math.ceil((double) totalRecords / limit);
-	}
-	
-	public static void main(String[] args) {
-		System.out.println(getTotalPage(1001, 10));
 	}
 	
 }

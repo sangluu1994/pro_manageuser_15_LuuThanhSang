@@ -32,6 +32,7 @@ import properties.ConfigProperties;
 @WebServlet(Constant.LIST_USER_PATH)
 public class ListUserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	// khai báo các đối tượng logic xử lí trong màn hình listUser
 	private TblUserLogicImpl tblUserLogicImpl;
 	private MstGroupLogicImpl mstGroupLogicImpl;
        
@@ -39,6 +40,7 @@ public class ListUserController extends HttpServlet {
      * @see HttpServlet#HttpServlet()
      */
     public ListUserController() {
+    	// khởi tạo các đối tượng logic
     	tblUserLogicImpl = new TblUserLogicImpl();
 		mstGroupLogicImpl = new MstGroupLogicImpl();
     }
@@ -66,7 +68,8 @@ public class ListUserController extends HttpServlet {
 			String sortByCodeLevel;
 			String sortByEndDate;
 			int currentPage;
-			int limit = Common.convertStringToInt(ConfigProperties.getString(Constant.LIMIT));
+			int limit = Common.convertStringToInt(ConfigProperties.getValue(Constant.LIMIT));
+			int pageLimit = Common.convertStringToInt(ConfigProperties.getValue(Constant.PAGE_LIMIT));
 			
 			// kiểm tra trường hợp gọi đến màn hình listUser:
 			String type = request.getParameter(Constant.TYPE);
@@ -139,10 +142,17 @@ public class ListUserController extends HttpServlet {
 			List<MstGroup> listGroup = mstGroupLogicImpl.getAllGroups();
 			request.setAttribute(Constant.LIST_GROUP, listGroup);
 			
+			// lấy tổng số trang phục vụ việc phân trang
+			
+			
 			// lấy danh sách phân trang, lưu lên request
 			int totalUsers = tblUserLogicImpl.getTotalUsers(groupId, fullName);
 			List<Integer> listPaging = Common.getListPaging(totalUsers, limit, currentPage);
 			request.setAttribute(Constant.LIST_PAGING, listPaging);
+			
+			// lấy tổng số trang phục vụ việc phân trang
+			int totalPage = Common.getTotalPage(totalUsers, limit);
+			request.setAttribute(Constant.TOTAL_PAGE, totalPage);
 			
 			// lấy danh sách user của trang hiện tại và lưu lên request
 			int offset = Common.getOffset(currentPage, limit);
@@ -159,6 +169,7 @@ public class ListUserController extends HttpServlet {
 			searchCondition.put(Constant.SORT_BY_END_DATE, sortByEndDate);
 			searchCondition.put(Constant.CURRENT_PAGE, currentPage);
 			searchCondition.put(Constant.LIMIT, limit);
+			searchCondition.put(Constant.PAGE_LIMIT, pageLimit);
 			
 			// lưu đối tượng lưu trữ vào session
 			session.setAttribute(Constant.SEARCH_CONDITION, searchCondition);
@@ -168,6 +179,7 @@ public class ListUserController extends HttpServlet {
 			rd.forward(request, response);
 			
 		} catch (Exception e) {
+			// show console log ngoại lệ
 			e.printStackTrace();
 			// forward sang màn hình listUser
 			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM_SYSTEM_ERROR);

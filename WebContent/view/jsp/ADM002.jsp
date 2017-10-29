@@ -3,6 +3,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -149,13 +150,29 @@
 
 	<!-- Begin vung paging -->
 	<table>
-		<tr>
-			<td class="lbl_paging">
-			<c:forEach var="paginate" items="${listPaging}">
-				<a href="listAllUser.do?type=paginate&page=${paginate}">${paginate}</a>&nbsp;
-			</c:forEach>
-			</td>
-		</tr>
+		<c:set var="pagingLength" value="${fn:length(listPaging)}" />
+		<c:if test="${pagingLength >= 2}">
+			<tr class="lbl_paging">
+				<c:if test="${listPaging[0] != 1}">
+					<td>
+						<a href="listAllUser.do?type=paginate&page=${listPaging[0] - sessionScope.searchCondition.pageLimit}">&lt;&lt;</a>&nbsp;
+					</td>
+				</c:if>
+				<c:forEach items="${listPaging}" var="page">
+					<c:if test="${page == sessionScope.searchCondition.currentPage}">
+						<td>${page}&nbsp;</td>
+					</c:if>
+					<c:if test="${page != sessionScope.searchCondition.currentPage}">
+						<td><a
+							href="listAllUser.do?type=paginate&page=${page}">${page}</a>&nbsp;</td>
+					</c:if>
+				</c:forEach>
+				<c:if test="${listPaging[pagingLength - 1] < totalPage}">
+					<td><a
+						href="listAllUser.do?type=paginate&page=${listPaging[pagingLength - 1] + 1}">&gt;&gt;</a>&nbsp;</td>
+				</c:if>
+			</tr>
+		</c:if>
 	</table>
 	<!-- End vung paging -->
 

@@ -12,10 +12,9 @@ import entity.MstGroup;
 import logic.MstGroupLogic;
 
 /**
- * 
+ * Class cài đặt các phương thức thao tác với bảng mst_group
  *
  * @author luuthanhsang
- *
  */
 public class MstGroupLogicImpl implements MstGroupLogic {
 	private MstGroupDaoImpl mstGroupDaoImpl;
