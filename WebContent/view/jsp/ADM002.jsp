@@ -1,3 +1,4 @@
+<%@page import="common.Constant"%>
 <%@page import="entity.MstGroup"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -66,62 +67,36 @@
 		<!-- End vung dieu kien tim kiem -->
 	</form>
 	<!-- Begin vung hien thi danh sach user -->
-	<table class="tbl_list" border="1" cellpadding="4" cellspacing="0"
-		width="80%">
-
-		<tr class="tr2">
-			<th align="center" width="20px">ID</th>
-			<th align="left">氏名 
-				<a href="listAllUser.do?type=sort&sortType=sortByFullName" 
-					class="
-						<c:choose>
-							<c:when test="${sessionScope.searchCondition.sortType == 'sortByFullName'}">is-sorted</c:when>
-							<c:otherwise>unsorted</c:otherwise>
-						</c:choose>
-						">
-					<c:choose>
-						<c:when test="${sessionScope.searchCondition.sortByFullName == 'ASC'}">▲▽</c:when>
-						<c:otherwise>△▼</c:otherwise>
-					</c:choose>
-				</a>
-			</th>
-			<th align="left">生年月日</th>
-			<th align="left">グループ</th>
-			<th align="left">メールアドレス</th>
-			<th align="left" width="70px">電話番号</th>
-			<th align="left">日本語能力 
-				<a href="listAllUser.do?type=sort&sortType=sortByCodeLevel"
-					class="
-						<c:choose>
-							<c:when test="${sessionScope.searchCondition.sortType == 'sortByCodeLevel'}">is-sorted</c:when>
-							<c:otherwise>unsorted</c:otherwise>
-						</c:choose>
-						">
-					<c:choose>
-						<c:when test="${sessionScope.searchCondition.sortByCodeLevel == 'ASC'}">▲▽</c:when>
-						<c:otherwise>△▼</c:otherwise>
-					</c:choose>
-				</a>
-			</th>
-			<th align="left">失効日 
-				<a href="listAllUser.do?type=sort&sortType=sortByEndDate"
-					class="
-						<c:choose>
-							<c:when test="${sessionScope.searchCondition.sortType == 'sortByEndDate'}">is-sorted</c:when>
-							<c:otherwise>unsorted</c:otherwise>
-						</c:choose>
-						">
-					<c:choose>
-						<c:when test="${sessionScope.searchCondition.sortByEndDate == 'ASC'}">▲▽</c:when>
-						<c:otherwise>△▼</c:otherwise>
-					</c:choose>
-				</a>
-			</th>
-			<th align="left">点数</th>
-		</tr>
-
-		<c:choose>
-			<c:when test="${not empty listUser}">
+	<c:choose>
+		<c:when test="${not empty listUser}">
+			<table class="tbl_list" border="1" cellpadding="4" cellspacing="0"
+				width="80%">
+				<tr class="tr2">
+					<th align="center" width="20px">ID</th>
+					<th align="left">氏名 
+						<a href="listAllUser.do?type=sort&sortType=sortByFullName&sortByFullName=${sessionScope.searchCondition.sortByFullName == Constant.ASC ? Constant.DESC : Constant.ASC}" 
+							class="${sessionScope.searchCondition.sortType == Constant.SORT_BY_FULL_NAME ? 'is-sorted' : 'unsorted'}">
+							${sessionScope.searchCondition.sortByFullName == Constant.ASC ? '▲▽' : '△▼'}
+						</a>
+					</th>
+					<th align="left">生年月日</th>
+					<th align="left">グループ</th>
+					<th align="left">メールアドレス</th>
+					<th align="left" width="70px">電話番号</th>
+					<th align="left">日本語能力 
+						<a href="listAllUser.do?type=sort&sortType=sortByCodeLevel&sortByCodeLevel=${sessionScope.searchCondition.sortByCodeLevel == Constant.ASC ? Constant.DESC : Constant.ASC}"
+							class="${sessionScope.searchCondition.sortType == Constant.SORT_BY_CODE_LEVEL ? 'is-sorted' : 'unsorted'}">
+							${sessionScope.searchCondition.sortByCodeLevel == Constant.ASC? '▲▽' : '△▼'}
+						</a>
+					</th>
+					<th align="left">失効日 
+						<a href="listAllUser.do?type=sort&sortType=sortByEndDate&sortByEndDate=${sessionScope.searchCondition.sortByEndDate == Constant.ASC ? Constant.DESC : Constant.ASC}"
+							class="${sessionScope.searchCondition.sortType == Constant.SORT_BY_END_DATE ? 'is-sorted' : 'unsorted'}">
+							${sessionScope.searchCondition.sortByEndDate == Constant.ASC ? '▲▽' : '△▼'}
+						</a>
+					</th>
+					<th align="left">点数</th>
+				</tr>
 				<c:forEach var="item" items="${listUser}">
 					<tr>
 						<td align="right"><a href="ADM005.html">${item.userId}</a></td>
@@ -132,20 +107,23 @@
 						<td>${item.tel}</td>
 						<td>${item.nameLevel}</td>
 						<td align="center"><fmt:formatDate pattern="yyyy/MM/dd" value="${item.endDate}" /></td>
-						<td align="right">${item.total}</td>
+						<c:choose>
+							<c:when test="${item.total == 0}">
+								<td align="right"></td>
+							</c:when>
+							<c:otherwise>
+								<td align="right">${item.total}</td>
+							</c:otherwise>
+						</c:choose>
 					</tr>
 				</c:forEach>
-			</c:when>
-			<c:otherwise>
-				<tbody>
-					<tr align="center">
-						<td colspan="9">該当するユーザは存在していません。</td>
-					</tr>
-				</tbody>
-			</c:otherwise>
-		</c:choose>
-
-	</table>
+			</table>
+		</c:when>
+		<c:otherwise>
+			<br/>
+			<center>該当するユーザは存在していません。</center>
+		</c:otherwise>
+	</c:choose>
 	<!-- End vung hien thi danh sach user -->
 
 	<!-- Begin vung paging -->

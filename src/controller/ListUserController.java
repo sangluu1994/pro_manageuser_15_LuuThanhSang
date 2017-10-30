@@ -110,22 +110,22 @@ public class ListUserController extends HttpServlet {
 					
 					// kiểm tra sortType
 					if (Constant.SORT_BY_FULL_NAME.equals(sortType)) { // trường hợp sắp xếp theo tên
-						// thay đổi kiểu của sortByFullName ngược lại so với trạng thái lưu trên session trước đó
-						sortByFullName = Constant.ASC.equals(sortByFullName) ? Constant.DESC : Constant.ASC;
+						// lấy kiểu sắp xếp theo tên
+						sortByFullName = request.getParameter(Constant.SORT_BY_FULL_NAME);
 						// thiết lập kiểu sắp xếp theo trình độ tiếng Nhật, endDate về mặc định
 						sortByCodeLevel = Constant.ASC;
 						sortByEndDate = Constant.DESC;
 						
 					} else if (Constant.SORT_BY_CODE_LEVEL.equals(sortType)) { // trường hợp sắp xếp theo trình độ tiếng Nhật
-						// thay đổi kiểu của sortByCodeLevel ngược lại so với trạng thái lưu trên session trước đó
-						sortByCodeLevel = Constant.ASC.equals(sortByCodeLevel) ? Constant.DESC : Constant.ASC;
+						// lấy kiểu sắp xếp theo trình độ tiếng Nhật
+						sortByCodeLevel = request.getParameter(Constant.SORT_BY_CODE_LEVEL);
 						// thiết lập kiểu sắp xếp theo fullName, endDate về mặc định
 						sortByFullName = Constant.ASC;
 						sortByEndDate = Constant.DESC;
 						
 					} else if (Constant.SORT_BY_END_DATE.equals(sortType)) { // trường hợp sắp xếp theo ngày hết hạn
-						// thay đổi kiểu của sortByEndDate ngược lại so với trạng thái lưu trên session trước đó
-						sortByEndDate = Constant.ASC.equals(sortByEndDate) ? Constant.DESC : Constant.ASC;
+						// lấy kiểu sắp xếp theo ngày hết hạn
+						sortByEndDate = request.getParameter(Constant.SORT_BY_END_DATE);
 						// thiết lập kiểu sắp xếp theo fullName, trình độ tiếng Nhật về mặc định
 						sortByFullName = Constant.ASC;
 						sortByCodeLevel = Constant.ASC;
