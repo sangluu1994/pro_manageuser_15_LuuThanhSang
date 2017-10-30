@@ -124,7 +124,7 @@ public class Common {
 			return listPaging;
 		}
 		// lấy số trang tối đa được hiển thị trên vùng phân trang
-		int pageLimit = convertStringToInt(ConfigProperties.getValue("pageLimit"));
+		int pageLimit = convertStringToInt(ConfigProperties.getValue(Constant.PAGE_LIMIT));
 		// lấy trang bắt đầu của vùng phân trang sẽ hiển thị
 		int startPage = getStartPage(currentPage, pageLimit);
 		// lấy trang kết thúc của vùng phân trang sẽ hiển thị

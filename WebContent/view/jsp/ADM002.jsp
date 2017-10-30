@@ -139,7 +139,7 @@
 			<c:otherwise>
 				<tbody>
 					<tr align="center">
-						<td colspan="9">Not found</td>
+						<td colspan="9">該当するユーザは存在していません。</td>
 					</tr>
 				</tbody>
 			</c:otherwise>
@@ -151,7 +151,7 @@
 	<!-- Begin vung paging -->
 	<table>
 		<c:set var="pagingLength" value="${fn:length(listPaging)}" />
-		<c:if test="${pagingLength >= 2}">
+		<c:if test="${pagingLength >= 1}">
 			<tr class="lbl_paging">
 				<c:if test="${listPaging[0] != 1}">
 					<td>

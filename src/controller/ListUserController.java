@@ -23,6 +23,7 @@ import entity.UserInfor;
 import logic.impl.MstGroupLogicImpl;
 import logic.impl.TblUserLogicImpl;
 import properties.ConfigProperties;
+import properties.MessageErrorProperties;
 
 /**
  * Controller xử lí in, tìm kiếm danh sách user
@@ -98,6 +99,8 @@ public class ListUserController extends HttpServlet {
 					// lấy điều kiện tìm kiếm từ request
 					groupId = Common.convertStringToInt(request.getParameter(Constant.SL_GROUP_ID));
 					fullName = request.getParameter(Constant.TXT_FULL_NAME);
+					// về trang đầu
+					currentPage = Constant.DEFAULT_PAGE;
 					
 				} else if (Constant.TYPE_SORT.equals(type)) { // trường hợp click vào các button sắp xếp
 					// thiết lập trang hiện tại về trang 1
@@ -181,6 +184,9 @@ public class ListUserController extends HttpServlet {
 		} catch (Exception e) {
 			// show console log ngoại lệ
 			e.printStackTrace();
+			// khai báo, truyền message lỗi sang view
+			String errMsg = MessageErrorProperties.getString(Constant.ER015);
+			request.setAttribute(Constant.ERR_MSG, errMsg);
 			// forward sang màn hình listUser
 			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM_SYSTEM_ERROR);
 			rd.forward(request, response);

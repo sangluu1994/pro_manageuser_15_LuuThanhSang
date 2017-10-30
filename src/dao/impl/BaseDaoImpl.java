@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import common.Constant;
 import dao.BaseDao;
 import properties.DatabaseProperties;
 
@@ -28,10 +29,10 @@ public class BaseDaoImpl implements BaseDao{
 		// khai báo, khởi tạo kết nối
 		Connection conn = null;
 		// khai báo các thông tin kết nối đến db
-		String DB_URL = DatabaseProperties.getString("url");
-		String USER_NAME = DatabaseProperties.getString("user");
-		String PASS_WORD = DatabaseProperties.getString("password");
-		String DRIVE = DatabaseProperties.getString("driver");
+		String DB_URL = DatabaseProperties.getString(Constant.URL);
+		String USER_NAME = DatabaseProperties.getString(Constant.USERNAME);
+		String PASS_WORD = DatabaseProperties.getString(Constant.PASSWORD);
+		String DRIVE = DatabaseProperties.getString(Constant.DRIVER);
 		try {
 			// kết nối đến db
 			Class.forName(DRIVE);

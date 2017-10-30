@@ -57,6 +57,10 @@ public class Constant {
 	public static final String CURRENT_LOGIN_USER = "currentUser";
 	public static final String TXT_USERNAME = "txtUsername";
 	
+	// constant trong màn hình login
+	public static final String TXT_LOGIN_ID = "loginId";
+	public static final String TXT_PASSWORD = "password";
+	
 	// constant trong màn hình listUser
 	public static final String TYPE = "type";
 	public static final String TYPE_SEARCH = "search";
@@ -88,11 +92,71 @@ public class Constant {
 	public static final String PAGE_PARAM = "page";
 	public static final String TOTAL_PAGE = "totalPage";
 	
+	// error message
+	public static final String ER001 = "ER001";
+	public static final String ER001TOTAL = "ER001TOTAL";
+	public static final String ER001PASS = "ER001PASS";
+	public static final String ER001LOGIN = "ER001LOGIN";
+	public static final String ER001FULL = "ER001FULL";
+	public static final String ER001KATA = "ER001KATA";
+	public static final String ER001MAIL = "ER001MAIL";
+	public static final String ER001TEL = "ER001TEL";
+	public static final String ER002 = "ER002";
+	public static final String ER002GROUP = "ER002GROUP";
+	public static final String ER003 = "ER003";
+	public static final String ER003LOGIN = "ER003LOGIN";
+	public static final String ER003MAIL = "ER003MAIL";
+	public static final String ER004 = "ER004";
+	public static final String ER004GROUP = "ER004GROUP";
+	public static final String ER004JAPAN = "ER004JAPAN";
+	public static final String ER005TOTAL = "ER005TOTAL";
+	public static final String ER005 = "ER005";
+	public static final String ER005MAIL = "ER005MAIL";
+	public static final String ER005TEL = "ER005TEL";
+	public static final String ER005DATE = "ER005DATE";
+	public static final String ER006 = "ER006";
+	public static final String ER006FULL = "ER006FULL";
+	public static final String ER006KATA = "ER006KATA";
+	public static final String ER006MAIL = "ER006MAIL";
+	public static final String ER006TEL = "ER006TEL";
+	public static final String ER007 = "ER007";
+	public static final String ER007PASS = "ER007PASS";
+	public static final String ER007LOGIN = "ER007LOGIN";
+	public static final String ER008 = "ER008";
+	public static final String ER008PASS = "ER008PASS";
+	public static final String ER008LOGIN = "ER008LOGIN";
+	public static final String ER008MAIL = "ER008MAIL";
+	public static final String ER008TEL = "ER008TEL";
+	public static final String ER009 = "ER009";
+	public static final String ER009KATA = "ER009KATA";
+	public static final String ER010 = "ER010";
+	public static final String ER011 = "ER011";
+	public static final String ER011START = "ER011START";
+	public static final String ER011END = "ER011END";
+	public static final String ER011TOTAL = "ER011TOTAL";
+	public static final String ER011BIRTH = "ER011BIRTH";
+	public static final String ER012 = "ER012";
+	public static final String ER013 = "ER013";
+	public static final String ER014 = "ER014";
+	public static final String ER015 = "ER015";
+	public static final String ER016 = "ER016";
+	public static final String ER017 = "ER017";
+	public static final String ER018 = "ER018";
+	public static final String ER018TOTAL = "ER018TOTAL";
+	public static final String ER019 = "ER019";
+	
+	// database connect
+	public static final String URL = "url";
+	public static final String USERNAME = "user";
+	public static final String PASSWORD = "password";
+	public static final String DRIVER = "driver";
+	
 	// khác...
 	public static final String EMPTY_STRING = "";
 	public static final String OK = "OK";
 	public static final String DEFAULT_CHARSET_ENCODING = "UTF-8";
 	public static final String LIST_ERROR = "errList";
+	public static final String ERR_MSG = "errMsg";
 	
 	
 }

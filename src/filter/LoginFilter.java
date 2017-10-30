@@ -49,6 +49,10 @@ public class LoginFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
+		// xóa cache
+		res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+		res.setHeader("Pragma", "no-cache");
+		res.setDateHeader("Expires", 0);
 		// set timeout
 		req.getSession().setMaxInactiveInterval(300);
 		// lấy đường dẫn của request gửi đến
