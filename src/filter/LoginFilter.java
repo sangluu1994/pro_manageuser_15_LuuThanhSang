@@ -88,6 +88,13 @@ public class LoginFilter implements Filter {
 			return;
 		}
 		
+		// nếu gọi đến thư mục chứa file jsp
+		if (path.matches(Constant.JSP_FOLDER_PATTERN)) {
+			// redirect về trang login
+			res.sendRedirect(req.getContextPath() + Constant.LOG_IN_PATH);
+			return;
+		}
+		
 		// nếu không phải các đường dẫn trên
 		// kiểm tra đã đăng nhập chưa
 		if (adminLogicImpl.checkLogin(req.getSession())) {

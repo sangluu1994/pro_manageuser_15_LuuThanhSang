@@ -42,6 +42,9 @@ public class Constant {
 	public static final String JS_FOLDER_PATTERN = "^/view/js/.*";
 	public static final String IMG_FOLDER_PATTERN = "^/view/img/.*";
 	
+	// thư mục chứa file jsp
+	public static final String JSP_FOLDER_PATTERN = "^/view/jsp/.*";
+	
 	// đường dẫn lưu các file properties
 	public static final String ADMIN_PROPERTIES_PATH = "properties/files/admin.properties";
 	public static final String DATABASE_PROPERTIES_PATH = "properties/files/database.properties";

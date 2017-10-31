@@ -8,7 +8,6 @@ package properties;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
 import common.Constant;
 
 /**
@@ -17,6 +16,11 @@ import common.Constant;
  * @author luuthanhsang
  */
 public class AdminProperties {
+	/**
+	 * Phương thức lấy thông tin đăng nhập của admin
+	 *
+	 * @return adminInfo - thông tin đăng nhập của admin
+	 */
 	public static Map<String, String> getAdminInfo() {
 		// khởi tạo map lưu trữ thông tin admin sẽ trả về
 		Map<String, String> adminInfo = new HashMap<String, String>();
@@ -37,8 +41,5 @@ public class AdminProperties {
 			return null;
 		} 
 	}
-//	public static void main(String[] args) {
-//			System.out.println(getAdminInfo().get(Constant.ADMIN_USER));
-//			System.out.println(getAdminInfo().get(Constant.ADMIN_PASS_HASH));
-//	}
+
 }

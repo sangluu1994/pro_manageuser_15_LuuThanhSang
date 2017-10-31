@@ -40,7 +40,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 */
 	@Override
 	public List<UserInfor> getListUsers(int offset, int limit, int groupId, String fullName, String sortType,
-			String sortByFullName, String sortByCodeLevel, String sortByEndDate) {
+			String sortByFullName, String sortByCodeLevel, String sortByEndDate) throws SQLException {
 		return tblUserDaoImpl.getListUsers(offset, limit, groupId, fullName, sortType, sortByFullName, sortByCodeLevel, sortByEndDate);
 	}
 

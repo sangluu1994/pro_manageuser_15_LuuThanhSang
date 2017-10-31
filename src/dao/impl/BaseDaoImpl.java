@@ -25,7 +25,7 @@ public class BaseDaoImpl implements BaseDao{
 	 */
 	@SuppressWarnings("finally")
 	@Override
-	public Connection getConnection() {
+	public Connection getConnection() throws SQLException {
 		// khai báo, khởi tạo kết nối
 		Connection conn = null;
 		// khai báo các thông tin kết nối đến db
@@ -40,6 +40,7 @@ public class BaseDaoImpl implements BaseDao{
 		} catch (SQLException e) {
 			// show console log ngoại lệ
 			e.printStackTrace();
+			throw new SQLException();
 		} catch (ClassNotFoundException e) {
 			// show console log ngoại lệ
 			e.printStackTrace();

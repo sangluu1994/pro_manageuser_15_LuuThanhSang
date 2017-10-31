@@ -74,7 +74,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	 */
 	@Override
 	public List<UserInfor> getListUsers(int offset, int limit, int groupId, String fullName, String sortType,
-			String sortByFullName, String sortByCodeLevel, String sortByEndDate) {
+			String sortByFullName, String sortByCodeLevel, String sortByEndDate) throws SQLException {
 		// khởi tạo danh sách user trả về
 		List<UserInfor> listUser = new ArrayList<UserInfor>();
 		// khởi tạo câu truy vấn
@@ -152,7 +152,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	 * @see dao.TblUserDao#getUsersById(int)
 	 */
 	@Override
-	public UserInfor getUsersById(int id) {
+	public UserInfor getUsersById(int id) throws SQLException {
 		// khởi tạo kết nối
 		Connection con = getConnection();
 		// khai báo đối tượng tblUserInfor sẽ trả về

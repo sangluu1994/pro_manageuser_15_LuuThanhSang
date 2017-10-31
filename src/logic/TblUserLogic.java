@@ -39,5 +39,5 @@ public interface TblUserLogic {
 	 * @param sortByEndDate - giá trị sort theo enddate
 	 * @return mảng các đối tượng UserInfo
 	 */
-	public List<UserInfor> getListUsers(int offset, int limit, int groupId, String fullName, String sortType, String sortByFullName, String sortByCodeLevel, String sortByEndDate);
+	public List<UserInfor> getListUsers(int offset, int limit, int groupId, String fullName, String sortType, String sortByFullName, String sortByCodeLevel, String sortByEndDate) throws SQLException;
 }

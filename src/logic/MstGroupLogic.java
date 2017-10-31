@@ -5,6 +5,7 @@
  */
 package logic;
 
+import java.sql.SQLException;
 import java.util.List;
 import entity.MstGroup;
 
@@ -14,5 +15,5 @@ import entity.MstGroup;
  * @author luuthanhsang
  */
 public interface MstGroupLogic {
-	public List<MstGroup> getAllGroups();
+	public List<MstGroup> getAllGroups() throws SQLException;
 }

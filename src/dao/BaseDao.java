@@ -6,6 +6,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Interface chứa các phương thức thao tác cơ bản với cơ sở dữ liệu
@@ -17,8 +18,9 @@ public interface BaseDao {
 	 * Tạo kết nối đến CSDL
 	 * 
 	 * @return kết nối
+	 * @throws SQLException
 	 */
-	public Connection getConnection();
+	public Connection getConnection() throws SQLException;
 
 	/**
 	 * Đóng kết nối CSDL

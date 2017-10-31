@@ -5,6 +5,8 @@
  */
 package logic;
 
+import java.sql.SQLException;
+
 import javax.servlet.http.HttpSession;
 
 /**
@@ -19,8 +21,9 @@ public interface AdminLogic {
 	 * @param username - tài khoản đăng nhập
 	 * @param password - mật khẩu đăng nhập
 	 * @return boolean - true nếu xác thực thành công | false nếu ngược lại
+	 * @throws SQLException
 	 */
-	public boolean attemptLogin(String username, String password);
+	public boolean attemptLogin(String username, String password) throws SQLException;
 	
 	/**
 	 * Phương thức kiểm tra đăng nhập dựa trên session

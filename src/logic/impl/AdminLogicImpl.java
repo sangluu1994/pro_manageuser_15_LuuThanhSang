@@ -5,6 +5,7 @@
  */
 package logic.impl;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -25,7 +26,7 @@ public class AdminLogicImpl implements AdminLogic {
 	 * @see logic.AdminLogic#attemptLogin(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public boolean attemptLogin(String username, String password) {
+	public boolean attemptLogin(String username, String password) throws SQLException {
 		// lấy thông tin admin
 		Map<String, String> adminInfo = AdminProperties.getAdminInfo();
 		

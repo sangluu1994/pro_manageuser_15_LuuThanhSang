@@ -27,7 +27,7 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 	 */
 	@SuppressWarnings("finally")
 	@Override
-	public List<MstGroup> getAllMstGroup() {
+	public List<MstGroup> getAllMstGroup() throws SQLException {
 		// khởi tạo connection
 		Connection con = getConnection();
 		// khởi tạo danh sách trả về
@@ -62,7 +62,7 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 	 */
 	@SuppressWarnings("finally")
 	@Override
-	public MstGroup getGroup(int id) {
+	public MstGroup getGroup(int id) throws SQLException {
 		// khởi tạo connection
 		Connection con = getConnection();
 		// khai báo câu truy vấn

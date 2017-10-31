@@ -39,7 +39,7 @@ public interface TblUserDao extends BaseDao {
 	 * @param sortByEndDate - giá trị sort theo enddate
 	 * @return mảng các đối tượng UserInfo
 	 */
-	public List<UserInfor> getListUsers(int offset, int limit, int groupId, String fullName, String sortType, String sortByFullName, String sortByCodeLevel, String sortByEndDate);
+	public List<UserInfor> getListUsers(int offset, int limit, int groupId, String fullName, String sortType, String sortByFullName, String sortByCodeLevel, String sortByEndDate) throws SQLException;
 	
 	/**
 	 * Lấy ra user có id cho trước
@@ -47,6 +47,6 @@ public interface TblUserDao extends BaseDao {
 	 * @param id - ID của user cần lấy thông tin
 	 * @return đối tượng getUsersById | null nếu không tìm thấy
 	 */
-	public UserInfor getUsersById(int id);
+	public UserInfor getUsersById(int id) throws SQLException;
 	
 }

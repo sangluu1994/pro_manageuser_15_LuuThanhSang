@@ -5,6 +5,7 @@
  */
 package logic.impl;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import dao.impl.MstGroupDaoImpl;
@@ -30,7 +31,7 @@ public class MstGroupLogicImpl implements MstGroupLogic {
 	 * @see logic.MstGroupLogic#getAllGroups()
 	 */
 	@Override
-	public List<MstGroup> getAllGroups() {
+	public List<MstGroup> getAllGroups() throws SQLException {
 		return mstGroupDaoImpl.getAllMstGroup();
 	}
 
