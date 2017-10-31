@@ -1,23 +1,23 @@
-<%@page import="common.Constant"%>
-<%@page import="entity.MstGroup"%>
+<%@ page import="common.Constant"%>
+<%@ page import="entity.MstGroup"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link rel="shortcut icon" href="view/img/logo-icon.png">
-		<link href="view/css/style.css" rel="stylesheet" type="text/css" />
-		<title>ユーザ管理</title>
+<link rel="shortcut icon" href="<c:url value="/view/img/logo-icon.png" />">
+<link href="<c:url value="/view/css/style.css" />" rel="stylesheet" type="text/css" />
+<title>ユーザ管理</title>
 </head>
 <body>
 	<%@ include file="../layout/header.jsp"%>
 
 	<!-- Begin vung dieu kien tim kiem -->
-	<form action="listAllUser.do?type=search" method="post" name="mainform">
+	<form action="<c:url value="${Constant.LIST_USER_PATH}" />?type=search" method="post" name="mainform">
 		<table class="tbl_input" border="0" width="90%" cellpadding="0"
 			cellspacing="0">
 			<tr>
@@ -74,7 +74,7 @@
 				<tr class="tr2">
 					<th align="center" width="20px">ID</th>
 					<th align="left">氏名 
-						<a href="listAllUser.do?type=sort&sortType=sortByFullName&sortByFullName=${sessionScope.searchCondition.sortByFullName == Constant.ASC ? Constant.DESC : Constant.ASC}" 
+						<a href="<c:url value="${Constant.LIST_USER_PATH}" />?type=sort&sortType=sortByFullName&sortByFullName=${sessionScope.searchCondition.sortByFullName == Constant.ASC ? Constant.DESC : Constant.ASC}" 
 							class="${sessionScope.searchCondition.sortType == Constant.SORT_BY_FULL_NAME ? 'is-sorted' : 'unsorted'}">
 							${sessionScope.searchCondition.sortByFullName == Constant.ASC ? '▲▽' : '△▼'}
 						</a>
@@ -84,13 +84,13 @@
 					<th align="left">メールアドレス</th>
 					<th align="left" width="70px">電話番号</th>
 					<th align="left">日本語能力 
-						<a href="listAllUser.do?type=sort&sortType=sortByCodeLevel&sortByCodeLevel=${sessionScope.searchCondition.sortByCodeLevel == Constant.ASC ? Constant.DESC : Constant.ASC}"
+						<a href="<c:url value="${Constant.LIST_USER_PATH}" />?type=sort&sortType=sortByCodeLevel&sortByCodeLevel=${sessionScope.searchCondition.sortByCodeLevel == Constant.ASC ? Constant.DESC : Constant.ASC}"
 							class="${sessionScope.searchCondition.sortType == Constant.SORT_BY_CODE_LEVEL ? 'is-sorted' : 'unsorted'}">
 							${sessionScope.searchCondition.sortByCodeLevel == Constant.ASC? '▲▽' : '△▼'}
 						</a>
 					</th>
 					<th align="left">失効日 
-						<a href="listAllUser.do?type=sort&sortType=sortByEndDate&sortByEndDate=${sessionScope.searchCondition.sortByEndDate == Constant.ASC ? Constant.DESC : Constant.ASC}"
+						<a href="<c:url value="${Constant.LIST_USER_PATH}" />?type=sort&sortType=sortByEndDate&sortByEndDate=${sessionScope.searchCondition.sortByEndDate == Constant.ASC ? Constant.DESC : Constant.ASC}"
 							class="${sessionScope.searchCondition.sortType == Constant.SORT_BY_END_DATE ? 'is-sorted' : 'unsorted'}">
 							${sessionScope.searchCondition.sortByEndDate == Constant.ASC ? '▲▽' : '△▼'}
 						</a>
@@ -133,7 +133,7 @@
 			<tr class="lbl_paging">
 				<c:if test="${listPaging[0] != 1}">
 					<td>
-						<a href="listAllUser.do?type=paginate&page=${listPaging[0] - sessionScope.searchCondition.pageLimit}">&lt;&lt;</a>&nbsp;
+						<a href="<c:url value="${Constant.LIST_USER_PATH}" />?type=paginate&page=${listPaging[0] - sessionScope.searchCondition.pageLimit}">&lt;&lt;</a>&nbsp;
 					</td>
 				</c:if>
 				<c:forEach items="${listPaging}" var="page">
@@ -142,12 +142,12 @@
 					</c:if>
 					<c:if test="${page != sessionScope.searchCondition.currentPage}">
 						<td><a
-							href="listAllUser.do?type=paginate&page=${page}">${page}</a>&nbsp;</td>
+							href="<c:url value="${Constant.LIST_USER_PATH}" />?type=paginate&page=${page}">${page}</a>&nbsp;</td>
 					</c:if>
 				</c:forEach>
 				<c:if test="${listPaging[pagingLength - 1] < totalPage}">
 					<td><a
-						href="listAllUser.do?type=paginate&page=${listPaging[pagingLength - 1] + 1}">&gt;&gt;</a>&nbsp;</td>
+						href="<c:url value="${Constant.LIST_USER_PATH}" />?type=paginate&page=${listPaging[pagingLength - 1] + 1}">&gt;&gt;</a>&nbsp;</td>
 				</c:if>
 			</tr>
 		</c:if>
