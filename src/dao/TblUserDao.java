@@ -38,6 +38,7 @@ public interface TblUserDao extends BaseDao {
 	 * @param sortByCodeLevel - giá trị sort theo codelevel
 	 * @param sortByEndDate - giá trị sort theo enddate
 	 * @return mảng các đối tượng UserInfo
+	 * @throws SQLException
 	 */
 	public List<UserInfor> getListUsers(int offset, int limit, int groupId, String fullName, String sortType, String sortByFullName, String sortByCodeLevel, String sortByEndDate) throws SQLException;
 	
@@ -46,6 +47,7 @@ public interface TblUserDao extends BaseDao {
 	 * 
 	 * @param id - ID của user cần lấy thông tin
 	 * @return đối tượng getUsersById | null nếu không tìm thấy
+	 * @throws SQLException
 	 */
 	public UserInfor getUsersById(int id) throws SQLException;
 	

@@ -20,7 +20,6 @@ import entity.UserInfor;
  * 
  * @author luuthanhsang
  */
-@SuppressWarnings("finally")
 public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 
 	/* (non-Javadoc)
@@ -32,18 +31,18 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		int totalUsers = 0;
 		// khởi tạo kết nối đến db
 		Connection con = getConnection();
-		// xây dựng truy vấn
-		StringBuilder queryBuilder = new StringBuilder();
-		queryBuilder.append("SELECT COUNT(user_id) FROM tbl_user u INNER JOIN mst_group g ON u.group_id = g.group_id ");
-		queryBuilder.append("WHERE 1 = 1 ");
-		if (groupId != 0) {
-			queryBuilder.append("AND u.group_id = ? ");
-		}
-		if (!Constant.EMPTY_STRING.equals(fullName) && fullName != null) {
-			queryBuilder.append("AND u.full_name REGEXP ?");
-		}
-		String query = queryBuilder.toString();
-		try {
+		if (con != null) {
+			// xây dựng truy vấn
+			StringBuilder queryBuilder = new StringBuilder();
+			queryBuilder.append("SELECT COUNT(user_id) FROM tbl_user u INNER JOIN mst_group g ON u.group_id = g.group_id ");
+			queryBuilder.append("WHERE 1 = 1 ");
+			if (groupId != 0) {
+				queryBuilder.append("AND u.group_id = ? ");
+			}
+			if (!Constant.EMPTY_STRING.equals(fullName) && fullName != null) {
+				queryBuilder.append("AND u.full_name REGEXP ?");
+			}
+			String query = queryBuilder.toString();
 			// truy vấn sử dụng preparedStatement
 			PreparedStatement ps = con.prepareStatement(query);
 			int i = 0;
@@ -58,14 +57,10 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			while (rs.next()) {
 				totalUsers = rs.getInt(1);
 			}
-		} catch (SQLException e) {
-			// show console log ngoại lệ
-			e.printStackTrace();
-		} finally {
-			// đóng kết nối và trả về tổng số user
-			close(con);
-			return totalUsers;
 		}
+		// đóng kết nối và trả về tổng số user
+		close(con);
+		return totalUsers;
 		
 	}
 
@@ -77,39 +72,39 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			String sortByFullName, String sortByCodeLevel, String sortByEndDate) throws SQLException {
 		// khởi tạo danh sách user trả về
 		List<UserInfor> listUser = new ArrayList<UserInfor>();
-		// khởi tạo câu truy vấn
-		StringBuilder queryBuilder = new StringBuilder();
 		// khởi tạo kết nối đến db
-		Connection conn = getConnection();
-		// xây dựng truy vấn
-		queryBuilder.append("SELECT u.user_id, u.full_name, u.birthday, g.group_name, u.email, u.tel, j.name_level, de.end_date, de.total ");
-		queryBuilder.append("FROM tbl_user u LEFT JOIN (mst_japan j INNER JOIN  tbl_detail_user_japan de ON de.code_level = j.code_level) ");
-		queryBuilder.append("ON u.user_id = de.user_id ");
-		queryBuilder.append("INNER JOIN mst_group g ON u.group_id = g.group_id ");
-		queryBuilder.append("WHERE 1 = 1 ");
-		if (groupId != 0) {
-			queryBuilder.append("AND u.group_id = ? ");
-		}
-		if (!Constant.EMPTY_STRING.equals(fullName) && fullName != null) {
-			queryBuilder.append("AND u.full_name REGEXP ? ");
-		}
-		queryBuilder.append("ORDER BY ");
-		if (Constant.SORT_BY_FULL_NAME.equals(sortType)) {
-			queryBuilder.append("u.full_name ").append(sortByFullName).append(", j.name_level ASC, de.end_date DESC ");
-		} else if (Constant.SORT_BY_CODE_LEVEL.equals(sortType)) {
-			queryBuilder.append("j.name_level ").append(sortByCodeLevel).append(", u.full_name ASC, de.end_date DESC ");
-		} else if (Constant.SORT_BY_END_DATE.equals(sortType)) {
-			queryBuilder.append("de.end_date ").append(sortByEndDate).append(", u.full_name ASC, j.name_level ASC ");
-		} else {
-			queryBuilder.append("u.full_name ASC, j.name_level ASC, de.end_date DESC ");
-		}
-		queryBuilder.append("LIMIT ? ");
-		queryBuilder.append("OFFSET ?");
-		String query = queryBuilder.toString();
-		
-		try {
+		Connection con = getConnection();
+		if (con != null) {	
+			// khởi tạo câu truy vấn
+			StringBuilder queryBuilder = new StringBuilder();
+			// xây dựng truy vấn
+			queryBuilder.append("SELECT u.user_id, u.full_name, u.birthday, g.group_name, u.email, u.tel, j.name_level, de.end_date, de.total ");
+			queryBuilder.append("FROM tbl_user u LEFT JOIN (mst_japan j INNER JOIN  tbl_detail_user_japan de ON de.code_level = j.code_level) ");
+			queryBuilder.append("ON u.user_id = de.user_id ");
+			queryBuilder.append("INNER JOIN mst_group g ON u.group_id = g.group_id ");
+			queryBuilder.append("WHERE 1 = 1 ");
+			if (groupId != 0) {
+				queryBuilder.append("AND u.group_id = ? ");
+			}
+			if (!Constant.EMPTY_STRING.equals(fullName) && fullName != null) {
+				queryBuilder.append("AND u.full_name REGEXP ? ");
+			}
+			queryBuilder.append("ORDER BY ");
+			if (Constant.SORT_BY_FULL_NAME.equals(sortType)) {
+				queryBuilder.append("u.full_name ").append(sortByFullName).append(", j.name_level ASC, de.end_date DESC ");
+			} else if (Constant.SORT_BY_CODE_LEVEL.equals(sortType)) {
+				queryBuilder.append("j.name_level ").append(sortByCodeLevel).append(", u.full_name ASC, de.end_date DESC ");
+			} else if (Constant.SORT_BY_END_DATE.equals(sortType)) {
+				queryBuilder.append("de.end_date ").append(sortByEndDate).append(", u.full_name ASC, j.name_level ASC ");
+			} else {
+				queryBuilder.append("u.full_name ASC, j.name_level ASC, de.end_date DESC ");
+			}
+			queryBuilder.append("LIMIT ? ");
+			queryBuilder.append("OFFSET ?");
+			String query = queryBuilder.toString();
+			
 			// truy vấn sử dụng preparedStatement
-			PreparedStatement ps = conn.prepareStatement(query);
+			PreparedStatement ps = con.prepareStatement(query);
 			int i = 0;
 			if (groupId != 0) {
 				ps.setInt(++i, groupId);
@@ -137,14 +132,10 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 				userInfor.setTotal(rs.getInt("total"));
 				listUser.add(userInfor);
 			}
-		} catch (SQLException e) {
-			// show console log ngoại lệ
-			e.printStackTrace();
-		} finally {
-			// đóng kết nối và trả về danh sách user
-			close(conn);
-			return listUser;
 		}
+		// đóng kết nối và trả về danh sách user
+		close(con);
+		return listUser;
 		
 	}
 
@@ -157,16 +148,16 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		Connection con = getConnection();
 		// khai báo đối tượng tblUserInfor sẽ trả về
 		UserInfor tblUserInfo = new UserInfor();
-		// khởi tạo câu truy vấn
-		StringBuilder queryBuilder = new StringBuilder();
-		queryBuilder.append("SELECT u.login_name, g.group_name, u.full_name, u.full_name_kana, u.birthday, u.email, u.tel, j.name_level, de.start_date, de.end_date, de.total ");
-		queryBuilder.append("FROM tbl_user u LEFT JOIN (mst_japan j INNER JOIN  tbl_detail_user_japan de ON de.code_level = j.code_level) ");
-		queryBuilder.append("ON u.user_id = de.user_id ");
-		queryBuilder.append("INNER JOIN mst_group g ON u.group_id = g.group_id ");
-		queryBuilder.append("WHERE u.user_id = ?");
-		String query = queryBuilder.toString();
-		
-		try {
+		if (con != null) {
+			// khởi tạo câu truy vấn
+			StringBuilder queryBuilder = new StringBuilder();
+			queryBuilder.append("SELECT u.login_name, g.group_name, u.full_name, u.full_name_kana, u.birthday, u.email, u.tel, j.name_level, de.start_date, de.end_date, de.total ");
+			queryBuilder.append("FROM tbl_user u LEFT JOIN (mst_japan j INNER JOIN  tbl_detail_user_japan de ON de.code_level = j.code_level) ");
+			queryBuilder.append("ON u.user_id = de.user_id ");
+			queryBuilder.append("INNER JOIN mst_group g ON u.group_id = g.group_id ");
+			queryBuilder.append("WHERE u.user_id = ?");
+			String query = queryBuilder.toString();
+			
 			// truy vấn sử dụng preparedStatement
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, id);
@@ -188,14 +179,10 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			} else {
 				tblUserInfo = null;
 			}
-		} catch (SQLException e) {
-			// show console log ngoại lệ
-			e.printStackTrace();
-		} finally {
-			// đóng kết nối và trả về dữ liệu
-			close(con);
-			return tblUserInfo;
 		}
+		// đóng kết nối và trả về dữ liệu
+		close(con);
+		return tblUserInfo;
 		
 	}
 

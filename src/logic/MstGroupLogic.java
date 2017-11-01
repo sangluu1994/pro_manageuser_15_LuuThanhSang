@@ -15,5 +15,11 @@ import entity.MstGroup;
  * @author luuthanhsang
  */
 public interface MstGroupLogic {
+	/**
+	 * Phương thức lấy tất cả các nhóm trong bảng mst_group
+	 * 
+	 * @return danh sách đối tượng tất cả các nhóm trong bảng mst_group
+	 * @throws SQLException
+	 */
 	public List<MstGroup> getAllGroups() throws SQLException;
 }

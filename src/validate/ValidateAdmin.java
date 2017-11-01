@@ -22,17 +22,17 @@ public class ValidateAdmin {
 	 * 
 	 * @param loginName - tên đăng nhâp
 	 * @param password - mật khẩu
-	 * @return ArrayList<String> danh sách lỗi
+	 * @return ArrayList<String> - danh sách lỗi
 	 */
-	public static ArrayList<String> validateLogin(String loginName, String password) {
+	public static ArrayList<String> validateFormInput(String loginName, String password) {
 		// khởi tạo danh sách lỗi nhập liệu
 		ArrayList<String> errList = new ArrayList<String>();
 		// kiểm tra username và password, nếu rỗng thì gán lỗi vào danh sách lỗi
 		if (Common.isNullOrEmpty(loginName)) {
-			errList.add(MessageErrorProperties.getString(Constant.ER001LOGIN));
+			errList.add(MessageErrorProperties.getErrMsg(Constant.ER001LOGIN));
 		}
 		if (Common.isNullOrEmpty(password)) {
-			errList.add(MessageErrorProperties.getString(Constant.ER001PASS));
+			errList.add(MessageErrorProperties.getErrMsg(Constant.ER001PASS));
 		}
 		// trả về danh sách lỗi nhập liệu
 		return errList;

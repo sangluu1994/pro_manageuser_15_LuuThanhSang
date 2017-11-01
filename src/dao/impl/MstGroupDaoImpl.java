@@ -25,16 +25,15 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 	/* (non-Javadoc)
 	 * @see dao.MstGroupDao#getAllMstGroup()
 	 */
-	@SuppressWarnings("finally")
 	@Override
 	public List<MstGroup> getAllMstGroup() throws SQLException {
 		// khởi tạo connection
 		Connection con = getConnection();
 		// khởi tạo danh sách trả về
 		List<MstGroup> listGroup = new ArrayList<MstGroup>();
-		// khai báo câu truy vấn
-		String query = "SELECT group_id, group_name FROM mst_group";
-		try {
+		if (con != null) {
+			// khai báo câu truy vấn
+			String query = "SELECT group_id, group_name FROM mst_group";
 			// truy vấn sử dụng preparedStatement
 			PreparedStatement ps = con.prepareStatement(query);
 			// lấy dữ liệu trả về
@@ -46,30 +45,25 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 				mstGroup.setGroupName(rs.getString("group_name"));
 				listGroup.add(mstGroup);
 			}
-		} catch (SQLException e) {
-			// show console log ngoại lệ
-			e.printStackTrace();
-		} finally {
-			// đóng kết nối và trả về danh sách
-			close(con);
-			return listGroup;
 		}
+		// đóng kết nối và trả về danh sách
+		close(con);
+		return listGroup;
 		
 	}
 
 	/* (non-Javadoc)
 	 * @see dao.MstGroupDao#getGroup(int)
 	 */
-	@SuppressWarnings("finally")
 	@Override
 	public MstGroup getGroup(int id) throws SQLException {
 		// khởi tạo connection
 		Connection con = getConnection();
-		// khai báo câu truy vấn
-		String query = "SELECT group_id,group_name FROM mst_group where group_id = ?";
 		// khởi tạo đối tượng MstGroup sẽ trả về
 		MstGroup mstGroup = new MstGroup();
-		try {
+		if (con != null) {
+			// khai báo câu truy vấn
+			String query = "SELECT group_id,group_name FROM mst_group where group_id = ?";
 			// truy vấn sử dụng preparedStatement
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setInt(1, id);
@@ -82,14 +76,10 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 			} else {
 				mstGroup = null;
 			}
-		} catch (SQLException e) {
-			// show console log ngoại lệ
-			e.printStackTrace();
-		} finally {
-			// đóng kết nối và trả về kết quả
-			close(con);
-			return mstGroup;
 		}
+		// đóng kết nối và trả về kết quả
+		close(con);
+		return mstGroup;
 		
 	}
 

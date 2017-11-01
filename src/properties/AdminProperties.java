@@ -37,6 +37,8 @@ public class AdminProperties {
 			// trả về thông tin admin được lưu vào map
 			return adminInfo;
 		} catch (Exception e) {
+			// show console log ngoại lệ
+			System.out.println(e.getMessage());
 			// trả về null
 			return null;
 		} 

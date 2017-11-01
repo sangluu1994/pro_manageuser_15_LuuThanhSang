@@ -6,6 +6,7 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -145,22 +146,29 @@ public class ListUserController extends HttpServlet {
 			List<MstGroup> listGroup = mstGroupLogicImpl.getAllGroups();
 			request.setAttribute(Constant.LIST_GROUP, listGroup);
 			
-			// lấy tổng số trang phục vụ việc phân trang
-			
-			
-			// lấy danh sách phân trang, lưu lên request
+			// lấy tổng số user
 			int totalUsers = tblUserLogicImpl.getTotalUsers(groupId, fullName);
-			List<Integer> listPaging = Common.getListPaging(totalUsers, limit, currentPage);
-			request.setAttribute(Constant.LIST_PAGING, listPaging);
 			
-			// lấy tổng số trang phục vụ việc phân trang
-			int totalPage = Common.getTotalPage(totalUsers, limit);
-			request.setAttribute(Constant.TOTAL_PAGE, totalPage);
-			
-			// lấy danh sách user của trang hiện tại và lưu lên request
-			int offset = Common.getOffset(currentPage, limit);
-			List<UserInfor> listUser = tblUserLogicImpl.getListUsers(offset, limit, groupId, fullName, sortType, sortByFullName, sortByCodeLevel, sortByEndDate);
-			request.setAttribute(Constant.LIST_USER, listUser);
+			// nếu tìm được user
+			if (totalUsers > 0) {
+				// lấy tổng số trang phục vụ việc phân trang
+				int totalPage = Common.getTotalPage(totalUsers, limit);
+				request.setAttribute(Constant.TOTAL_PAGE, totalPage);
+				
+				// định dạng lại trang hiện tại nếu có lỗi
+				if (currentPage > totalPage || currentPage <= 0) {
+					currentPage = Constant.DEFAULT_PAGE;
+				}
+				
+				// lấy danh sách phân trang
+				List<Integer> listPaging = Common.getListPaging(totalUsers, limit, currentPage);
+				request.setAttribute(Constant.LIST_PAGING, listPaging);
+				
+				// lấy danh sách user của trang hiện tại
+				int offset = Common.getOffset(currentPage, limit);
+				List<UserInfor> listUser = tblUserLogicImpl.getListUsers(offset, limit, groupId, fullName, sortType, sortByFullName, sortByCodeLevel, sortByEndDate);
+				request.setAttribute(Constant.LIST_USER, listUser);
+			}
 			
 			// khai báo đối tượng lưu trữ, lưu các thông tin cần thiết vào đối tượng lưu trữ
 			Map<String, Object> searchCondition = new HashMap<String, Object>();
@@ -181,11 +189,11 @@ public class ListUserController extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM002);
 			rd.forward(request, response);
 			
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			// show console log ngoại lệ
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			// khai báo, truyền message lỗi sang view
-			String errMsg = MessageErrorProperties.getString(Constant.ER015);
+			String errMsg = MessageErrorProperties.getErrMsg(Constant.ER015);
 			request.setAttribute(Constant.ERR_MSG, errMsg);
 			// forward sang màn hình listUser
 			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM_SYSTEM_ERROR);

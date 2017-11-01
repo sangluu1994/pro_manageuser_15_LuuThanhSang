@@ -20,6 +20,7 @@ public interface MstGroupDao extends BaseDao {
 	 * Lấy tất cả các nhóm
 	 * 
 	 * @return mảng các nhóm
+	 * @throws SQLException
 	 */
 	public List<MstGroup> getAllMstGroup() throws SQLException ;
 

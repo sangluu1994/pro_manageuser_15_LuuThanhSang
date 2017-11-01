@@ -8,7 +8,6 @@ package dao.impl;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
 import common.Constant;
 import dao.BaseDao;
 import properties.DatabaseProperties;
@@ -18,7 +17,7 @@ import properties.DatabaseProperties;
  * 
  * @author luuthanhsang
  */
-public class BaseDaoImpl implements BaseDao{
+public class BaseDaoImpl implements BaseDao {
 
 	/* (non-Javadoc)
 	 * @see dao.BaseDao#getConnection()
@@ -27,7 +26,7 @@ public class BaseDaoImpl implements BaseDao{
 	@Override
 	public Connection getConnection() throws SQLException {
 		// khai báo, khởi tạo kết nối
-		Connection conn = null;
+		Connection connection = null;
 		// khai báo các thông tin kết nối đến db
 		String DB_URL = DatabaseProperties.getString(Constant.URL);
 		String USER_NAME = DatabaseProperties.getString(Constant.USERNAME);
@@ -36,17 +35,13 @@ public class BaseDaoImpl implements BaseDao{
 		try {
 			// kết nối đến db
 			Class.forName(DRIVE);
-			conn = DriverManager.getConnection(DB_URL, USER_NAME, PASS_WORD);
-		} catch (SQLException e) {
-			// show console log ngoại lệ
-			e.printStackTrace();
-			throw new SQLException();
+			connection = DriverManager.getConnection(DB_URL, USER_NAME, PASS_WORD);
 		} catch (ClassNotFoundException e) {
 			// show console log ngoại lệ
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		} finally {
 			// trả về kết nối
-			return conn;
+			return connection;
 		}
 	}
 
@@ -54,16 +49,10 @@ public class BaseDaoImpl implements BaseDao{
 	 * @see dao.BaseDao#close(java.sql.Connection)
 	 */
 	@Override
-	public void close(Connection connection) {
+	public void close(Connection connection) throws SQLException {
 		// kiểm tra connection
 		if (connection != null) { // nếu khác null
-			try {
-				// đóng kết nối
-				connection.close();
-			} catch (SQLException e) {
-				// show console log ngoại lệ
-				e.printStackTrace();
-			}
+			connection.close();
 		}
 	}
 
@@ -71,16 +60,11 @@ public class BaseDaoImpl implements BaseDao{
 	 * @see dao.BaseDao#commit(java.sql.Connection)
 	 */
 	@Override
-	public void commit(Connection connection) {
+	public void commit(Connection connection) throws SQLException {
 		// kiểm tra connection
 		if (connection != null) { // nếu connection khác null
-			try {
-				// commit query
-				connection.commit();
-			} catch (SQLException e) {
-				// show console log ngoại lệ
-				e.printStackTrace();
-			}
+			// commit query
+			connection.commit();
 		}
 	}
 
@@ -88,16 +72,11 @@ public class BaseDaoImpl implements BaseDao{
 	 * @see dao.BaseDao#rollback(java.sql.Connection)
 	 */
 	@Override
-	public void rollback(Connection connection) {
+	public void rollback(Connection connection) throws SQLException {
 		// kiểm tra connection
 		if (connection != null) { // nếu connection khác null
-			try {
-				// rollback query
-				connection.rollback();
-			} catch (SQLException e) {
-				// show console log ngoại lệ
-				e.printStackTrace();
-			}
+			// rollback query
+			connection.rollback();
 		}
 	}
 
@@ -105,16 +84,11 @@ public class BaseDaoImpl implements BaseDao{
 	 * @see dao.BaseDao#disableAutoCommit(java.sql.Connection)
 	 */
 	@Override
-	public void disableAutoCommit(Connection connection) {
+	public void disableAutoCommit(Connection connection) throws SQLException {
 		// kiểm tra connection
 		if (connection != null) { // nếu connection khác null
-			try {
-				// set autocommit = false
-				connection.setAutoCommit(false);
-			} catch (SQLException e) {
-				// show console log ngoại lệ
-				e.printStackTrace();
-			}
+			// set autocommit = false
+			connection.setAutoCommit(false);
 		}
 	}
 

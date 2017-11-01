@@ -21,7 +21,7 @@ public class MessageErrorProperties {
 	 * @param key - tương ứng với giá trị muốn đọc ra
 	 * @return Giá trị tương ứng với key đầu vào
 	 */
-	public static String getString(String key) {
+	public static String getErrMsg(String key) {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		Properties properties = new Properties();
 		try {
@@ -31,7 +31,7 @@ public class MessageErrorProperties {
 			return properties.getProperty(key);
 		} catch (Exception e) {
 			// show console log ngoại lệ và trả về null
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return null;
 		}
 		

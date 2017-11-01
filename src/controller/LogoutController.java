@@ -48,7 +48,7 @@ public class LogoutController extends HttpServlet {
 			// show console log ngoại lệ
 			e.printStackTrace();
 			// khai báo, truyền message lỗi sang view
-			String errMsg = MessageErrorProperties.getString(Constant.ER015);
+			String errMsg = MessageErrorProperties.getErrMsg(Constant.ER015);
 			request.setAttribute(Constant.ERR_MSG, errMsg);
 			// forward sang màn hình listUser
 			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM_SYSTEM_ERROR);

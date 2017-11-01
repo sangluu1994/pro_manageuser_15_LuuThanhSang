@@ -26,7 +26,16 @@ public class Common {
 	 * @return boolean - true nếu chuỗi đầu vào null hoặc rỗng | false trong các trường hợp còn lại.
 	 */
 	public static boolean isNullOrEmpty(String input) {
-		return (input == null || input.isEmpty());
+		return (input == null || input.trim().isEmpty());
+	}
+	
+	/**
+	 * Hàm kiểm tra input truyền vào có phải là số không
+	 * @param input - đầu vào
+	 * @return boolean - true nếu là số | false nếu ngược lại
+	 */
+	public static boolean isNumber(String input) {
+		return input.matches("-?\\d+(\\.\\d+)?");
 	}
 	
 	/**
@@ -75,20 +84,16 @@ public class Common {
 	 * @param inputString - chuỗi đầu vào
 	 * @return outputInt - số nguyên đầu ra
 	 */
-	@SuppressWarnings("finally")
 	public static int convertStringToInt(String inputString) {
 		// khởi tạo giá trị trả về
 		int outputInt = 0;
-		try {
+		// nếu chuỗi đầu vào là số
+		if (isNumber(inputString)) {
 			// parse String đầu vào sang kiểu int
 			outputInt = Integer.parseInt(inputString);
-		} catch (Exception e) {
-			// show console log ngoại lệ
-			e.printStackTrace();
-		} finally {
-			// trả về kết quả
-			return outputInt;
 		}
+		// trả về kết quả
+		return outputInt;
 	}
 	
 	/**
@@ -115,10 +120,6 @@ public class Common {
 		List<Integer> listPaging = new ArrayList<>();
 		// lấy tổng số trang
 		int totalPage = getTotalPage(totalRecords, limit);
-		// định dạng lại trang hiện tại nếu có lỗi
-		if (currentPage > totalPage || currentPage <= 0) {
-			currentPage = Constant.DEFAULT_PAGE;
-		}
 		// kiểm tra tổng số trang rỗng và = 1
 		if (totalPage == 0 || totalPage == 1) {
 			return listPaging;

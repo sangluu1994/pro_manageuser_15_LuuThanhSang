@@ -30,6 +30,9 @@ public class ConfigProperties {
 			// trả về giá trị
 			return properties.getProperty(key);
 		} catch (Exception e) {
+			// show console log ngoại lệ
+			System.out.println(e.getMessage());
+			// trả về null
 			return null;
 		}
 		

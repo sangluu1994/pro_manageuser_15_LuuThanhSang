@@ -17,7 +17,7 @@
 	<%@ include file="../layout/header.jsp"%>
 
 	<!-- Begin vung dieu kien tim kiem -->
-	<form action="<c:url value="${Constant.LIST_USER_PATH}" />?type=search" method="post" name="mainform">
+	<form action="<c:url value="${Constant.LIST_USER_PATH}" />" method="post" name="mainform">
 		<table class="tbl_input" border="0" width="90%" cellpadding="0"
 			cellspacing="0">
 			<tr>
@@ -56,6 +56,7 @@
 									</c:forEach>
 								</select></td>
 							<td align="left">
+								<input type="hidden" name="type" value="search" />
 								<input class="btn" type="submit" value="検索" />
 								<input class="btn" type="button" value="新規追加" />
 							</td>
