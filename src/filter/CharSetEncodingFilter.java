@@ -48,7 +48,7 @@ public class CharSetEncodingFilter implements Filter {
 		HttpServletResponse res = (HttpServletResponse) response;
 		// thiết lập charset cho request và response
 		req.setCharacterEncoding(Constant.DEFAULT_CHARSET_ENCODING);
-		res.setCharacterEncoding(Constant.DEFAULT_CHARSET_ENCODING);
+		res.setContentType(Constant.DEFAULT_RESPONSE_CONTENT_TYPE);
 		// cho phép đi qua filter hiện tại
 		chain.doFilter(request, response);
 	}

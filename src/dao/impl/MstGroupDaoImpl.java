@@ -51,37 +51,37 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 		return listGroup;
 		
 	}
-
-	/* (non-Javadoc)
-	 * @see dao.MstGroupDao#getGroup(int)
-	 */
-	@Override
-	public MstGroup getGroup(int id) throws SQLException {
-		// khởi tạo connection
-		Connection con = getConnection();
-		// khởi tạo đối tượng MstGroup sẽ trả về
-		MstGroup mstGroup = new MstGroup();
-		if (con != null) {
-			// khai báo câu truy vấn
-			String query = "SELECT group_id,group_name FROM mst_group where group_id = ?";
-			// truy vấn sử dụng preparedStatement
-			PreparedStatement ps = con.prepareStatement(query);
-			ps.setInt(1, id);
-			// lấy dữ liệu trả về
-			ResultSet rs = ps.executeQuery();
-			// format dữ liệu trả về sang đối tượng MstGroup tương ứng
-			if (rs.next()) {
-				mstGroup.setGroupId(rs.getInt("group_id"));
-				mstGroup.setGroupName(rs.getString("group_name"));
-			} else {
-				mstGroup = null;
-			}
-		}
-		// đóng kết nối và trả về kết quả
-		close(con);
-		return mstGroup;
-		
-	}
+//
+//	/* (non-Javadoc)
+//	 * @see dao.MstGroupDao#getGroup(int)
+//	 */
+//	@Override
+//	public MstGroup getGroup(int id) throws SQLException {
+//		// khởi tạo connection
+//		Connection con = getConnection();
+//		// khởi tạo đối tượng MstGroup sẽ trả về
+//		MstGroup mstGroup = new MstGroup();
+//		if (con != null) {
+//			// khai báo câu truy vấn
+//			String query = "SELECT group_id,group_name FROM mst_group where group_id = ?";
+//			// truy vấn sử dụng preparedStatement
+//			PreparedStatement ps = con.prepareStatement(query);
+//			ps.setInt(1, id);
+//			// lấy dữ liệu trả về
+//			ResultSet rs = ps.executeQuery();
+//			// format dữ liệu trả về sang đối tượng MstGroup tương ứng
+//			if (rs.next()) {
+//				mstGroup.setGroupId(rs.getInt("group_id"));
+//				mstGroup.setGroupName(rs.getString("group_name"));
+//			} else {
+//				mstGroup = null;
+//			}
+//		}
+//		// đóng kết nối và trả về kết quả
+//		close(con);
+//		return mstGroup;
+//		
+//	}
 
 //	public static void main(String[] args) {
 //		MstGroupDaoImpl mstGroupDaoImpl = new MstGroupDaoImpl();

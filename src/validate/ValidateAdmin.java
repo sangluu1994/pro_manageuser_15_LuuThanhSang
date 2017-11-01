@@ -6,9 +6,10 @@
 package validate;
 
 import java.util.ArrayList;
-
+import java.util.Map;
 import common.Common;
 import common.Constant;
+import properties.AdminProperties;
 import properties.MessageErrorProperties;
 
 /**
@@ -18,23 +19,34 @@ import properties.MessageErrorProperties;
  */
 public class ValidateAdmin {
 	/**
-	 * Phương thức kiểm tra nhập liệu từ form đăng nhập
+	 * Phương thức kiểm tra thông tin login
 	 * 
 	 * @param loginName - tên đăng nhâp
 	 * @param password - mật khẩu
-	 * @return ArrayList<String> - danh sách lỗi
+	 * @return errList - danh sách lỗi đăng nhập
 	 */
-	public static ArrayList<String> validateFormInput(String loginName, String password) {
-		// khởi tạo danh sách lỗi nhập liệu
+	public static ArrayList<String> validateLogin(String loginName, String password) {
+		// lấy thông tin admin
+		Map<String, String> adminInfo = AdminProperties.getAdminInfo();
+		// khởi tạo danh sách lỗi
 		ArrayList<String> errList = new ArrayList<String>();
-		// kiểm tra username và password, nếu rỗng thì gán lỗi vào danh sách lỗi
+		
+		// kiểm tra username, nếu rỗng thì gán lỗi vào danh sách lỗi và trả về
 		if (Common.isNullOrEmpty(loginName)) {
-			errList.add(MessageErrorProperties.getErrMsg(Constant.ER001LOGIN));
+			errList.add(MessageErrorProperties.getErrMsg(Constant.ER001));
+			return errList;
 		}
-		if (Common.isNullOrEmpty(password)) {
-			errList.add(MessageErrorProperties.getErrMsg(Constant.ER001PASS));
+		// nếu tên đăng nhập không khớp với admin_user, return lỗi
+		if (!adminInfo.get(Constant.ADMIN_USER).equals(loginName)) {
+			errList.add(MessageErrorProperties.getErrMsg(Constant.ER016));
+			return errList;
 		}
-		// trả về danh sách lỗi nhập liệu
+		// nếu password không trùng với admin password, return lỗi
+		if (!adminInfo.get(Constant.ADMIN_PASS_HASH).equals(Common.encodeMD5(password))) {
+			errList.add(MessageErrorProperties.getErrMsg(Constant.ER016));
+			return errList;
+		}
+		// trả về danh sách lỗi là null nếu không có lỗi
 		return errList;
 	}
 	

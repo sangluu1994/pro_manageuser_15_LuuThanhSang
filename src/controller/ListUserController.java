@@ -23,7 +23,6 @@ import entity.MstGroup;
 import entity.UserInfor;
 import logic.impl.MstGroupLogicImpl;
 import logic.impl.TblUserLogicImpl;
-import properties.ConfigProperties;
 import properties.MessageErrorProperties;
 
 /**
@@ -70,8 +69,8 @@ public class ListUserController extends HttpServlet {
 			String sortByCodeLevel;
 			String sortByEndDate;
 			int currentPage;
-			int limit = Common.convertStringToInt(ConfigProperties.getValue(Constant.LIMIT));
-			int pageLimit = Common.convertStringToInt(ConfigProperties.getValue(Constant.PAGE_LIMIT));
+			int limit = Common.getLimit();
+			int pageLimit = Common.getPageLimit();
 			
 			// kiểm tra trường hợp gọi đến màn hình listUser:
 			String type = request.getParameter(Constant.TYPE);
@@ -149,17 +148,12 @@ public class ListUserController extends HttpServlet {
 			// lấy tổng số user
 			int totalUsers = tblUserLogicImpl.getTotalUsers(groupId, fullName);
 			
-			// nếu tìm được user
-			if (totalUsers > 0) {
-				// lấy tổng số trang phục vụ việc phân trang
-				int totalPage = Common.getTotalPage(totalUsers, limit);
-				request.setAttribute(Constant.TOTAL_PAGE, totalPage);
-				
-				// định dạng lại trang hiện tại nếu có lỗi
-				if (currentPage > totalPage || currentPage <= 0) {
-					currentPage = Constant.DEFAULT_PAGE;
-				}
-				
+			// lấy tổng số trang phục vụ việc phân trang
+			int totalPage = Common.getTotalPage(totalUsers, limit);
+			request.setAttribute(Constant.TOTAL_PAGE, totalPage);
+			
+			// nếu tìm được user và trang hiện tại có giá trị hợp lệ
+			if (totalUsers > 0 && currentPage <= totalPage && currentPage > 0) {
 				// lấy danh sách phân trang
 				List<Integer> listPaging = Common.getListPaging(totalUsers, limit, currentPage);
 				request.setAttribute(Constant.LIST_PAGING, listPaging);

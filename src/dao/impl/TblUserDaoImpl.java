@@ -139,51 +139,51 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see dao.TblUserDao#getUsersById(int)
-	 */
-	@Override
-	public UserInfor getUsersById(int id) throws SQLException {
-		// khởi tạo kết nối
-		Connection con = getConnection();
-		// khai báo đối tượng tblUserInfor sẽ trả về
-		UserInfor tblUserInfo = new UserInfor();
-		if (con != null) {
-			// khởi tạo câu truy vấn
-			StringBuilder queryBuilder = new StringBuilder();
-			queryBuilder.append("SELECT u.login_name, g.group_name, u.full_name, u.full_name_kana, u.birthday, u.email, u.tel, j.name_level, de.start_date, de.end_date, de.total ");
-			queryBuilder.append("FROM tbl_user u LEFT JOIN (mst_japan j INNER JOIN  tbl_detail_user_japan de ON de.code_level = j.code_level) ");
-			queryBuilder.append("ON u.user_id = de.user_id ");
-			queryBuilder.append("INNER JOIN mst_group g ON u.group_id = g.group_id ");
-			queryBuilder.append("WHERE u.user_id = ?");
-			String query = queryBuilder.toString();
-			
-			// truy vấn sử dụng preparedStatement
-			PreparedStatement ps = con.prepareStatement(query);
-			ps.setInt(1, id);
-			// lấy dữ liệu trả về
-			ResultSet rs = ps.executeQuery();
-			// thiết lập đối tượng UserInfor sẽ trả về dựa vào dữ liệu đã lấy được
-			if (rs.next()) {
-				tblUserInfo.setLoginName(rs.getString("login_name"));
-				tblUserInfo.setFullName(rs.getString("full_name"));
-				tblUserInfo.setFullNameKana(rs.getString("full_name_kana"));
-				tblUserInfo.setEmail(rs.getString("email"));
-				tblUserInfo.setTel(rs.getString("tel"));
-				tblUserInfo.setBirthday(rs.getDate("birthday"));
-				tblUserInfo.setGroupName(rs.getString("group_name"));
-				tblUserInfo.setNameLevel(rs.getString("name_level"));
-				tblUserInfo.setStartDate(rs.getDate("start_date"));
-				tblUserInfo.setEndDate(rs.getDate("end_date"));
-				tblUserInfo.setTotal(rs.getInt("total"));
-			} else {
-				tblUserInfo = null;
-			}
-		}
-		// đóng kết nối và trả về dữ liệu
-		close(con);
-		return tblUserInfo;
-		
-	}
+//	/* (non-Javadoc)
+//	 * @see dao.TblUserDao#getUsersById(int)
+//	 */
+//	@Override
+//	public UserInfor getUsersById(int id) throws SQLException {
+//		// khởi tạo kết nối
+//		Connection con = getConnection();
+//		// khai báo đối tượng tblUserInfor sẽ trả về
+//		UserInfor tblUserInfo = new UserInfor();
+//		if (con != null) {
+//			// khởi tạo câu truy vấn
+//			StringBuilder queryBuilder = new StringBuilder();
+//			queryBuilder.append("SELECT u.login_name, g.group_name, u.full_name, u.full_name_kana, u.birthday, u.email, u.tel, j.name_level, de.start_date, de.end_date, de.total ");
+//			queryBuilder.append("FROM tbl_user u LEFT JOIN (mst_japan j INNER JOIN  tbl_detail_user_japan de ON de.code_level = j.code_level) ");
+//			queryBuilder.append("ON u.user_id = de.user_id ");
+//			queryBuilder.append("INNER JOIN mst_group g ON u.group_id = g.group_id ");
+//			queryBuilder.append("WHERE u.user_id = ?");
+//			String query = queryBuilder.toString();
+//			
+//			// truy vấn sử dụng preparedStatement
+//			PreparedStatement ps = con.prepareStatement(query);
+//			ps.setInt(1, id);
+//			// lấy dữ liệu trả về
+//			ResultSet rs = ps.executeQuery();
+//			// thiết lập đối tượng UserInfor sẽ trả về dựa vào dữ liệu đã lấy được
+//			if (rs.next()) {
+//				tblUserInfo.setLoginName(rs.getString("login_name"));
+//				tblUserInfo.setFullName(rs.getString("full_name"));
+//				tblUserInfo.setFullNameKana(rs.getString("full_name_kana"));
+//				tblUserInfo.setEmail(rs.getString("email"));
+//				tblUserInfo.setTel(rs.getString("tel"));
+//				tblUserInfo.setBirthday(rs.getDate("birthday"));
+//				tblUserInfo.setGroupName(rs.getString("group_name"));
+//				tblUserInfo.setNameLevel(rs.getString("name_level"));
+//				tblUserInfo.setStartDate(rs.getDate("start_date"));
+//				tblUserInfo.setEndDate(rs.getDate("end_date"));
+//				tblUserInfo.setTotal(rs.getInt("total"));
+//			} else {
+//				tblUserInfo = null;
+//			}
+//		}
+//		// đóng kết nối và trả về dữ liệu
+//		close(con);
+//		return tblUserInfo;
+//		
+//	}
 
 }

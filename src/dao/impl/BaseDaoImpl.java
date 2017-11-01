@@ -56,40 +56,40 @@ public class BaseDaoImpl implements BaseDao {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see dao.BaseDao#commit(java.sql.Connection)
-	 */
-	@Override
-	public void commit(Connection connection) throws SQLException {
-		// kiểm tra connection
-		if (connection != null) { // nếu connection khác null
-			// commit query
-			connection.commit();
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see dao.BaseDao#rollback(java.sql.Connection)
-	 */
-	@Override
-	public void rollback(Connection connection) throws SQLException {
-		// kiểm tra connection
-		if (connection != null) { // nếu connection khác null
-			// rollback query
-			connection.rollback();
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see dao.BaseDao#disableAutoCommit(java.sql.Connection)
-	 */
-	@Override
-	public void disableAutoCommit(Connection connection) throws SQLException {
-		// kiểm tra connection
-		if (connection != null) { // nếu connection khác null
-			// set autocommit = false
-			connection.setAutoCommit(false);
-		}
-	}
+//	/* (non-Javadoc)
+//	 * @see dao.BaseDao#commit(java.sql.Connection)
+//	 */
+//	@Override
+//	public void commit(Connection connection) throws SQLException {
+//		// kiểm tra connection
+//		if (connection != null) { // nếu connection khác null
+//			// commit query
+//			connection.commit();
+//		}
+//	}
+//
+//	/* (non-Javadoc)
+//	 * @see dao.BaseDao#rollback(java.sql.Connection)
+//	 */
+//	@Override
+//	public void rollback(Connection connection) throws SQLException {
+//		// kiểm tra connection
+//		if (connection != null) { // nếu connection khác null
+//			// rollback query
+//			connection.rollback();
+//		}
+//	}
+//
+//	/* (non-Javadoc)
+//	 * @see dao.BaseDao#disableAutoCommit(java.sql.Connection)
+//	 */
+//	@Override
+//	public void disableAutoCommit(Connection connection) throws SQLException {
+//		// kiểm tra connection
+//		if (connection != null) { // nếu connection khác null
+//			// set autocommit = false
+//			connection.setAutoCommit(false);
+//		}
+//	}
 
 }

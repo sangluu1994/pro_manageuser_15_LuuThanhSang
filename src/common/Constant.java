@@ -158,6 +158,7 @@ public class Constant {
 	public static final String EMPTY_STRING = "";
 	public static final String OK = "OK";
 	public static final String DEFAULT_CHARSET_ENCODING = "UTF-8";
+	public static final String DEFAULT_RESPONSE_CONTENT_TYPE = "text/html; charset=UTF-8";
 	public static final String LIST_ERROR = "errList";
 	public static final String ERR_MSG = "errMsg";
 	

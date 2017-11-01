@@ -24,11 +24,11 @@ public interface MstGroupDao extends BaseDao {
 	 */
 	public List<MstGroup> getAllMstGroup() throws SQLException ;
 
-	/**
-	 * Lấy ra nhóm có id cho trước
-	 * 
-	 * @param id - mã id của nhóm cần tìm
-	 * @return nhóm trong bảng mst_group | null nếu không tìm thấy
-	 */
-	public MstGroup getGroup(int id) throws SQLException ;
+//	/**
+//	 * Lấy ra nhóm có id cho trước
+//	 * 
+//	 * @param id - mã id của nhóm cần tìm
+//	 * @return nhóm trong bảng mst_group | null nếu không tìm thấy
+//	 */
+//	public MstGroup getGroup(int id) throws SQLException ;
 }

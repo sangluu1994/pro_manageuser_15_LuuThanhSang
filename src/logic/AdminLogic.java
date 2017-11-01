@@ -5,9 +5,8 @@
  */
 package logic;
 
-import java.sql.SQLException;
+import java.util.ArrayList;
 
-import javax.servlet.http.HttpSession;
 
 /**
  * Interface chứa các phương thức của class AdminLogicImpl
@@ -16,20 +15,11 @@ import javax.servlet.http.HttpSession;
  */
 public interface AdminLogic {
 	/**
-	 * Phương thức đăng nhập vào trang admin bằng username, password được nhập vào
+	 * Phương thức kiểm tra thông tin login
 	 * 
-	 * @param username - tài khoản đăng nhập
-	 * @param password - mật khẩu đăng nhập
-	 * @return boolean - true nếu xác thực thành công | false nếu ngược lại
-	 * @throws SQLException
+	 * @param loginName - tên đăng nhâp
+	 * @param password - mật khẩu
+	 * @return errList - danh sách lỗi đăng nhập
 	 */
-	public boolean attemptLogin(String username, String password) throws SQLException;
-	
-	/**
-	 * Phương thức kiểm tra đăng nhập dựa trên session
-	 * 
-	 * @param curSession - phiên làm việc hiện thời
-	 * @return boolean - true nếu user admin đang đăng nhập | false nếu ngược lại
-	 */
-	public boolean checkLogin(HttpSession curSession);
+	public ArrayList<String> validateLogin(String loginName, String password);
 }

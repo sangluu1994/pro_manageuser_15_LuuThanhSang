@@ -39,6 +39,24 @@ public class Common {
 	}
 	
 	/**
+	 * Phương thức lấy số lượng tối đa các bản ghi hiển thị trên 1 trang
+	 *
+	 * @return số lượng tối đa các bản ghi hiển thị trên 1 trang
+	 */
+	public static int getLimit() {
+		return Common.convertStringToInt(ConfigProperties.getValue(Constant.LIMIT));
+	}
+	
+	/**
+	 * Phương thức lấy số lượng page tối đa hiển thị ở vùng paging 
+	 *
+	 * @return số lượng page tối đa hiển thị ở vùng paging
+	 */
+	public static int getPageLimit() {
+		return Common.convertStringToInt(ConfigProperties.getValue(Constant.PAGE_LIMIT));
+	}
+	
+	/**
 	 * Phương thức băm MD5
 	 * 
 	 * @param text - chuỗi cần băm

@@ -15,9 +15,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import common.Constant;
-import logic.impl.AdminLogicImpl;
 
 /**
  * Filter kiểm tra login
@@ -26,8 +24,6 @@ import logic.impl.AdminLogicImpl;
  */
 @WebFilter(urlPatterns = Constant.FILTER_URL_PATTERN)
 public class LoginFilter implements Filter {
-	// khai báo đối tượng xử lí logic được sử dụng đến trong filter
-	private AdminLogicImpl adminLogicImpl;
 
     /**
      * Default constructor. 
@@ -49,12 +45,15 @@ public class LoginFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
+		
 		// xóa cache
 		res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 		res.setHeader("Pragma", "no-cache");
 		res.setDateHeader("Expires", 0);
+		
 		// set timeout
 		req.getSession().setMaxInactiveInterval(300);
+		
 		// lấy đường dẫn của request gửi đến
 		String path = req.getRequestURI().substring(req.getContextPath().length());
 		
@@ -67,13 +66,13 @@ public class LoginFilter implements Filter {
 		
 		// nếu gọi đến controller login hoặc đến đường dẫn mặc định "/"
 		if (Constant.LOG_IN_PATH.equals(path) || Constant.ROOT_PATH.equals(path)) {
-			// kiểm tra đã đăng nhập chưa
-			if (adminLogicImpl.checkLogin(req.getSession())) {
-				// nếu đã đăng nhập thì redirect về trang list user
+			// kiểm tra có user đang đăng nhập không
+			if (req.getSession().getAttribute(Constant.CURRENT_LOGIN_USER) != null) {
+				// nếu đã đăng nhập, redirect về trang list user
 				res.sendRedirect(req.getContextPath() + Constant.LIST_USER_PATH);
 				return;
 			} else {
-				// nếu chưa đăng nhập:
+				// nếu chưa đăng nhập
 				// cho phép request vượt qua Filter
 				chain.doFilter(req, res);
 				return;
@@ -96,9 +95,9 @@ public class LoginFilter implements Filter {
 		}
 		
 		// nếu không phải các đường dẫn trên
-		// kiểm tra đã đăng nhập chưa
-		if (adminLogicImpl.checkLogin(req.getSession())) {
-			// nếu đã đăng nhập
+		// kiểm tra có user đang đăng nhập không
+		if (req.getSession().getAttribute(Constant.CURRENT_LOGIN_USER) != null) {
+			// nếu là đã có user đăng nhập
 			// cho phép request vượt qua Filter
 			chain.doFilter(req, res);
 			return;
@@ -113,8 +112,7 @@ public class LoginFilter implements Filter {
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-		// khởi tạo đối tượng logic sẽ được sử dụng trong filter
-		adminLogicImpl = new AdminLogicImpl();
+		// TODO Auto-generated method stub
 	}
 
 }
