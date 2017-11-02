@@ -28,10 +28,10 @@ public class BaseDaoImpl implements BaseDao {
 		// khai báo, khởi tạo kết nối
 		Connection connection = null;
 		// khai báo các thông tin kết nối đến db
-		String DB_URL = DatabaseProperties.getString(Constant.URL);
-		String USER_NAME = DatabaseProperties.getString(Constant.USERNAME);
-		String PASS_WORD = DatabaseProperties.getString(Constant.PASSWORD);
-		String DRIVE = DatabaseProperties.getString(Constant.DRIVER);
+		String DB_URL = DatabaseProperties.getValue(Constant.URL);
+		String USER_NAME = DatabaseProperties.getValue(Constant.USERNAME);
+		String PASS_WORD = DatabaseProperties.getValue(Constant.PASSWORD);
+		String DRIVE = DatabaseProperties.getValue(Constant.DRIVER);
 		try {
 			// kết nối đến db
 			Class.forName(DRIVE);

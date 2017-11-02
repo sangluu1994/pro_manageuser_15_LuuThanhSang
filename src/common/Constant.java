@@ -82,6 +82,8 @@ public class Constant {
 	public static final String LIMIT = "limit";
 	public static final String PAGE_LIMIT = "pageLimit";
 	public static final int DEFAULT_GROUP_ID = 0;
+	public static final int DEFAULT_TOTAL = 0;
+	public static final String DEFAULT_SELECTION = "選択してください";
 	public static final int DEFAULT_PAGE = 1;
 	public static final String DEFAULT_SORT_TYPE = "sortByFullName";
 	public static final String SEARCH_CONDITION = "searchCondition";
@@ -161,6 +163,13 @@ public class Constant {
 	public static final String DEFAULT_RESPONSE_CONTENT_TYPE = "text/html; charset=UTF-8";
 	public static final String LIST_ERROR = "errList";
 	public static final String ERR_MSG = "errMsg";
-	
+	public static final int START_YEAR = 1900;
+	public static final String ALL_MST_GROUP = "allMstGroup";
+	public static final String DEFAULT_CODE_LEVEL = "";
+	public static final String ALL_MST_JAPAN = "allMstJapan";
+	public static final String LIST_YEAR = "listYears";
+	public static final String LIST_MONTH = "listMonths";
+	public static final String LIST_DAY = "listDays";
+	public static final String USER_DEFAULT = "userDefault";
 	
 }

@@ -5,8 +5,10 @@
  */
 package properties;
 
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
-
 import common.Constant;
 
 /**
@@ -15,26 +17,36 @@ import common.Constant;
  * @author luuthanhsang
  */
 public class DatabaseProperties {
+	// khởi tạo map lưu trữ thông tin database
+	public static Map<String, String> databaseProperties = new HashMap<String, String>();
+	
+	// block đọc thông tin từ file properties vào map lưu trữ
+	static {
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		Properties properties = new Properties();
+		try {
+			// load file database.properties
+			properties.load(classLoader.getResourceAsStream(Constant.DATABASE_PROPERTIES_PATH));
+			Enumeration<?> e = properties.propertyNames();
+            while(e.hasMoreElements()) {
+                String key = (String) e.nextElement();
+                String value = properties.getProperty(key);
+                databaseProperties.put(key, value);
+            }
+		} catch (Exception e) {
+			// show console log ngoại lệ
+			System.out.println(e.getMessage());
+		}
+	}
+		
 	/**
-	 * Phương thức lấy ra config database
+	 * Phương thức lấy thông tin trong file database.properties
 	 * 
 	 * @param key - tương ứng với giá trị muốn đọc ra
 	 * @return Giá trị tương ứng với key đầu vào
 	 */
-	public static String getString(String key) {
-		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-		Properties properties = new Properties();
-		try {
-			// nạp file properties vào đối tượng Properties
-			properties.load(classLoader.getResourceAsStream(Constant.DATABASE_PROPERTIES_PATH));
-			// trả về thông tin cần lấy
-			return properties.getProperty(key);
-		} catch (Exception e) {
-			// show console log ngoại lệ và trả về null
-			System.out.println(e.getMessage());
-			return null;
-		}
-
+	public static String getValue(String key) {
+		return databaseProperties.get(key);
 	}
 	
 }

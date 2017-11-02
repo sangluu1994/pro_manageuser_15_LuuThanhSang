@@ -1,7 +1,7 @@
 /**
  * Copyright(C) 2017 Luvina Software Company
  * 
- * ConfigProperties.java, 2017-10-27 luuthanhsang
+ * MessageProperties.java, 2017-11-03 luuthanhsang
  */
 package properties;
 
@@ -12,26 +12,27 @@ import java.util.Properties;
 import common.Constant;
 
 /**
- * Class chứa phương thức lấy các thông tin config
+ * Class đọc thông tin từ file message properties
  *
  * @author luuthanhsang
+ *
  */
-public class ConfigProperties {
-	// khởi tạo map lưu trữ thông tin config
-	public static Map<String, String> configProperties = new HashMap<String, String>();
+public class MessageProperties {
+	// khởi tạo map lưu trữ thông tin message
+	public static Map<String, String> messageProperties = new HashMap<String, String>();
 	
 	// block đọc thông tin từ file properties vào map lưu trữ
 	static {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		Properties properties = new Properties();
 		try {
-			// load file config.properties
-			properties.load(classLoader.getResourceAsStream(Constant.CONFIG_PROPERTIES_PATH));
+			// load file message_ja.properties
+			properties.load(classLoader.getResourceAsStream(Constant.MESSAGE_PROPERTIES_PATH));
 			Enumeration<?> e = properties.propertyNames();
             while(e.hasMoreElements()) {
                 String key = (String) e.nextElement();
                 String value = properties.getProperty(key);
-                configProperties.put(key, value);
+                messageProperties.put(key, value);
             }
 		} catch (Exception e) {
 			// show console log ngoại lệ
@@ -40,14 +41,13 @@ public class ConfigProperties {
 	}
 	
 	/**
-	 * Phương thức lấy thông tin trong file config.properties
+	 * Phương thức lấy ra các câu thông báo.
 	 * 
-	 * @param key - key của giá trị muốn lấy
+	 * @param key - tương ứng với giá trị muốn đọc ra
 	 * @return Giá trị tương ứng với key đầu vào
 	 */
-	public static String getValue(String key) {
-		return configProperties.get(key);
-		
+	public static String getString(String key) {
+		return messageProperties.get(key);
 	}
-	
+		
 }

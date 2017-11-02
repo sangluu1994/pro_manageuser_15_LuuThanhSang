@@ -5,7 +5,7 @@
  */
 package entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Class chứa các thuộc tính của một đối tượng user
@@ -16,19 +16,77 @@ public class UserInfor {
 	
 	private int userId;
 	private String loginName;
+	private int groupId;
 	private String groupName;
 	private String fullName;
 	private String fullNameKana;
 	private Date birthday;
 	private String email;
 	private String tel;
+	private String pass;
+	private String rePass;
+	private String codeLevel;
 	private String nameLevel;
 	private Date startDate;
 	private Date endDate;
 	private int total;
 	
-	public static final String FULL_NAME = "full_name";
-	public static final String GROUP_ID = "group_id";
+	
+	/**
+	 * @return the codeLevel
+	 */
+	public String getCodeLevel() {
+		return codeLevel;
+	}
+
+	/**
+	 * @param codeLevel the codeLevel to set
+	 */
+	public void setCodeLevel(String codeLevel) {
+		this.codeLevel = codeLevel;
+	}
+
+	/**
+	 * @return the pass
+	 */
+	public String getPass() {
+		return pass;
+	}
+	
+	/**
+	 * @param pass the pass to set
+	 */
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
+	
+	/**
+	 * @return the rePass
+	 */
+	public String getRePass() {
+		return rePass;
+	}
+	
+	/**
+	 * @param rePass the rePass to set
+	 */
+	public void setRePass(String rePass) {
+		this.rePass = rePass;
+	}
+	
+	/**
+	 * @return the groupName
+	 */
+	public String getGroupName() {
+		return groupName;
+	}
+	
+	/**
+	 * @param groupName the groupName to set
+	 */
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
 	
 	/**
 	 * @return the userId
@@ -36,12 +94,14 @@ public class UserInfor {
 	public int getUserId() {
 		return userId;
 	}
+	
 	/**
 	 * @param userId the userId to set
 	 */
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
+	
 	/**
 	 * @return the loginName
 	 */
@@ -55,16 +115,16 @@ public class UserInfor {
 		this.loginName = loginName;
 	}
 	/**
-	 * @return the groupName
+	 * @return the groupId
 	 */
-	public String getGroupName() {
-		return groupName;
+	public int getGroupId() {
+		return groupId;
 	}
 	/**
-	 * @param groupName the groupName to set
+	 * @param groupId the groupName to set
 	 */
-	public void setGroupName(String groupName) {
-		this.groupName = groupName;
+	public void setGroupId(int groupId) {
+		this.groupId = groupId;
 	}
 	/**
 	 * @return the fullName

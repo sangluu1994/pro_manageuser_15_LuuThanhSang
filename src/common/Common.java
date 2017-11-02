@@ -8,6 +8,10 @@ package common;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -224,8 +228,91 @@ public class Common {
 	 * @return Danh sách các năm từ năm 1900 -> năm hiện tại + 1
 	 */
 	public static List<Integer> getListYear(int fromYear , int toYear) {
-		return null;
+		List<Integer> listYears = new ArrayList<>();
+		for (int i = fromYear; i <= toYear; i++) {
+			listYears.add(i);
+		}
+		return listYears;
 	}
 	
-	public static getListMonth ()
+	/**
+	 * Lấy năm hiện tại
+	 * 
+	 * @return năm hiện tại
+	 */
+	public static int getYearNow() {
+		LocalDate now = LocalDate.now();
+		return now.getYear();
+	}
+	
+	/**
+	 * Lấy danh sách các tháng  từ 1->12
+	 * 
+	 * @return danh sách các tháng  từ 1->12
+	 */
+	public static List<Integer> getListMonth() {
+		List<Integer> listMonths = new ArrayList<>();
+		for (int i = 1; i <= 12; i++) {
+			listMonths.add(i);
+		}
+		return listMonths;
+	}
+	
+	/**
+	 * Lấy danh sách các ngày trong 1 tháng
+	 * 
+	 * @return danh sách ngày trong tháng
+	 */
+	public static List<Integer> getListDay() {
+		List<Integer> listDays = new ArrayList<>();
+		for (int i = 1; i <= 31; i++) {
+			listDays.add(i);
+		}
+		return listDays;
+	}
+	
+	/**
+	 * Convert các số năm, tháng, ngày thành 1 chuỗi ngày tháng có format yyyy/mm/dd
+	 * 
+	 * @param year - năm
+	 * @param month - tháng
+	 * @param day - ngày
+	 * @return chuỗi ngày tháng năm dạng yyyy/mm/dd
+	 */
+	public static String convertToString(int year, int month, int day) {
+		String date = "";
+		date = date.concat(String.valueOf(year)).concat("/").concat(String.valueOf(month).concat("/").concat(String.valueOf(day)));
+		return date;
+	}
+	
+	/**
+	 * Phương thức lấy ra năm, tháng, ngày hiện tại.
+	 * 
+	 * @return List<Integer> {Năm, Tháng, Ngày} hiện tại
+	 */
+	public static List<Integer> getCurrentYearMonthDay() {
+		LocalDate now = LocalDate.now();
+		int currentDay = now.getDayOfMonth();
+		int currentMonth = now.getMonthValue();
+		int currentYear = now.getYear();
+		List<Integer> currentDate = new ArrayList<>();
+		currentDate.add(currentYear);
+		currentDate.add(currentMonth);
+		currentDate.add(currentDay);
+		return currentDate;
+	}
+	
+	/**
+	 * Convert các số năm, tháng, ngày thành 1 ngày tháng có format yyyy/MM/dd
+	 * 
+	 * @param year - năm 
+	 * @param month - tháng
+	 * @param day - ngày
+	 * @return date dưới dạng yyyy/MM/dd
+	 * @throws ParseException
+	 */
+	public static Date toDate(int year, int month, int day) throws ParseException {
+		Date date = new SimpleDateFormat("yyyy/MM/dd").parse(convertToString(year, month, day));
+		return date;
+	}
 }

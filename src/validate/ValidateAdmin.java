@@ -6,7 +6,6 @@
 package validate;
 
 import java.util.ArrayList;
-import java.util.Map;
 import common.Common;
 import common.Constant;
 import properties.AdminProperties;
@@ -24,35 +23,28 @@ public class ValidateAdmin {
 	 * @param loginName - tên đăng nhâp
 	 * @param password - mật khẩu
 	 * @return errList - danh sách lỗi đăng nhập
-	 * @throws Exception
 	 */
-	public static ArrayList<String> validateLogin(String loginName, String password) throws Exception {
-		try {
-			// khởi tạo danh sách lỗi
-			ArrayList<String> errList = new ArrayList<String>();
-			// lấy thông tin admin
-			Map<String, String> adminInfo = AdminProperties.getAdminInfo();
-			
-			// kiểm tra username, nếu rỗng thì gán lỗi vào danh sách lỗi và trả về
-			if (Common.isNullOrEmpty(loginName)) {
-				errList.add(MessageErrorProperties.getErrMsg(Constant.ER001));
-				return errList;
-			}
-			// nếu tên đăng nhập không khớp với admin_user, return lỗi
-			if (!adminInfo.get(Constant.ADMIN_USER).equals(loginName)) {
-				errList.add(MessageErrorProperties.getErrMsg(Constant.ER016));
-				return errList;
-			}
-			// nếu password không trùng với admin password, return lỗi
-			if (!adminInfo.get(Constant.ADMIN_PASS_HASH).equals(Common.encodeMD5(password))) {
-				errList.add(MessageErrorProperties.getErrMsg(Constant.ER016));
-				return errList;
-			}
-			// trả về danh sách lỗi là null nếu không có lỗi
+	public static ArrayList<String> validateLogin(String loginName, String password) {
+		// khởi tạo danh sách lỗi
+		ArrayList<String> errList = new ArrayList<String>();
+		
+		// kiểm tra username, nếu rỗng thì gán lỗi vào danh sách lỗi và trả về
+		if (Common.isNullOrEmpty(loginName)) {
+			errList.add(MessageErrorProperties.getErrMsg(Constant.ER001));
 			return errList;
-		} catch (Exception e) {
-			throw new Exception();
 		}
+		// nếu tên đăng nhập không khớp với admin_user, return lỗi
+		if (!AdminProperties.getValue(Constant.ADMIN_USER).equals(loginName)) {
+			errList.add(MessageErrorProperties.getErrMsg(Constant.ER016));
+			return errList;
+		}
+		// nếu password không trùng với admin password, return lỗi
+		if (!AdminProperties.getValue(Constant.ADMIN_PASS_HASH).equals(Common.encodeMD5(password))) {
+			errList.add(MessageErrorProperties.getErrMsg(Constant.ER016));
+			return errList;
+		}
+		// trả về danh sách lỗi là null nếu không có lỗi
+		return errList;
 	}
 	
 }
