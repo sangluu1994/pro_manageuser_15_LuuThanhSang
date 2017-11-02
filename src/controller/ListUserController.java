@@ -56,7 +56,7 @@ public class ListUserController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			// lấy session
 			HttpSession session = request.getSession();
@@ -142,7 +142,7 @@ public class ListUserController extends HttpServlet {
 			}
 			
 			// lấy và gán danh sách tất cả group lên request
-			List<MstGroup> listGroup = mstGroupLogicImpl.getAllGroups();
+			List<MstGroup> listGroup = mstGroupLogicImpl.getAllMstGroups();
 			request.setAttribute(Constant.LIST_GROUP, listGroup);
 			
 			// lấy tổng số user
@@ -183,15 +183,21 @@ public class ListUserController extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM002);
 			rd.forward(request, response);
 			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// show console log ngoại lệ
 			System.out.println(e.getMessage());
-			// khai báo, truyền message lỗi sang view
-			String errMsg = MessageErrorProperties.getErrMsg(Constant.ER015);
-			request.setAttribute(Constant.ERR_MSG, errMsg);
-			// forward sang màn hình listUser
-			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM_SYSTEM_ERROR);
-			rd.forward(request, response);
+			try {
+				// khai báo, truyền message lỗi sang view
+				String errMsg = MessageErrorProperties.getErrMsg(Constant.ER015);
+				request.setAttribute(Constant.ERR_MSG, errMsg);
+				// forward sang màn hình listUser
+				RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM_SYSTEM_ERROR);
+				rd.forward(request, response);
+			} catch (ServletException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 

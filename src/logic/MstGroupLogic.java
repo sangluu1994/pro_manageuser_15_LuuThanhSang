@@ -20,6 +20,7 @@ public interface MstGroupLogic {
 	 * 
 	 * @return danh sách đối tượng tất cả các nhóm trong bảng mst_group
 	 * @throws SQLException
+	 * @throws ClassNotFoundException
 	 */
-	public List<MstGroup> getAllGroups() throws SQLException;
+	public List<MstGroup> getAllMstGroups() throws SQLException, ClassNotFoundException;
 }

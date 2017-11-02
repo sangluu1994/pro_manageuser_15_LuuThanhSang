@@ -7,7 +7,6 @@ package dao;
 
 import java.sql.SQLException;
 import java.util.List;
-
 import entity.MstGroup;
 
 /**
@@ -21,14 +20,17 @@ public interface MstGroupDao extends BaseDao {
 	 * 
 	 * @return mảng các nhóm
 	 * @throws SQLException
+	 * @throws ClassNotFoundException
 	 */
-	public List<MstGroup> getAllMstGroup() throws SQLException ;
+	public List<MstGroup> getAllMstGroup() throws SQLException, ClassNotFoundException;
 
-//	/**
-//	 * Lấy ra nhóm có id cho trước
-//	 * 
-//	 * @param id - mã id của nhóm cần tìm
-//	 * @return nhóm trong bảng mst_group | null nếu không tìm thấy
-//	 */
-//	public MstGroup getGroup(int id) throws SQLException ;
+	/**
+	 * Lấy ra nhóm có id cho trước
+	 * 
+	 * @param id - mã id của nhóm cần tìm
+	 * @return nhóm trong bảng mst_group | null nếu không tìm thấy
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public MstGroup getGroup(int id) throws SQLException, ClassNotFoundException;
 }

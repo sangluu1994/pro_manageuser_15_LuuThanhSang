@@ -31,7 +31,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 * @see logic.TblUserLogic#getTotalUsers(int, java.lang.String)
 	 */
 	@Override
-	public int getTotalUsers(int groupId, String fullName) throws SQLException {
+	public int getTotalUsers(int groupId, String fullName) throws SQLException, ClassNotFoundException {
 		return tblUserDaoImpl.getTotalUsers(groupId, fullName);
 	}
 
@@ -40,7 +40,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 */
 	@Override
 	public List<UserInfor> getListUsers(int offset, int limit, int groupId, String fullName, String sortType,
-			String sortByFullName, String sortByCodeLevel, String sortByEndDate) throws SQLException {
+			String sortByFullName, String sortByCodeLevel, String sortByEndDate) throws SQLException, ClassNotFoundException {
 		return tblUserDaoImpl.getListUsers(offset, limit, groupId, fullName, sortType, sortByFullName, sortByCodeLevel, sortByEndDate);
 	}
 

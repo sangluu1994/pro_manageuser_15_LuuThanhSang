@@ -216,4 +216,16 @@ public class Common {
 		return (int) Math.ceil((double) totalRecords / limit);
 	}
 	
+	/**
+	 * Lấy danh sách các năm từ năm 1900 -> năm hiện tại + 1
+	 *
+	 * @param fromYear - Lấy từ năm nào
+	 * @param toYear - Lấy đến năm nào
+	 * @return Danh sách các năm từ năm 1900 -> năm hiện tại + 1
+	 */
+	public static List<Integer> getListYear(int fromYear , int toYear) {
+		return null;
+	}
+	
+	public static getListMonth ()
 }

@@ -7,7 +7,6 @@ package controller;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -35,11 +34,19 @@ public class LogoutController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// hủy session và redirect về màn hình login
-		HttpSession session = request.getSession();
-		session.invalidate();
-		response.sendRedirect(request.getContextPath() + Constant.LOG_IN_PATH);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			// hủy session và redirect về màn hình login
+			HttpSession session = request.getSession();
+			session.invalidate();
+			response.sendRedirect(request.getContextPath() + Constant.LOG_IN_PATH);
+		} catch (Exception e) {
+			try {
+				response.sendRedirect(request.getContextPath() + Constant.SYSTEM_ERROR_PATH);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
 	}
 
 }

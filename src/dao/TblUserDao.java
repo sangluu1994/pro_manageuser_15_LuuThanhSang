@@ -23,8 +23,9 @@ public interface TblUserDao extends BaseDao {
 	 * @param fullName - họ tên user
 	 * @return tổng số user
 	 * @throws SQLException 
+	 * @throws ClassNotFoundException
 	 */
-	public int getTotalUsers(int groupId, String fullName) throws SQLException;
+	public int getTotalUsers(int groupId, String fullName) throws SQLException, ClassNotFoundException;
 	
 	/**
 	 * Lấy ra các user thỏa mãn điều kiện tìm kiếm
@@ -39,16 +40,18 @@ public interface TblUserDao extends BaseDao {
 	 * @param sortByEndDate - giá trị sort theo enddate
 	 * @return mảng các đối tượng UserInfo
 	 * @throws SQLException
+	 * @throws ClassNotFoundException
 	 */
-	public List<UserInfor> getListUsers(int offset, int limit, int groupId, String fullName, String sortType, String sortByFullName, String sortByCodeLevel, String sortByEndDate) throws SQLException;
+	public List<UserInfor> getListUsers(int offset, int limit, int groupId, String fullName, String sortType, String sortByFullName, String sortByCodeLevel, String sortByEndDate) throws SQLException, ClassNotFoundException;
 	
-//	/**
-//	 * Lấy ra user có id cho trước
-//	 * 
-//	 * @param id - ID của user cần lấy thông tin
-//	 * @return đối tượng getUsersById | null nếu không tìm thấy
-//	 * @throws SQLException
-//	 */
-//	public UserInfor getUsersById(int id) throws SQLException;
+	/**
+	 * Lấy ra user có id cho trước
+	 * 
+	 * @param id - ID của user cần lấy thông tin
+	 * @return đối tượng getUsersById | null nếu không tìm thấy
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public UserInfor getUsersById(int id) throws SQLException, ClassNotFoundException;
 	
 }

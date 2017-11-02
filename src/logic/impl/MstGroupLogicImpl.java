@@ -31,7 +31,7 @@ public class MstGroupLogicImpl implements MstGroupLogic {
 	 * @see logic.MstGroupLogic#getAllGroups()
 	 */
 	@Override
-	public List<MstGroup> getAllGroups() throws SQLException {
+	public List<MstGroup> getAllMstGroups() throws SQLException, ClassNotFoundException {
 		return mstGroupDaoImpl.getAllMstGroup();
 	}
 

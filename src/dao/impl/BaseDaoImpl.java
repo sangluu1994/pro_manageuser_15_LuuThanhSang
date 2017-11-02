@@ -24,7 +24,7 @@ public class BaseDaoImpl implements BaseDao {
 	 */
 	@SuppressWarnings("finally")
 	@Override
-	public Connection getConnection() throws SQLException {
+	public Connection getConnection() throws SQLException, ClassNotFoundException {
 		// khai báo, khởi tạo kết nối
 		Connection connection = null;
 		// khai báo các thông tin kết nối đến db
@@ -36,9 +36,10 @@ public class BaseDaoImpl implements BaseDao {
 			// kết nối đến db
 			Class.forName(DRIVE);
 			connection = DriverManager.getConnection(DB_URL, USER_NAME, PASS_WORD);
-		} catch (ClassNotFoundException e) {
-			// show console log ngoại lệ
-			System.out.println(e.getMessage());
+		} catch(ClassNotFoundException e) {
+			throw new ClassNotFoundException();
+		} catch(SQLException sqlException) {
+			throw new SQLException();
 		} finally {
 			// trả về kết nối
 			return connection;
@@ -52,44 +53,60 @@ public class BaseDaoImpl implements BaseDao {
 	public void close(Connection connection) throws SQLException {
 		// kiểm tra connection
 		if (connection != null) { // nếu khác null
-			connection.close();
+			try {
+				connection.close();
+			} catch(SQLException e) {
+				throw new SQLException();
+			}
 		}
 	}
 
-//	/* (non-Javadoc)
-//	 * @see dao.BaseDao#commit(java.sql.Connection)
-//	 */
-//	@Override
-//	public void commit(Connection connection) throws SQLException {
-//		// kiểm tra connection
-//		if (connection != null) { // nếu connection khác null
-//			// commit query
-//			connection.commit();
-//		}
-//	}
-//
-//	/* (non-Javadoc)
-//	 * @see dao.BaseDao#rollback(java.sql.Connection)
-//	 */
-//	@Override
-//	public void rollback(Connection connection) throws SQLException {
-//		// kiểm tra connection
-//		if (connection != null) { // nếu connection khác null
-//			// rollback query
-//			connection.rollback();
-//		}
-//	}
-//
-//	/* (non-Javadoc)
-//	 * @see dao.BaseDao#disableAutoCommit(java.sql.Connection)
-//	 */
-//	@Override
-//	public void disableAutoCommit(Connection connection) throws SQLException {
-//		// kiểm tra connection
-//		if (connection != null) { // nếu connection khác null
-//			// set autocommit = false
-//			connection.setAutoCommit(false);
-//		}
-//	}
+	/* (non-Javadoc)
+	 * @see dao.BaseDao#commit(java.sql.Connection)
+	 */
+	@Override
+	public void commit(Connection connection) throws SQLException {
+		// kiểm tra connection
+		if (connection != null) { // nếu connection khác null
+			try {
+				// commit query
+				connection.commit();
+			} catch(SQLException e) {
+				throw new SQLException();
+			}
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see dao.BaseDao#rollback(java.sql.Connection)
+	 */
+	@Override
+	public void rollback(Connection connection) throws SQLException {
+		// kiểm tra connection
+		if (connection != null) { // nếu connection khác null
+			try {
+				// rollback query
+				connection.rollback();
+			} catch(SQLException e) {
+				throw new SQLException();
+			}
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see dao.BaseDao#disableAutoCommit(java.sql.Connection)
+	 */
+	@Override
+	public void disableAutoCommit(Connection connection) throws SQLException {
+		// kiểm tra connection
+		if (connection != null) { // nếu connection khác null
+			try {
+				// set autocommit = false
+				connection.setAutoCommit(false);
+			} catch(SQLException e) {
+				throw new SQLException();
+			}
+		}
+	}
 
 }

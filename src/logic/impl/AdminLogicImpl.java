@@ -20,7 +20,7 @@ public class AdminLogicImpl implements AdminLogic {
 	 * @see logic.AdminLogic#validateLogin(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public ArrayList<String> validateLogin(String loginName, String password) {
+	public ArrayList<String> validateLogin(String loginName, String password) throws Exception {
 		return ValidateAdmin.validateLogin(loginName, password);
 	}
 	

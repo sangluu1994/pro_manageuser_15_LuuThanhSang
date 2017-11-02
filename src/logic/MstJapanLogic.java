@@ -1,20 +1,20 @@
 /**
  * Copyright(C) 2017 Luvina Software Company
  * 
- * MstJapanDao.java, 2017-10-25 luuthanhsang
+ * MstJapanLogic.java, 2017-11-02 luuthanhsang
  */
-package dao;
+package logic;
 
 import java.sql.SQLException;
 import java.util.List;
 import entity.MstJapan;
 
 /**
- * Interface chứa các thao tác với bảng mst_japan
- * 
+ * Interface xử lí logic cho các chức năng liên quan đến mst_japan
+ *
  * @author luuthanhsang
  */
-public interface MstJapanDao extends BaseDao {
+public interface MstJapanLogic {
 	/**
 	 * Phương thức lấy tất cả danh sách trình độ tiếng Nhật của bảng mst_japan
 	 * 

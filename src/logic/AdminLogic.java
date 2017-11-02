@@ -20,6 +20,7 @@ public interface AdminLogic {
 	 * @param loginName - tên đăng nhâp
 	 * @param password - mật khẩu
 	 * @return errList - danh sách lỗi đăng nhập
+	 * @throws Exception
 	 */
-	public ArrayList<String> validateLogin(String loginName, String password);
+	public ArrayList<String> validateLogin(String loginName, String password) throws Exception;
 }
