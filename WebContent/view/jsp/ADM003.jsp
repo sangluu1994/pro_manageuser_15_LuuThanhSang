@@ -48,7 +48,7 @@
 					<tr>
 						<td class="lbl_left"><font color = "red">*</font> グループ:</td>
 						<td align="left">						
-							<select name="group_id">
+							<select name="groupId">
 								<c:forEach var="group" items="${allMstGroup}">
 									<c:choose>
 										<c:when test="${group.groupId == sessionScope.userDefault.groupId}">
@@ -66,7 +66,7 @@
 					<tr>
 						<td class="lbl_left"><font color = "red">*</font> 氏名:</td>
 						<td align="left">
-						<input class="txBox" type="text" name="name" value=""
+						<input class="txBox" type="text" name="fullName" value=""
 							size="30" onfocus="this.style.borderColor='#0066ff';"
 							onblur="this.style.borderColor='#aaaaaa';" />							
 						</td>
@@ -74,7 +74,7 @@
 					<tr>
 						<td class="lbl_left">カタカナ氏名:</td>
 						<td align="left">
-						<input class="txBox" type="text" name="name" value=""
+						<input class="txBox" type="text" name="kanaName" value=""
 							size="30" onfocus="this.style.borderColor='#0066ff';"
 							onblur="this.style.borderColor='#aaaaaa';" />							
 						</td>

@@ -156,6 +156,29 @@ public class Constant {
 	public static final String PASSWORD = "password";
 	public static final String DRIVER = "driver";
 	
+	// parameters màn hình ADM003
+	public static final String LOGIN_NAME_ADM003 = "id";
+	public static final String GROUP_ID_ADM003 = "kanaName";
+	public static final String FULL_NAME_ADM003 = "kanaName";
+	public static final String KANA_NAME_ADM003 = "kanaName";
+	public static final String BIRTH_YEAR_ADM003 = "kanaName";
+	public static final String BIRTH_MONTH_ADM003 = "kanaName";
+	public static final String BIRTH_DATE_ADM003 = "kanaName";
+	public static final String EMAIL_ADM003 = "kanaName";
+	public static final String TEL_ADM003 = "kanaName";
+	public static final String PASS_ADM003 = "kanaName";
+	public static final String RE_PASS_ADM003 = "kanaName";
+	public static final String CODE_LEVEL_ADM003 = "kanaName";
+	public static final String START_DATE_ADM003 = "";
+	public static final String START_YEAR_ADM003 = "kanaName";
+	public static final String START_MONTH_ADM003 = "kanaName";
+	public static final String START_DAY = "kanaName";
+	public static final String END_DATE_ADM003 = "kanaName";
+	public static final String END_YEAR_ADM003 = "kanaName";
+	public static final String END_MONTH_ADM003 = "kanaName";
+	public static final String END_DAY_ADM003 = "kanaName";
+	public static final String TOTAL_ADM003 = "";
+	
 	// khác...
 	public static final String EMPTY_STRING = "";
 	public static final String OK = "OK";

@@ -21,6 +21,9 @@ public class UserInfor {
 	private String fullName;
 	private String fullNameKana;
 	private Date birthday;
+	private String birthYear;
+	private String birthMonth;
+	private String birthDate;
 	private String email;
 	private String tel;
 	private String pass;
@@ -28,10 +31,142 @@ public class UserInfor {
 	private String codeLevel;
 	private String nameLevel;
 	private Date startDate;
+	private String startYear;
+	private String startMonth;
+	private String startDay;
 	private Date endDate;
+	private String endYear;
+	private String endMonth;
+	private String endDay;
 	private int total;
 	
 	
+	/**
+	 * @return the birthYear
+	 */
+	public String getBirthYear() {
+		return birthYear;
+	}
+
+	/**
+	 * @param birthYear the birthYear to set
+	 */
+	public void setBirthYear(String birthYear) {
+		this.birthYear = birthYear;
+	}
+
+	/**
+	 * @return the birthMonth
+	 */
+	public String getBirthMonth() {
+		return birthMonth;
+	}
+
+	/**
+	 * @param birthMonth the birthMonth to set
+	 */
+	public void setBirthMonth(String birthMonth) {
+		this.birthMonth = birthMonth;
+	}
+
+	/**
+	 * @return the birthDate
+	 */
+	public String getBirthDate() {
+		return birthDate;
+	}
+
+	/**
+	 * @param birthDate the birthDate to set
+	 */
+	public void setBirthDate(String birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	/**
+	 * @return the startYear
+	 */
+	public String getStartYear() {
+		return startYear;
+	}
+
+	/**
+	 * @param startYear the startYear to set
+	 */
+	public void setStartYear(String startYear) {
+		this.startYear = startYear;
+	}
+
+	/**
+	 * @return the startMonth
+	 */
+	public String getStartMonth() {
+		return startMonth;
+	}
+
+	/**
+	 * @param startMonth the startMonth to set
+	 */
+	public void setStartMonth(String startMonth) {
+		this.startMonth = startMonth;
+	}
+
+	/**
+	 * @return the startDay
+	 */
+	public String getStartDay() {
+		return startDay;
+	}
+
+	/**
+	 * @param startDay the startDay to set
+	 */
+	public void setStartDay(String startDay) {
+		this.startDay = startDay;
+	}
+
+	/**
+	 * @return the endYear
+	 */
+	public String getEndYear() {
+		return endYear;
+	}
+
+	/**
+	 * @param endYear the endYear to set
+	 */
+	public void setEndYear(String endYear) {
+		this.endYear = endYear;
+	}
+
+	/**
+	 * @return the endMonth
+	 */
+	public String getEndMonth() {
+		return endMonth;
+	}
+
+	/**
+	 * @param endMonth the endMonth to set
+	 */
+	public void setEndMonth(String endMonth) {
+		this.endMonth = endMonth;
+	}
+
+	/**
+	 * @return the endDay
+	 */
+	public String getEndDay() {
+		return endDay;
+	}
+
+	/**
+	 * @param endDay the endDay to set
+	 */
+	public void setEndDay(String endDay) {
+		this.endDay = endDay;
+	}
+
 	/**
 	 * @return the codeLevel
 	 */

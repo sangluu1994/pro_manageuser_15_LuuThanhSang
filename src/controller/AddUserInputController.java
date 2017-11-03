@@ -137,7 +137,19 @@ public class AddUserInputController extends HttpServlet {
 			userInfor.setEndDate(Common.toDate(defaultDate.get(0), defaultDate.get(1), defaultDate.get(2)));
 			userInfor.setTotal(Constant.DEFAULT_TOTAL);
 		} else if (Constant.CONFIRM_TYPE.equals(type)) {
-			
+			userInfor.setLoginName(request.getParameter(Constant.LOGIN_NAME_ADM003));
+			userInfor.setGroupId(request.getParameter(Constant.GROUP_ID_ADM003));
+			userInfor.setFullName(request.getParameter(Constant.FULL_NAME_ADM003));
+			userInfor.setFullNameKana(request.getParameter(Constant.KANA_NAME_ADM003));
+			userInfor.setBirthday(Common.toDate(defaultDate.get(0), defaultDate.get(1), defaultDate.get(2)));
+			userInfor.setEmail(request.getParameter(Constant.EMAIL_ADM003));
+			userInfor.setTel(request.getParameter(Constant.TEL_ADM003));
+			userInfor.setPass(request.getParameter(Constant.PASS_ADM003));
+			userInfor.setRePass(request.getParameter(Constant.RE_PASS_ADM003));
+			userInfor.setCodeLevel(request.getParameter(Constant.CODE_LEVEL_ADM003));
+			userInfor.setStartDate(Common.toDate(defaultDate.get(0), defaultDate.get(1), defaultDate.get(2)));
+			userInfor.setEndDate(Common.toDate(defaultDate.get(0), defaultDate.get(1), defaultDate.get(2)));
+			userInfor.setTotal(request.getParameter(Constant.TOTAL_ADM003));
 		}
 		return userInfor;
 	}
