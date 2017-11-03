@@ -171,5 +171,9 @@ public class Constant {
 	public static final String LIST_MONTH = "listMonths";
 	public static final String LIST_DAY = "listDays";
 	public static final String USER_DEFAULT = "userDefault";
+	public static final String CONFIRM_TYPE = "confirm";
+	public static final String CURRENT_YEAR = "currentYear";
+	public static final String CURRENT_MONTH = "currentMonth";
+	public static final String CURRENT_DAY = "currentDay";
 	
 }

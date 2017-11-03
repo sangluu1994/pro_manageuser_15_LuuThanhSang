@@ -14,6 +14,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import properties.ConfigProperties;
 
@@ -315,4 +317,34 @@ public class Common {
 		Date date = new SimpleDateFormat("yyyy/MM/dd").parse(convertToString(year, month, day));
 		return date;
 	}
+	
+	/**
+	 * Hàm check halfSize
+	 * 
+	 * @param total - tổng điểm cần check
+	 * @return true nếu là số halfSize - false nếu không phải
+	 */
+	public static boolean checkHalfSize(String total) {
+		String regex = "^\\d+$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(total);
+		return matcher.matches();
+
+	}
+	
+	/**
+	 * Phương thức kiểm tra xem 1 ký tự có phải là ký tự kana hay không.
+	 * 
+	 * @param input - kí tự cần kiểm tra.
+	 * @return true nếu ký tự là ký tự Katakana.<br />
+	 *         false trong trường hợp còn lại
+	 */
+	public static boolean isKanaChar(char input) {
+		int temp = (int) input;
+		if ((temp >= 0x30A0 && temp <= 0x30FF) || (temp >= 0xFF65 && temp <= 0xFF9F)) {
+			return true;
+		}
+		return false;
+	}
+	
 }

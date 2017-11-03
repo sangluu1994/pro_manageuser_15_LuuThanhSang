@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import common.Common;
 import common.Constant;
@@ -101,6 +102,12 @@ public class AddUserInputController extends HttpServlet {
 		request.setAttribute(Constant.LIST_YEAR, listYears);
 		request.setAttribute(Constant.LIST_MONTH, listMonths);
 		request.setAttribute(Constant.LIST_DAY, listDays);
+		// Gán ngày tháng năm hiện tại lên session
+		HttpSession session = request.getSession();
+		List<Integer> currentTime = Common.getCurrentYearMonthDay();
+		session.setAttribute(Constant.CURRENT_YEAR, currentTime.get(0));
+		session.setAttribute(Constant.CURRENT_MONTH, currentTime.get(1));
+		session.setAttribute(Constant.CURRENT_DAY, currentTime.get(2));
 	}
 	
 	/**
@@ -112,21 +119,26 @@ public class AddUserInputController extends HttpServlet {
 	 * @throws ParseException 
 	 */
 	private UserInfor setDefaultValue(HttpServletRequest request, HttpServletResponse response) throws ParseException {
-		List<Integer> defaultDate = Common.getCurrentYearMonthDay();
+		String type = request.getParameter(Constant.TYPE);
 		UserInfor userInfor = new UserInfor();
-		userInfor.setLoginName(Constant.EMPTY_STRING);
-		userInfor.setGroupId(Constant.DEFAULT_GROUP_ID);
-		userInfor.setFullName(Constant.EMPTY_STRING);
-		userInfor.setFullNameKana(Constant.EMPTY_STRING);
-		userInfor.setBirthday(Common.toDate(defaultDate.get(0), defaultDate.get(1), defaultDate.get(2)));
-		userInfor.setEmail(Constant.EMPTY_STRING);
-		userInfor.setTel(Constant.EMPTY_STRING);
-		userInfor.setPass(Constant.EMPTY_STRING);
-		userInfor.setRePass(Constant.EMPTY_STRING);
-		userInfor.setCodeLevel(Constant.DEFAULT_CODE_LEVEL);
-		userInfor.setStartDate(Common.toDate(defaultDate.get(0), defaultDate.get(1), defaultDate.get(2)));
-		userInfor.setEndDate(Common.toDate(defaultDate.get(0), defaultDate.get(1), defaultDate.get(2)));
-		userInfor.setTotal(Constant.DEFAULT_TOTAL);
+		if (type == null) {
+			List<Integer> defaultDate = Common.getCurrentYearMonthDay();
+			userInfor.setLoginName(Constant.EMPTY_STRING);
+			userInfor.setGroupId(Constant.DEFAULT_GROUP_ID);
+			userInfor.setFullName(Constant.EMPTY_STRING);
+			userInfor.setFullNameKana(Constant.EMPTY_STRING);
+			userInfor.setBirthday(Common.toDate(defaultDate.get(0), defaultDate.get(1), defaultDate.get(2)));
+			userInfor.setEmail(Constant.EMPTY_STRING);
+			userInfor.setTel(Constant.EMPTY_STRING);
+			userInfor.setPass(Constant.EMPTY_STRING);
+			userInfor.setRePass(Constant.EMPTY_STRING);
+			userInfor.setCodeLevel(Constant.DEFAULT_CODE_LEVEL);
+			userInfor.setStartDate(Common.toDate(defaultDate.get(0), defaultDate.get(1), defaultDate.get(2)));
+			userInfor.setEndDate(Common.toDate(defaultDate.get(0), defaultDate.get(1), defaultDate.get(2)));
+			userInfor.setTotal(Constant.DEFAULT_TOTAL);
+		} else if (Constant.CONFIRM_TYPE.equals(type)) {
+			
+		}
 		return userInfor;
 	}
 

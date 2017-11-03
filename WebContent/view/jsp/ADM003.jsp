@@ -8,6 +8,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="shortcut icon" href="<c:url value="/view/img/logo-icon.png" />">
+<link href="<c:url value="/view/css/style.css" />" rel="stylesheet" type="text/css" />
+<script src="<c:url value="/view/js/fn.js" />"></script>
 <title>ユーザ管理</title>
 </head>
 <body>
@@ -81,17 +84,38 @@
 						<td align="left">
 						<select>
 							<c:forEach var="listYear" items="${listYears}">
-								<option value="${listYear}">${listYear}</option>
+								<c:choose>
+									<c:when test="${listYear == sessionScope.currentYear}">
+										<option value="${listYear}" selected="selected">${listYear}</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${listYear}">${listYear}</option>
+									</c:otherwise>
+								</c:choose>
 							</c:forEach>
 						</select>年
 						<select>
 							<c:forEach var="listMonth" items="${listMonths}">
-								<option value="${listMonth}">${listMonth}</option>
+								<c:choose>
+									<c:when test="${listMonth == sessionScope.currentMonth}">
+										<option value="${listMonth}" selected="selected">${listMonth}</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${listMonth}">${listMonth}</option>
+									</c:otherwise>
+								</c:choose>
 							</c:forEach>
 						</select>月
 						<select>
 							<c:forEach var="listDay" items="${listDays}">
-								<option value="${listDay}">${listDay}</option>
+								<c:choose>
+									<c:when test="${listDay == sessionScope.currentDay}">
+										<option value="${listDay}">${listDay}</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${listDay}">${listDay}</option>
+									</c:otherwise>
+								</c:choose>
 							</c:forEach>
 						</select>日							
 						</td>
@@ -130,9 +154,11 @@
 					</tr>
 					<tr>
 						<th align="left" colspan = "2" >							
-								<a href = "#">日本語能力</a>
+								<a href="#japaneseLevel" onclick="showJpField()">日本語能力</a>
 						</th>			
 					</tr>
+				</table>
+				<table style="display: none;" id="japaneseField">
 					<tr>
 						<td class="lbl_left">資格:</td>
 						<td align="left">
