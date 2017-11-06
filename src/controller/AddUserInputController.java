@@ -31,7 +31,7 @@ import logic.impl.MstJapanLogicImpl;
  * 
  * @author luuthanhsang
  */
-@WebServlet(Constant.ADD_USER_INPUT_PATH)
+@WebServlet(urlPatterns = {Constant.ADD_USER_INPUT_PATH, Constant.ADD_VALIDATE_PATH})
 public class AddUserInputController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private MstGroupLogicImpl mstGroupLogic;
@@ -58,7 +58,13 @@ public class AddUserInputController extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM003);
 			rd.forward(request, response);
 		} catch (Exception e) {
-			
+			try {
+				// điều hướng về trang lỗi nếu có lỗi
+				StringBuilder stringBuilder = new StringBuilder(request.getContextPath());
+				response.sendRedirect(stringBuilder.append(Constant.SYSTEM_ERROR_PATH).toString());
+			} catch (IOException e1) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -102,6 +108,7 @@ public class AddUserInputController extends HttpServlet {
 		request.setAttribute(Constant.LIST_YEAR, listYears);
 		request.setAttribute(Constant.LIST_MONTH, listMonths);
 		request.setAttribute(Constant.LIST_DAY, listDays);
+		
 		// Gán ngày tháng năm hiện tại lên session
 		HttpSession session = request.getSession();
 		List<Integer> currentTime = Common.getCurrentYearMonthDay();
@@ -138,18 +145,27 @@ public class AddUserInputController extends HttpServlet {
 			userInfor.setTotal(Constant.DEFAULT_TOTAL);
 		} else if (Constant.CONFIRM_TYPE.equals(type)) {
 			userInfor.setLoginName(request.getParameter(Constant.LOGIN_NAME_ADM003));
-			userInfor.setGroupId(request.getParameter(Constant.GROUP_ID_ADM003));
+			userInfor.setGroupId(Common.convertStringToInt(request.getParameter(Constant.GROUP_ID_ADM003)));
 			userInfor.setFullName(request.getParameter(Constant.FULL_NAME_ADM003));
 			userInfor.setFullNameKana(request.getParameter(Constant.KANA_NAME_ADM003));
-			userInfor.setBirthday(Common.toDate(defaultDate.get(0), defaultDate.get(1), defaultDate.get(2)));
+			userInfor.setBirthYear(request.getParameter(Constant.BIRTH_YEAR_ADM003));
+			userInfor.setBirthMonth(request.getParameter(Constant.BIRTH_MONTH_ADM003));
+			userInfor.setBirthDate(request.getParameter(Constant.BIRTH_DATE_ADM003));
 			userInfor.setEmail(request.getParameter(Constant.EMAIL_ADM003));
 			userInfor.setTel(request.getParameter(Constant.TEL_ADM003));
 			userInfor.setPass(request.getParameter(Constant.PASS_ADM003));
 			userInfor.setRePass(request.getParameter(Constant.RE_PASS_ADM003));
-			userInfor.setCodeLevel(request.getParameter(Constant.CODE_LEVEL_ADM003));
-			userInfor.setStartDate(Common.toDate(defaultDate.get(0), defaultDate.get(1), defaultDate.get(2)));
-			userInfor.setEndDate(Common.toDate(defaultDate.get(0), defaultDate.get(1), defaultDate.get(2)));
-			userInfor.setTotal(request.getParameter(Constant.TOTAL_ADM003));
+			String codeLevel = request.getParameter(Constant.CODE_LEVEL_ADM003);
+			if (codeLevel != null && !Constant.DEFAULT_CODE_LEVEL.equals(codeLevel)) {
+				userInfor.setCodeLevel(request.getParameter(Constant.CODE_LEVEL_ADM003));
+				userInfor.setStartYear(request.getParameter(Constant.START_YEAR_ADM003));
+				userInfor.setStartMonth(request.getParameter(Constant.START_MONTH_ADM003));
+				userInfor.setStartDay(request.getParameter(Constant.START_DAY));
+				userInfor.setEndYear(request.getParameter(Constant.END_YEAR_ADM003));
+				userInfor.setEndMonth(request.getParameter(Constant.END_MONTH_ADM003));
+				userInfor.setEndDay(request.getParameter(Constant.END_DAY_ADM003));
+				userInfor.setTotal(Common.convertStringToInt(request.getParameter(Constant.TOTAL_ADM003)));
+			}
 		}
 		return userInfor;
 	}
