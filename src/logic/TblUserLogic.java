@@ -7,7 +7,6 @@ package logic;
 
 import java.sql.SQLException;
 import java.util.List;
-
 import entity.UserInfor;
 
 /**
@@ -43,4 +42,25 @@ public interface TblUserLogic {
 	 * @throws ClassNotFoundException
 	 */
 	public List<UserInfor> getListUsers(int offset, int limit, int groupId, String fullName, String sortType, String sortByFullName, String sortByCodeLevel, String sortByEndDate) throws SQLException, ClassNotFoundException;
+	
+	/**
+	 * Phương thức kiểm tra loginName đã tồn tại chưa
+	 * 
+	 * @param loginName - tên đăng nhập
+	 * @return boolean - true nếu tồn tại | false nếu ngược lại
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public boolean checkExistedLoginName(Integer userId, String loginName) throws ClassNotFoundException, SQLException;
+
+	/**
+	 * Phương thức kiểm tra email đã tồn tại trong bảng tbl_user chưa?
+	 *
+	 * @param userId 
+	 * @param email
+	 * @return boolean - true nếu đã tồn tại | false nếu ngược lại
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public boolean checkExistedEmail(Integer userId, String email) throws ClassNotFoundException, SQLException;
 }

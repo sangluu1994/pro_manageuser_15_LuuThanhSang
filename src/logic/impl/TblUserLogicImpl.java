@@ -44,4 +44,20 @@ public class TblUserLogicImpl implements TblUserLogic {
 		return tblUserDaoImpl.getListUsers(offset, limit, groupId, fullName, sortType, sortByFullName, sortByCodeLevel, sortByEndDate);
 	}
 
+	/* (non-Javadoc)
+	 * @see logic.TblUserLogic#checkExistedLoginName(java.lang.Integer, java.lang.String)
+	 */
+	@Override
+	public boolean checkExistedLoginName(Integer userId, String loginName) throws ClassNotFoundException, SQLException {
+		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see logic.TblUserLogic#checkExistedEmail(java.lang.Integer, java.lang.String)
+	 */
+	@Override
+	public boolean checkExistedEmail(Integer userId, String email) throws ClassNotFoundException, SQLException {
+		return false;
+	}
+	
 }

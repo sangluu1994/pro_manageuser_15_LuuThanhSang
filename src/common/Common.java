@@ -336,8 +336,7 @@ public class Common {
 	 * Phương thức kiểm tra xem 1 ký tự có phải là ký tự kana hay không.
 	 * 
 	 * @param input - kí tự cần kiểm tra.
-	 * @return true nếu ký tự là ký tự Katakana.<br />
-	 *         false trong trường hợp còn lại
+	 * @return true nếu ký tự là ký tự Katakana | false trong trường hợp còn lại
 	 */
 	public static boolean isKanaChar(char input) {
 		int temp = (int) input;
@@ -346,5 +345,81 @@ public class Common {
 		}
 		return false;
 	}
+	
+	/**
+	 * Phương thức kiểm tra chuỗi đầu vào có phải là chuỗi ký tự Katakana hay không.
+	 * (Chỉ chấp nhận các ký tự fullsize)
+	 * 
+	 * @param input - chuỗi cần kiểm tra.
+	 * @return true nếu chuỗi đầu vào là chuỗi ký tự Katakana | false trong các trường hợp còn lại.
+	 */
+	public static boolean isKanaString(String input) {
+		if (input == null) {
+			throw new NullPointerException("String input cannot be null");
+		}
+		char[] charArray = input.toCharArray();
+		for (int i = 0; i < charArray.length; i++) {
+			if (!isKanaChar(charArray[i])) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
+	 * Phương thức kiểm tra tính tồn tại của ngày nhập vào.
+	 * 
+	 * @param year
+	 *            Năm cần kiểm tra.
+	 * @param month
+	 *            Tháng cần kiểm tra.
+	 * @param day
+	 *            Ngày cần kiểm tra
+	 * 
+	 * @return true nếu ngày nhập vào thực sự tồn tại. <br />
+	 *         false trong các trường hợp còn lại.
+	 */
+	public static boolean isRealDay(int year, int month, int day) {
+		int yearNow = getYearNow();
+		if (year < 1900 || year > yearNow + 1) {
+			return false;
+		}
+		switch (month) {
+		case 1:
+		case 3:
+		case 5:
+		case 7:
+		case 8:
+		case 10:
+		case 12:
+			if (day < 1 || day > 31) {
+				return false;
+			}
+			break;
+		case 4:
+		case 6:
+		case 9:
+		case 11:
+			if (day < 1 || day > 30) {
+				return false;
+			}
+			break;
+		case 2:
+			if (((year % 4 == 0) && !(year % 100 == 0)) || (year % 400 == 0)) {
+				if (day < 1 || day > 29) {
+					return false;
+				}
+			} else {
+				if (day < 1 || day > 28) {
+					return false;
+				}
+			}
+			break;
+		default:
+			return false;
+		}
+		return true;
+	}
+
 	
 }

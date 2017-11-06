@@ -126,9 +126,12 @@ public class AddUserInputController extends HttpServlet {
 	 * @throws ParseException 
 	 */
 	private UserInfor setDefaultValue(HttpServletRequest request, HttpServletResponse response) throws ParseException {
+		// lấy tham số "type" để xác định trường hợp vào màn hình ADM003
 		String type = request.getParameter(Constant.TYPE);
 		UserInfor userInfor = new UserInfor();
+		// nếu là null, trường hợp thêm mới
 		if (type == null) {
+			// gán giá trị mặc định cho đối tượng userInfor sẽ ghi vào db
 			List<Integer> defaultDate = Common.getCurrentYearMonthDay();
 			userInfor.setLoginName(Constant.EMPTY_STRING);
 			userInfor.setGroupId(Constant.DEFAULT_GROUP_ID);
@@ -143,7 +146,8 @@ public class AddUserInputController extends HttpServlet {
 			userInfor.setStartDate(Common.toDate(defaultDate.get(0), defaultDate.get(1), defaultDate.get(2)));
 			userInfor.setEndDate(Common.toDate(defaultDate.get(0), defaultDate.get(1), defaultDate.get(2)));
 			userInfor.setTotal(Constant.DEFAULT_TOTAL);
-		} else if (Constant.CONFIRM_TYPE.equals(type)) {
+		} else if (Constant.CONFIRM_TYPE.equals(type)) { // nếu là trường hợp click button xác nhận
+			// lấy giá trị từ request lưu vào userInfor
 			userInfor.setLoginName(request.getParameter(Constant.LOGIN_NAME_ADM003));
 			userInfor.setGroupId(Common.convertStringToInt(request.getParameter(Constant.GROUP_ID_ADM003)));
 			userInfor.setFullName(request.getParameter(Constant.FULL_NAME_ADM003));
@@ -155,7 +159,9 @@ public class AddUserInputController extends HttpServlet {
 			userInfor.setTel(request.getParameter(Constant.TEL_ADM003));
 			userInfor.setPass(request.getParameter(Constant.PASS_ADM003));
 			userInfor.setRePass(request.getParameter(Constant.RE_PASS_ADM003));
+			// kiểm tra xem có những trường thuộc trình độ tiếng Nhật trong request gửi lên hay không
 			String codeLevel = request.getParameter(Constant.CODE_LEVEL_ADM003);
+			// nếu có, lưu vào userInfor
 			if (codeLevel != null && !Constant.DEFAULT_CODE_LEVEL.equals(codeLevel)) {
 				userInfor.setCodeLevel(request.getParameter(Constant.CODE_LEVEL_ADM003));
 				userInfor.setStartYear(request.getParameter(Constant.START_YEAR_ADM003));

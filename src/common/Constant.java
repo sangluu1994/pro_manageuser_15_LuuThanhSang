@@ -198,5 +198,17 @@ public class Constant {
 	public static final String CURRENT_YEAR = "currentYear";
 	public static final String CURRENT_MONTH = "currentMonth";
 	public static final String CURRENT_DAY = "currentDay";
+	public static final int MIN_LENGTH_LOGIN_NAME = 3;
+	public static final int MAX_LENGTH_LOGIN_NAME = 50;
+	public static final String LOGIN_NAME_PATTERN = "^[a-zA-Z]{1}[a-zA-Z0-9_]{3,14}$";
+	public static final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+	public static final String TEL_PATTERN = "^[0-9]{1,4}-[0-9]{4}-[0-9]{4}$";
+	public static final String TOTAL_PATTERN = "^[1-9]{1}[0-9]{0,10}$";
+	public static final String PASSWORD_PATTERN = "^[a-zA-Z0-9!@#$%^&*()_+.,<>?;:'-=]{6,15}$";
+	public static final int MAX_LENGTH_FULL_NAME = 50;
+	public static final int MAX_LENGTH_FULL_NAME_KANA = 50;
+	public static final int MAX_LENGTH_TEL = 15;
+	public static final int MIN_LENGTH_PASSWORD = 6;
+	public static final int MAX_LENGTH_PASSWORD = 50;
 	
 }

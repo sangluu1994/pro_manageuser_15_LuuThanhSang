@@ -5,6 +5,8 @@
  */
 package entity;
 
+import java.util.Date;
+
 /**
  * Class mô phỏng bảng tbl_user
  * 
@@ -19,7 +21,7 @@ public class TblUser {
 	private String fullNameKana;
 	private String email;
 	private String tel;
-	private String birthday;
+	private Date birthday;
 	private String salt;
 	/**
 	 * @return the userId
@@ -120,13 +122,13 @@ public class TblUser {
 	/**
 	 * @return the birthday
 	 */
-	public String getBirthday() {
+	public Date getBirthday() {
 		return birthday;
 	}
 	/**
 	 * @param birthday the birthday to set
 	 */
-	public void setBirthday(String birthday) {
+	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
 	/**

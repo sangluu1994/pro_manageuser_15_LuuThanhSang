@@ -8,6 +8,7 @@ package dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import entity.TblUser;
 import entity.UserInfor;
 
 /**
@@ -53,5 +54,27 @@ public interface TblUserDao extends BaseDao {
 	 * @throws ClassNotFoundException
 	 */
 	public UserInfor getUsersById(int id) throws SQLException, ClassNotFoundException;
+	
+	/**
+	 * Lấy thông tin của user theo loginName
+	 * 
+	 * @param userId
+	 * @param loginName
+	 * @return đối tượng TblUser
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public TblUser getUserByLoginName(Integer userId, String loginName) throws ClassNotFoundException, SQLException;
+	
+	/**
+	 * Lấy thông tin của user theo Email
+	 * 
+	 * @param userId
+	 * @param email
+	 * @return đối tượng TblUser
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public TblUser getUserByEmail(Integer userId, String email) throws ClassNotFoundException, SQLException;
 	
 }

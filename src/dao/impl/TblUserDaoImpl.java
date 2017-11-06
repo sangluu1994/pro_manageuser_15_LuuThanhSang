@@ -10,9 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import common.Constant;
 import dao.TblUserDao;
+import entity.TblUser;
 import entity.UserInfor;
 
 /**
@@ -213,4 +215,81 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see dao.TblUserDao#getUserByLoginName(java.lang.Integer, java.lang.String)
+	 */
+	@SuppressWarnings("finally")
+	@Override
+	public TblUser getUserByLoginName(Integer userId, String loginName) throws ClassNotFoundException, SQLException {
+		TblUser tblUser = null;
+		Connection con = null;
+		try {
+			// khởi tạo connection
+			con = getConnection();
+			StringBuilder queryBuilder = new StringBuilder("SELECT u.user_id. u.group_id , u. , u. , u. , u. , u. , u. , u. FROM tbl_user u WHERE u.login_name = ? ");
+			// truy vấn sử dụng preparedStatement
+			PreparedStatement ps = con.prepareStatement(queryBuilder.toString());
+			ps.setString(1, loginName);
+			// lấy dữ liệu trả về
+			ResultSet rs = ps.executeQuery();
+			//thiết lập đối tượng tblUser trả về dựa vào dữ liệu lấy được
+			int i;
+			while (rs.next()) {
+				i = 0;
+				tblUser = new TblUser();
+				tblUser.setUserId(rs.getInt(++i));
+				tblUser.setGroupId(rs.getInt(++i));
+				tblUser.setLoginName(rs.getString(++i));
+				tblUser.setFullName(rs.getString(++i));
+				tblUser.setFullNameKana(rs.getString(++i));
+				tblUser.setEmail(rs.getString(++i));
+				tblUser.setTel(rs.getString(++i));
+				tblUser.setBirthday(rs.getDate(++i));
+			}
+		} finally {
+			// đóng kết nối, trả về kết quả
+			close(con);
+			return tblUser;
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see dao.TblUserDao#getUserByEmail(java.lang.Integer, java.lang.String)
+	 */
+	@SuppressWarnings("finally")
+	@Override
+	public TblUser getUserByEmail(Integer userId, String email) throws ClassNotFoundException, SQLException {
+		TblUser tblUser = null;
+		Connection con = null;
+		try {
+			con = getConnection();// khởi tạo connection
+			StringBuilder queryBuilder = new StringBuilder("SELECT * FROM tbl_user WHERE tbl_user.email = ? ");
+			// truy vấn sử dụng preparedStatement
+			PreparedStatement ps = con.prepareStatement(queryBuilder.toString());
+			ps.setString(1, email);
+			// lấy dữ liệu trả về
+			ResultSet rs = ps.executeQuery();
+			// thiết lập đối tượng tblUser trả về dựa vào dữ liệu lấy được
+			int i;
+			while (rs.next()) {
+				i = 0;
+				tblUser = new TblUser();
+				tblUser.setUserId(rs.getInt(++i));
+				tblUser.setGroupId(rs.getInt(++i));
+				tblUser.setLoginName(rs.getString(++i));
+				tblUser.setPassword(rs.getString(++i));
+				tblUser.setSalt(rs.getString(++i));
+				tblUser.setFullName(rs.getString(++i));
+				tblUser.setFullNameKana(rs.getString(++i));
+				tblUser.setEmail(rs.getString(++i));
+				tblUser.setTel(rs.getString(++i));
+				tblUser.setBirthday(rs.getDate(++i));
+			}
+		} finally {
+			// đóng kết nối, trả về kết quả
+			close(con);
+			return tblUser;
+		}
+	}
+	
 }
