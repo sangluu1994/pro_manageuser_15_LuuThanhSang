@@ -2,12 +2,11 @@ function addUser() {
 	window.location.href = "addUserInput.do";
 }
 
-function showJpField() {
-    var jpField = document.getElementById('japaneseField');
-	if (jpField.style.display == 'none') {
-        jpField.style.display = 'block';
-    } else {
-        jpField.style.display = 'none';
-    }
-    
+function toggleJpField() {
+    var jpField = document.getElementsByClassName('japaneseField');
+	var length = jpField.length;
+	for (var i = 0; i < length; i++) {
+		jpField[i].style.display = jpField[i].style.display == 'table-row' ? 'none'
+				: 'table-row';
+	}
 }

@@ -319,16 +319,16 @@ public class Common {
 	}
 	
 	/**
-	 * Hàm check halfSize
+	 * Hàm check số halfSize
 	 * 
 	 * @param total - tổng điểm cần check
 	 * @return true nếu là số halfSize - false nếu không phải
 	 */
-	public static boolean checkHalfSize(String total) {
-		String regex = "^\\d+$";
-		Pattern pattern = Pattern.compile(regex);
-		Matcher matcher = pattern.matcher(total);
-		return matcher.matches();
+	public static boolean isHalfSizeNumber(String total) {
+		if (total == null) {
+			throw new NullPointerException("String input cannot be null");
+		}
+		return total.matches("^\\d+$");
 
 	}
 	
@@ -364,6 +364,13 @@ public class Common {
 			}
 		}
 		return true;
+	}
+	
+	public static boolean areAnyFullWidth(String input) {
+	    for(char c : input.toCharArray())
+	        if(c >= 0xFF00 && c <= 0xFFEF)
+	            return true;
+	        return false;
 	}
 	
 	/**

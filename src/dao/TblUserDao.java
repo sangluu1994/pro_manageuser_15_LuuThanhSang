@@ -67,7 +67,7 @@ public interface TblUserDao extends BaseDao {
 	public TblUser getUserByLoginName(Integer userId, String loginName) throws ClassNotFoundException, SQLException;
 	
 	/**
-	 * Lấy thông tin của user theo Email
+	 * Lấy thông tin của user theo email
 	 * 
 	 * @param userId
 	 * @param email

@@ -44,9 +44,10 @@ public interface TblUserLogic {
 	public List<UserInfor> getListUsers(int offset, int limit, int groupId, String fullName, String sortType, String sortByFullName, String sortByCodeLevel, String sortByEndDate) throws SQLException, ClassNotFoundException;
 	
 	/**
-	 * Phương thức kiểm tra loginName đã tồn tại chưa
+	 * Phương thức kiểm tra loginName đã tồn tại chưa?
 	 * 
-	 * @param loginName - tên đăng nhập
+	 * @param userId - user_id cần kiểm tra
+	 * @param loginName - tên đăng nhập cần kiểm tra
 	 * @return boolean - true nếu tồn tại | false nếu ngược lại
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
@@ -56,8 +57,8 @@ public interface TblUserLogic {
 	/**
 	 * Phương thức kiểm tra email đã tồn tại trong bảng tbl_user chưa?
 	 *
-	 * @param userId 
-	 * @param email
+	 * @param userId - user_id cần kiểm tra
+	 * @param email - email cần kiểm tra
 	 * @return boolean - true nếu đã tồn tại | false nếu ngược lại
 	 * @throws ClassNotFoundException
 	 * @throws SQLException

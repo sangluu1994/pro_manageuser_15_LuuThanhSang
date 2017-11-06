@@ -158,26 +158,26 @@ public class Constant {
 	
 	// parameters màn hình ADM003
 	public static final String LOGIN_NAME_ADM003 = "id";
-	public static final String GROUP_ID_ADM003 = "kanaName";
-	public static final String FULL_NAME_ADM003 = "kanaName";
+	public static final String GROUP_ID_ADM003 = "groupId";
+	public static final String FULL_NAME_ADM003 = "fullName";
 	public static final String KANA_NAME_ADM003 = "kanaName";
-	public static final String BIRTH_YEAR_ADM003 = "kanaName";
-	public static final String BIRTH_MONTH_ADM003 = "kanaName";
-	public static final String BIRTH_DATE_ADM003 = "kanaName";
-	public static final String EMAIL_ADM003 = "kanaName";
-	public static final String TEL_ADM003 = "kanaName";
-	public static final String PASS_ADM003 = "kanaName";
-	public static final String RE_PASS_ADM003 = "kanaName";
-	public static final String CODE_LEVEL_ADM003 = "kanaName";
-	public static final String START_DATE_ADM003 = "";
-	public static final String START_YEAR_ADM003 = "kanaName";
-	public static final String START_MONTH_ADM003 = "kanaName";
-	public static final String START_DAY = "kanaName";
-	public static final String END_DATE_ADM003 = "kanaName";
-	public static final String END_YEAR_ADM003 = "kanaName";
-	public static final String END_MONTH_ADM003 = "kanaName";
-	public static final String END_DAY_ADM003 = "kanaName";
-	public static final String TOTAL_ADM003 = "";
+	public static final String BIRTH_YEAR_ADM003 = "birthYear";
+	public static final String BIRTH_MONTH_ADM003 = "birthMonth";
+	public static final String BIRTH_DATE_ADM003 = "birthDate";
+	public static final String EMAIL_ADM003 = "email";
+	public static final String TEL_ADM003 = "tel";
+	public static final String PASS_ADM003 = "password";
+	public static final String CONFIRM_PASS_ADM003 = "confirmPass";
+	public static final String CODE_LEVEL_ADM003 = "kyu_id";
+//	public static final String START_DATE_ADM003 = "";
+	public static final String START_YEAR_ADM003 = "startYear";
+	public static final String START_MONTH_ADM003 = "startMonth";
+	public static final String START_DATE = "startDate";
+//	public static final String END_DATE_ADM003 = "kanaName";
+	public static final String END_YEAR_ADM003 = "endYear";
+	public static final String END_MONTH_ADM003 = "endMonth";
+	public static final String END_DATE_ADM003 = "endDate";
+	public static final String TOTAL_ADM003 = "total";
 	
 	// khác...
 	public static final String EMPTY_STRING = "";
@@ -193,7 +193,8 @@ public class Constant {
 	public static final String LIST_YEAR = "listYears";
 	public static final String LIST_MONTH = "listMonths";
 	public static final String LIST_DAY = "listDays";
-	public static final String USER_DEFAULT = "userDefault";
+	public static final String USER_INFOR = "userInfor";
+	public static final String USER_INFOR_ID = "id";
 	public static final String CONFIRM_TYPE = "confirm";
 	public static final String CURRENT_YEAR = "currentYear";
 	public static final String CURRENT_MONTH = "currentMonth";
@@ -207,8 +208,9 @@ public class Constant {
 	public static final String PASSWORD_PATTERN = "^[a-zA-Z0-9!@#$%^&*()_+.,<>?;:'-=]{6,15}$";
 	public static final int MAX_LENGTH_FULL_NAME = 50;
 	public static final int MAX_LENGTH_FULL_NAME_KANA = 50;
-	public static final int MAX_LENGTH_TEL = 15;
+	public static final int TEL_MAX_LENGTH = 15;
 	public static final int MIN_LENGTH_PASSWORD = 6;
 	public static final int MAX_LENGTH_PASSWORD = 50;
+	public static final int EMAIL_MAX_LENGTH = 255;
 	
 }

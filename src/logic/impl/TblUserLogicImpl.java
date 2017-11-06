@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import dao.impl.TblUserDaoImpl;
+import entity.TblUser;
 import entity.UserInfor;
 import logic.TblUserLogic;
 
@@ -49,7 +50,8 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 */
 	@Override
 	public boolean checkExistedLoginName(Integer userId, String loginName) throws ClassNotFoundException, SQLException {
-		return false;
+		TblUser tblUser = tblUserDaoImpl.getUserByLoginName(userId, loginName);
+		return (tblUser != null);
 	}
 
 	/* (non-Javadoc)
@@ -57,7 +59,8 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 */
 	@Override
 	public boolean checkExistedEmail(Integer userId, String email) throws ClassNotFoundException, SQLException {
-		return false;
+		TblUser tblUser = tblUserDaoImpl.getUserByEmail(userId, email);
+		return (tblUser != null);
 	}
 	
 }

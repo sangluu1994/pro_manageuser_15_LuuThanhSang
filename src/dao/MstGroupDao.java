@@ -32,5 +32,5 @@ public interface MstGroupDao extends BaseDao {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public MstGroup getGroup(int id) throws SQLException, ClassNotFoundException;
+	public MstGroup getGroupById(int id) throws SQLException, ClassNotFoundException;
 }

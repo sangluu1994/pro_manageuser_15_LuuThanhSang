@@ -35,4 +35,13 @@ public class MstGroupLogicImpl implements MstGroupLogic {
 		return mstGroupDaoImpl.getAllMstGroup();
 	}
 
+	/* (non-Javadoc)
+	 * @see logic.MstGroupLogic#checkExistGroup(int)
+	 */
+	@Override
+	public boolean isRealGroup(int groupId) throws SQLException, ClassNotFoundException {
+		MstGroup mstGroup = mstGroupDaoImpl.getGroupById(groupId);
+		return (mstGroup != null);
+	}
+
 }

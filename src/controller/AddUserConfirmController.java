@@ -40,29 +40,29 @@ public class AddUserConfirmController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
-			HttpSession session = request.getSession();
-			UserInfor userInfor = (UserInfor) session.getAttribute(Constant.SESSION_USER_INFOR);
-			MstGroup mstGroup = mstGroupLogic.getGroupById(userInfor.getGroupId());
-			//MstJapan mstJapan = null;
-			String codeLevel = userInfor.getCodeLevel();
-			if (codeLevel != null && !Constant.EMPTY_STRING.equals(codeLevel) && !Constant.ZERO.equals(codeLevel)) {
-				MstJapan mstJapan = mstJapanLogic.getMstJapanByCodeLevel(userInfor.getCodeLevel());
-				request.setAttribute("mstJapan", mstJapan);
-			}
-			request.setAttribute("userInfor", userInfor);
-			request.setAttribute("mstGroup", mstGroup);
-			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher(Constant.ADM004);
-			dispatcher.forward(request, response);// forward to page jsp
-		} catch (Exception e) {
-			StringBuffer stringBuffer = new StringBuffer(request.getContextPath());
-			try {
-				// in case have error then send redirect to view error
-				response.sendRedirect(stringBuffer.append(Constant.URL_VIEW_EROR).toString());
-			} catch (IOException e1) {
-
-			}
-		}
+//		try {
+//			HttpSession session = request.getSession();
+//			UserInfor userInfor = (UserInfor) session.getAttribute(Constant.SESSION_USER_INFOR);
+//			MstGroup mstGroup = mstGroupLogic.getGroupById(userInfor.getGroupId());
+//			//MstJapan mstJapan = null;
+//			String codeLevel = userInfor.getCodeLevel();
+//			if (codeLevel != null && !Constant.EMPTY_STRING.equals(codeLevel) && !Constant.ZERO.equals(codeLevel)) {
+//				MstJapan mstJapan = mstJapanLogic.getMstJapanByCodeLevel(userInfor.getCodeLevel());
+//				request.setAttribute("mstJapan", mstJapan);
+//			}
+//			request.setAttribute("userInfor", userInfor);
+//			request.setAttribute("mstGroup", mstGroup);
+//			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher(Constant.ADM004);
+//			dispatcher.forward(request, response);// forward to page jsp
+//		} catch (Exception e) {
+//			StringBuffer stringBuffer = new StringBuffer(request.getContextPath());
+//			try {
+//				// in case have error then send redirect to view error
+//				response.sendRedirect(stringBuffer.append(Constant.URL_VIEW_EROR).toString());
+//			} catch (IOException e1) {
+//
+//			}
+//		}
 	}
 
 	/**

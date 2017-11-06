@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import common.Common;
 import common.Constant;
 import entity.UserInfor;
@@ -22,7 +21,7 @@ import logic.impl.TblUserLogicImpl;
 import properties.MessageErrorProperties;
 
 /**
- * 
+ * Class chứa các phương thức thực hiện kiểm tra dữ liệu nhập vào
  *
  * @author luuthanhsang
  */
@@ -41,10 +40,10 @@ public class ValidateUser {
 	}
 	
 	/**
-	 * Phương thức validate user infor
+	 * Phương thức validate đối tượng user
 	 * 
-	 * @param userInfor - đối tượng user infor
-	 * @return List<String> : list message error
+	 * @param userInfor - đối tượng user cần kiểm tra
+	 * @return listError : danh sách lỗi
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
@@ -58,14 +57,14 @@ public class ValidateUser {
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER007LOGIN));
 		} else if (!userInfor.getLoginName().matches(Constant.LOGIN_NAME_PATTERN)) { // check format
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER019));
-		} else if (tblUserLogic.checkExistedLoginName(null, userInfor.getLoginName())) { // check exist
+		} else if (tblUserLogic.checkExistedLoginName(0, userInfor.getLoginName())) { // check exist
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER003));
 		}
 
 		// check group id (2)
 		if (Constant.DEFAULT_GROUP_ID == userInfor.getGroupId()) { // check not select
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER002GROUP));
-		} else if (!mstGroupLogic.checkExistGroup(userInfor.getGroupId())) { // check exist
+		} else if (!mstGroupLogic.isRealGroup(userInfor.getGroupId())) { // check exist
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER004GROUP));
 		}
 
@@ -77,15 +76,17 @@ public class ValidateUser {
 		}
 
 		// check full name kana (2)
-		if (userInfor.getFullNameKana() != null
-				&& userInfor.getFullNameKana().length() > Constant.MAX_LENGTH_FULL_NAME_KANA) { // check length
-			listError.add(MessageErrorProperties.getErrMsg(Constant.ER006FULL));
-		} else if (!Common.isKanaString(userInfor.getFullNameKana())) { // check format
-			listError.add(MessageErrorProperties.getErrMsg(Constant.ER009KATA));
+		if (!Constant.EMPTY_STRING.equals(userInfor.getFullNameKana())) {
+			if (userInfor.getFullNameKana().length() > Constant.MAX_LENGTH_FULL_NAME_KANA) { // check length
+				listError.add(MessageErrorProperties.getErrMsg(Constant.ER006FULL));
+			} else if (!Common.isKanaString(userInfor.getFullNameKana())) { // check format
+				listError.add(MessageErrorProperties.getErrMsg(Constant.ER009KATA));
+			}
 		}
 
 		// check birthday (1)
-		if (!Common.isRealDay(Common.convertStringToInt(userInfor.getBirthYear()), Common.convertStringToInt(userInfor.getBirthMonth()),
+		if (!Common.isRealDay(Common.convertStringToInt(userInfor.getBirthYear()), 
+				Common.convertStringToInt(userInfor.getBirthMonth()),
 				Common.convertStringToInt(userInfor.getBirthDate()))) { // check real day
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER011BIRTH));
 		}
@@ -93,18 +94,18 @@ public class ValidateUser {
 		// check email (4)
 		if (Constant.EMPTY_STRING.equals(userInfor.getEmail())) { // check empty
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER001MAIL));
-		} else if (userInfor.getEmail().length() > 255) { // check length
+		} else if (userInfor.getEmail().length() > Constant.EMAIL_MAX_LENGTH) { // check length
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER006MAIL));
 		} else if (!userInfor.getEmail().matches(Constant.EMAIL_PATTERN)) { // check format
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER005MAIL));
-		} else if (tblUserLogic.checkExistedEmail(null, userInfor.getEmail())) { // check exist
+		} else if (tblUserLogic.checkExistedEmail(0, userInfor.getEmail())) { // check exist
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER003MAIL));
 		}
 
 		// check phone number (3)
 		if (Constant.EMPTY_STRING.equals(userInfor.getTel())) { // check empty
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER001TEL));
-		} else if (userInfor.getTel().length() > Constant.MAX_LENGTH_TEL) { // check length
+		} else if (userInfor.getTel().length() > Constant.TEL_MAX_LENGTH) { // check length
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER006TEL));
 		} else if (!userInfor.getTel().matches(Constant.TEL_PATTERN)) { // check format
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER005TEL));
@@ -129,14 +130,14 @@ public class ValidateUser {
 			}
 		}
 
-		// nếu có chọn vùng trình độ tiếng Nhật
-		String codeLevel = userInfor.getCodeLevel();
-		if (!Constant.DEFAULT_CODE_LEVEL.equals(codeLevel)) {
-			int startYear = Common.convertStringToInt(userInfor.getStartYear());
-			int startMonth = Common.convertStringToInt(userInfor.getStartMonth());
-			int startDay = Common.convertStringToInt(userInfor.getStartDay());
-			Date startDate = Common.toDate(startYear, startMonth, startDay);
-
+//		// nếu có chọn vùng trình độ tiếng Nhật
+//		String codeLevel = userInfor.getCodeLevel();
+//		if (!Constant.DEFAULT_CODE_LEVEL.equals(codeLevel)) {
+//			int startYear = Common.convertStringToInt(userInfor.getStartYear());
+//			int startMonth = Common.convertStringToInt(userInfor.getStartMonth());
+//			int startDay = Common.convertStringToInt(userInfor.getStartDay());
+//			Date startDate = Common.toDate(startYear, startMonth, startDay);
+//
 //			// check code level exist (1)
 //			if (!mstJapanLogic.checkExistJapan(codeLevel)) { // check exist
 //				listError.add(MessageErrorProperties.getErrMsg(Constant.ER004JAPAN));
@@ -165,7 +166,7 @@ public class ValidateUser {
 //			} else if (!userInfor.getTotal().matches(Constant.TOTAL_PATTERN)) {
 //				listError.add(MessageErrorProperties.getErrMsg(Constant.ER018TOTAL));
 //			}
-		}
+//		}
 
 		return listError;
 	}

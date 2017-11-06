@@ -17,7 +17,7 @@
 <%@ include file = "../layout/header.jsp" %>
 
 <!-- Begin vung input-->	
-	<form action="ADM004.html" method="post" name="inputform">	
+	<form action="<c:url value="${Constant.ADD_USER_INPUT_PATH}" />" method="post" name="inputform">	
 	<table  class="tbl_input"   border="0" width="75%"  cellpadding="0" cellspacing="0" >			
 		<tr>
 			<th align="left">
@@ -51,7 +51,7 @@
 							<select name="groupId">
 								<c:forEach var="group" items="${allMstGroup}">
 									<c:choose>
-										<c:when test="${group.groupId == sessionScope.userDefault.groupId}">
+										<c:when test="${group.groupId == userInfor.groupId}">
 											<option value="${group.groupId}" selected="selected">${group.groupName}</option>
 										</c:when>
 										<c:otherwise>
@@ -82,10 +82,10 @@
 					<tr>
 						<td class="lbl_left"><font color = "red">*</font> 生年月日:</td>
 						<td align="left">
-						<select>
+						<select name="birthYear">
 							<c:forEach var="listYear" items="${listYears}">
 								<c:choose>
-									<c:when test="${listYear == sessionScope.currentYear}">
+									<c:when test="${listYear == currentYear}">
 										<option value="${listYear}" selected="selected">${listYear}</option>
 									</c:when>
 									<c:otherwise>
@@ -94,10 +94,10 @@
 								</c:choose>
 							</c:forEach>
 						</select>年
-						<select>
+						<select name="birthMonth">
 							<c:forEach var="listMonth" items="${listMonths}">
 								<c:choose>
-									<c:when test="${listMonth == sessionScope.currentMonth}">
+									<c:when test="${listMonth == currentMonth}">
 										<option value="${listMonth}" selected="selected">${listMonth}</option>
 									</c:when>
 									<c:otherwise>
@@ -106,11 +106,11 @@
 								</c:choose>
 							</c:forEach>
 						</select>月
-						<select>
+						<select name="birthDate">
 							<c:forEach var="listDay" items="${listDays}">
 								<c:choose>
-									<c:when test="${listDay == sessionScope.currentDay}">
-										<option value="${listDay}">${listDay}</option>
+									<c:when test="${listDay == currentDay}">
+										<option value="${listDay}" selected="selected">${listDay}</option>
 									</c:when>
 									<c:otherwise>
 										<option value="${listDay}">${listDay}</option>
@@ -139,7 +139,7 @@
 					<tr>
 						<td class="lbl_left"><font color = "red">*</font> パスワード:</td>
 						<td align="left">
-							<input class="txBox" type="password" name="email" value=""
+							<input class="txBox" type="password" name="password" value=""
 							size="30" onfocus="this.style.borderColor='#0066ff';"
 							onblur="this.style.borderColor='#aaaaaa';" />							
 						</td>
@@ -147,25 +147,23 @@
 					<tr>
 						<td class="lbl_left">パスワード（確認）:</td>
 						<td align="left">
-							<input class="txBox" type="password" name="email" value=""
+							<input class="txBox" type="password" name="confirmPass" value=""
 							size="30" onfocus="this.style.borderColor='#0066ff';"
 							onblur="this.style.borderColor='#aaaaaa';" />							
 						</td>
 					</tr>
 					<tr>
 						<th align="left" colspan = "2" >							
-								<a href="#japaneseLevel" onclick="showJpField()">日本語能力</a>
+								<a href="javascript:void(0)" onclick="toggleJpField()">日本語能力</a>
 						</th>			
 					</tr>
-				</table>
-				<table style="display: none;" id="japaneseField">
-					<tr>
+					<tr class="japaneseField" style="display: none;">
 						<td class="lbl_left">資格:</td>
 						<td align="left">
 							<select name="kyu_id">
 								<c:forEach var="kyu" items="${allMstJapan}">
 									<c:choose>
-										<c:when test="${kyu.codeLevel == sessionScope.userDefault.codeLevel}">
+										<c:when test="${kyu.codeLevel == userInfor.codeLevel}">
 											<option value="${kyu.codeLevel}" selected="selected">${kyu.nameLevel}</option>
 										</c:when>
 										<c:otherwise>
@@ -176,47 +174,47 @@
 							</select>									
 						</td>
 					</tr>
-					<tr>
+					<tr class="japaneseField" style="display: none;">
 						<td class="lbl_left">資格交付日: </td>
 						<td align="left">
-							<select>
+							<select name="startYear">
 								<c:forEach var="listYear" items="${listYears}">
 									<option value="${listYear}">${listYear}</option>
 								</c:forEach>
 							</select>年
-							<select>
+							<select name="startMonth">
 								<c:forEach var="listMonth" items="${listMonths}">
 									<option value="${listMonth}">${listMonth}</option>
 								</c:forEach>
 							</select>月
-							<select>
+							<select name="startDate">
 								<c:forEach var="listDay" items="${listDays}">
 									<option value="${listDay}">${listDay}</option>
 								</c:forEach>
 							</select>日							
 						</td>
 					</tr>
-					<tr>
+					<tr class="japaneseField" style="display: none;">
 						<td class="lbl_left">失効日: </td>
 						<td align="left">
-							<select>
+							<select name="endYear">
 								<c:forEach var="listYear" items="${listYears}">
 									<option value="${listYear}">${listYear}</option>
 								</c:forEach>
 							</select>年
-							<select>
+							<select name="endMonth">
 								<c:forEach var="listMonth" items="${listMonths}">
 									<option value="${listMonth}">${listMonth}</option>
 								</c:forEach>
 							</select>月
-							<select>
+							<select name="endDate">
 								<c:forEach var="listDay" items="${listDays}">
 									<option value="${listDay}">${listDay}</option>
 								</c:forEach>
 							</select>日							
 						</td>
 					</tr>
-					<tr>
+					<tr class="japaneseField" style="display: none;">
 						<td class="lbl_left">点数: </td>
 						<td align="left">
 							<input class="txBox" type="text" name="total" value=""

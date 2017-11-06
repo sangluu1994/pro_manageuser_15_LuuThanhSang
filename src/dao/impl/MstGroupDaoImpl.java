@@ -20,6 +20,7 @@ import entity.MstGroup;
  * @author luuthanhsang
  */
 public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
+	Connection con = null;
 
 	/* (non-Javadoc)
 	 * @see dao.MstGroupDao#getAllMstGroup()
@@ -27,7 +28,6 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 	@SuppressWarnings("finally")
 	@Override
 	public List<MstGroup> getAllMstGroup() throws SQLException, ClassNotFoundException {
-		Connection con = null;
 		// khởi tạo danh sách trả về
 		List<MstGroup> listGroup = new ArrayList<MstGroup>();
 		try {
@@ -48,10 +48,6 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 					listGroup.add(mstGroup);
 				}
 			}
-		} catch(ClassNotFoundException e) {
-			throw new ClassNotFoundException();
-		} catch(SQLException sqlException) {
-			throw new SQLException();
 		} finally {
 			// đóng kết nối và trả về danh sách
 			close(con);
@@ -65,8 +61,7 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 	 */
 	@SuppressWarnings("finally")
 	@Override
-	public MstGroup getGroup(int id) throws SQLException, ClassNotFoundException {
-		Connection con = null;
+	public MstGroup getGroupById(int id) throws SQLException, ClassNotFoundException {
 		// khởi tạo đối tượng MstGroup sẽ trả về
 		MstGroup mstGroup = new MstGroup();
 		try {
@@ -88,10 +83,6 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 					mstGroup = null;
 				}
 			}
-		} catch(ClassNotFoundException e) {
-			throw new ClassNotFoundException();
-		} catch(SQLException sqlException) {
-			throw new SQLException();
 		} finally {
 			// đóng kết nối và trả về kết quả
 			close(con);

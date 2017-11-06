@@ -23,4 +23,13 @@ public interface MstGroupLogic {
 	 * @throws ClassNotFoundException
 	 */
 	public List<MstGroup> getAllMstGroups() throws SQLException, ClassNotFoundException;
+
+	/**
+	 * Phương thức kiểm tra group nhập vào có tồn tại trong bảng MstGroup không
+	 * @param groupId - group_id cần kiểm tra
+	 * @return boolean - true nếu đã tồn tại | false nếu ngược lại
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public boolean isRealGroup(int groupId) throws SQLException, ClassNotFoundException;
 }
