@@ -71,6 +71,7 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 				String query = "SELECT code_level, name_level FROM mst_japan WHERE code_level = ? ";
 				// truy vấn sử dụng preparedStatement
 				PreparedStatement ps = connection.prepareStatement(query);
+				ps.setString(1, codeLevel);
 				// lấy dữ liệu trả về
 				ResultSet rs = ps.executeQuery();
 				// format dữ liệu trả về thành các đối tượng MstGroup tương ứng
@@ -85,5 +86,5 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 			return mstJapan;
 		}
 	}
-
+	
 }

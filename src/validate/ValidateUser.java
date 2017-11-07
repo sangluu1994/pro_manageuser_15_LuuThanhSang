@@ -91,8 +91,12 @@ public class ValidateUser {
 				Common.convertStringToInt(userInfor.getBirthMonth()),
 				Common.convertStringToInt(userInfor.getBirthDate()))) { // check real day
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER011BIRTH));
+		} else {
+			userInfor.setBirthday(Common.toDate(Common.convertStringToInt(userInfor.getBirthYear()), 
+					Common.convertStringToInt(userInfor.getBirthMonth()),
+					Common.convertStringToInt(userInfor.getBirthDate())));
 		}
-
+		
 		// check email (4)
 		if (userInfor.getEmail() == null || Constant.EMPTY_STRING.equals(userInfor.getEmail())) { // check empty
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER001MAIL));
@@ -138,32 +142,31 @@ public class ValidateUser {
 			int startYear = Common.convertStringToInt(userInfor.getStartYear());
 			int startMonth = Common.convertStringToInt(userInfor.getStartMonth());
 			int startDay = Common.convertStringToInt(userInfor.getStartDay());
-			Date startDate = Common.toDate(startYear, startMonth, startDay);
 			int endYear = Common.convertStringToInt(userInfor.getEndYear());
 			int endMonth = Common.convertStringToInt(userInfor.getEndMonth());
 			int endDay = Common.convertStringToInt(userInfor.getEndDay());
-			Date endDate = Common.toDate(endYear, endMonth, endDay);
 
 			// check code level exist (1)
 			if (!mstJapanLogic.isRealJpLv(codeLevel)) { // check exist
 				listError.add(MessageErrorProperties.getErrMsg(Constant.ER004JAPAN));
 			}
 
-			// check start date (1)
+			// check start date (1), check end date (2)
 			if (!Common.isRealDay(startYear, startMonth, startDay)) { // check real day
 				listError.add(MessageErrorProperties.getErrMsg(Constant.ER011START));
-			}
-
-			// check end date (2)
-			if (!Common.isRealDay(endYear, endMonth, endDay)) { // check real day
+			} else if (!Common.isRealDay(endYear, endMonth, endDay)) { // check real day
 				listError.add(MessageErrorProperties.getErrMsg(Constant.ER011END));
-			} else if (endDate.compareTo(startDate) <= 0) { // check > startDate
-				listError.add(MessageErrorProperties.getErrMsg(Constant.ER012));
+			} else {
+				Date startDate = Common.toDate(startYear, startMonth, startDay);
+				Date endDate = Common.toDate(endYear, endMonth, endDay);
+				if (endDate.compareTo(startDate) <= 0) { // check > startDate
+					listError.add(MessageErrorProperties.getErrMsg(Constant.ER012));
+				}
 			}
 
 			// check total (2)
-//			String total = 
-			if (Constant.DEFAULT_TOTAL == userInfor.getTotal()) { // check empty
+			String total = ((Integer) userInfor.getTotal()).toString();
+			if (total == null || Constant.DEFAULT_TOTAL == userInfor.getTotal()) { // check empty
 				listError.add(MessageErrorProperties.getErrMsg(Constant.ER001TOTAL));
 			} else if (!Common.isHalfSizeNumber(userInfor.getTotal())) { // check halfsize
 				listError.add(MessageErrorProperties.getErrMsg(Constant.ER018TOTAL));

@@ -33,4 +33,15 @@ public interface MstJapanLogic {
 	 * @throws ClassNotFoundException 
 	 */
 	public boolean isRealJpLv(String codeLevel) throws ClassNotFoundException, SQLException;
+	
+	/**
+	 * Phương thức lấy trình độ tiếng Nhật theo codeLevel truyền vào
+	 * 
+	 * @param codeLevel - code_level của đối tượng mst_japan cần lấy
+	 * @return đối tượng MstJapan cần lấy
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public MstJapan getJpById(String codeLevel) throws SQLException, ClassNotFoundException;
+	
 }

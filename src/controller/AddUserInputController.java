@@ -16,6 +16,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import common.Common;
 import common.Constant;
 import entity.MstGroup;
@@ -75,15 +77,33 @@ public class AddUserInputController extends HttpServlet {
 		try {
 			// lấy thông tin user từ request
 			UserInfor userInfor = setDefaultValue(request, response);
+//			System.out.println("getLoginName: " + userInfor.getLoginName());
+//			System.out.println("getGroupId :" + userInfor.getGroupId());
+//			System.out.println("getFullName :" + userInfor.getFullName());
+//			System.out.println("getFullNameKana :" + userInfor.getFullNameKana());
+//			System.out.println("getBirthYear :" + userInfor.getBirthYear());
+//			System.out.println("getBirthMonth :" + userInfor.getBirthMonth());
+//			System.out.println("getBirthDate :" + userInfor.getBirthDate());
+//			System.out.println("getEmail :" + userInfor.getEmail());
+//			System.out.println("getTel :" + userInfor.getTel());
+//			System.out.println("getPass :" + userInfor.getPass());
+//			System.out.println("getRePass :" + userInfor.getRePass());
+//			System.out.println("getCodeLevel :" + userInfor.getCodeLevel());
+//			System.out.println("getStartYear :" + userInfor.getStartYear());
+//			System.out.println("getStartMonth :" + userInfor.getStartMonth());
+//			System.out.println("getStartDay :" + userInfor.getStartDay());
+//			System.out.println("getEndYear :" + userInfor.getEndYear());
+//			System.out.println("getEndMonth :" + userInfor.getEndMonth());
+//			System.out.println("getEndDay :" + userInfor.getEndDay());
+//			System.out.println("getTotal :" + userInfor.getTotal());
 			// validate
 			ValidateUser validateUser = new ValidateUser();
 			List<String> listError = validateUser.validateUserInfor(userInfor);
-			System.out.println(listError.size());
 			if (listError.isEmpty()) { // nếu không có lỗi
 				// tạo URL gọi đến AddUserConfirmController
 				StringBuilder confirmURL = new StringBuilder();
 				confirmURL.append(request.getContextPath());
-				confirmURL.append(Constant.ADD_VALIDATE_PATH);
+				confirmURL.append(Constant.ADD_CONFIRM_PATH);
 				// lấy current timestamp làm id cho userInfor lưu lên session
 				Long timeStampMillis = Instant.now().toEpochMilli();
 				String id = timeStampMillis.toString();
@@ -92,7 +112,16 @@ public class AddUserInputController extends HttpServlet {
 				confirmURL.append("=");
 				confirmURL.append(id);
 				// lưu đối tượng userInfor lên session
-				request.getSession().setAttribute(Constant.USER_INFOR_ID, userInfor);
+				userInfor.setBirthday(Common.toDate(Common.convertStringToInt(userInfor.getBirthYear()), 
+						Common.convertStringToInt(userInfor.getBirthMonth()), 
+						Common.convertStringToInt(userInfor.getBirthDate())));
+				userInfor.setStartDate(Common.toDate(Common.convertStringToInt(userInfor.getStartYear()), 
+						Common.convertStringToInt(userInfor.getStartMonth()), 
+						Common.convertStringToInt(userInfor.getStartDay())));
+				userInfor.setEndDate(Common.toDate(Common.convertStringToInt(userInfor.getEndYear()), 
+						Common.convertStringToInt(userInfor.getEndMonth()), 
+						Common.convertStringToInt(userInfor.getEndDay())));
+				request.getSession().setAttribute(id, userInfor);
 				// redirect đến AddUserConfirmController
 				response.sendRedirect(confirmURL.toString());
 			} else { // nếu có lỗi
@@ -204,12 +233,16 @@ public class AddUserInputController extends HttpServlet {
 				userInfor.setCodeLevel(request.getParameter(Constant.CODE_LEVEL_ADM003));
 				userInfor.setStartYear(request.getParameter(Constant.START_YEAR_ADM003));
 				userInfor.setStartMonth(request.getParameter(Constant.START_MONTH_ADM003));
-				userInfor.setStartDay(request.getParameter(Constant.START_DATE));
+				userInfor.setStartDay(request.getParameter(Constant.START_DAY_ADM003));
 				userInfor.setEndYear(request.getParameter(Constant.END_YEAR_ADM003));
 				userInfor.setEndMonth(request.getParameter(Constant.END_MONTH_ADM003));
-				userInfor.setEndDay(request.getParameter(Constant.END_DATE_ADM003));
+				userInfor.setEndDay(request.getParameter(Constant.END_DAY_ADM003));
 				userInfor.setTotal(Common.convertStringToInt(request.getParameter(Constant.TOTAL_ADM003)));
 			}
+		} else if (Constant.TYPE_BACK.equals(type)) {
+			String id = request.getParameter(Constant.USER_INFOR_ID);
+			HttpSession session = request.getSession();
+			userInfor = (UserInfor) session.getAttribute(id);
 		}
 		return userInfor;
 	}

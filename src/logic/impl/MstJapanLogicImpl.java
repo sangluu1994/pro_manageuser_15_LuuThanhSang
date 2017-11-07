@@ -41,4 +41,12 @@ public class MstJapanLogicImpl implements MstJapanLogic {
 		return (mstJapan != null);
 	}
 
+	/* (non-Javadoc)
+	 * @see logic.MstJapanLogic#getJpById(java.lang.String)
+	 */
+	@Override
+	public MstJapan getJpById(String codeLevel) throws SQLException, ClassNotFoundException {
+		return mstJapanDao.getJpById(codeLevel);
+	}
+
 }

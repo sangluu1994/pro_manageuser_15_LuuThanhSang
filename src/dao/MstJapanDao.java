@@ -33,4 +33,5 @@ public interface MstJapanDao extends BaseDao {
 	 * @throws ClassNotFoundException
 	 */
 	public MstJapan getJpById(String codeLevel) throws SQLException, ClassNotFoundException;
+	
 }

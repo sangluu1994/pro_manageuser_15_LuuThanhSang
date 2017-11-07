@@ -19,7 +19,8 @@ public class Constant {
 	public static final String ADD_VALIDATE_PATH = "/addUserValidate.do";
 	public static final String EDIT_VALIDATE_PATH = "/editUserValidate.do";
 	public static final String EDIT_CONFIRM_PATH = "/editUserConfirm.do";
-	public static final String ADD_CONFIRM_PATH = "/addUserConfirm.do";
+	public static final String ADD_CONFIRM_PATH = "/addUserOK.do";
+	public static final String ADD_OK_PATH = "/addUserOK.do";
 	public static final String EDIT_USER_PATH = "/editUser.do";
 	public static final String SYSTEM_ERROR_PATH = "/error.do";
 	public static final String SUCCESS_PATH = "/success.do";
@@ -169,14 +170,14 @@ public class Constant {
 	public static final String PASS_ADM003 = "password";
 	public static final String CONFIRM_PASS_ADM003 = "confirmPass";
 	public static final String CODE_LEVEL_ADM003 = "kyu_id";
-//	public static final String START_DATE_ADM003 = "";
+	public static final String START_DATE_ADM003 = "startDate";
 	public static final String START_YEAR_ADM003 = "startYear";
 	public static final String START_MONTH_ADM003 = "startMonth";
-	public static final String START_DATE = "startDate";
-//	public static final String END_DATE_ADM003 = "kanaName";
+	public static final String START_DAY_ADM003 = "startDay";
+	public static final String END_DATE_ADM003 = "endDate";
 	public static final String END_YEAR_ADM003 = "endYear";
 	public static final String END_MONTH_ADM003 = "endMonth";
-	public static final String END_DATE_ADM003 = "endDate";
+	public static final String END_DAY_ADM003 = "endDay";
 	public static final String TOTAL_ADM003 = "total";
 	
 	// khác...
@@ -204,7 +205,6 @@ public class Constant {
 	public static final String LOGIN_NAME_PATTERN = "^[a-zA-Z]{1}[a-zA-Z0-9_]{3,14}$";
 	public static final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
 	public static final String TEL_PATTERN = "^[0-9]{1,4}-[0-9]{4}-[0-9]{4}$";
-	public static final String TOTAL_PATTERN = "^[1-9]{1}[0-9]{0,10}$";
 	public static final String PASSWORD_PATTERN = "^[a-zA-Z0-9!@#$%^&*()_+.,<>?;:'-=]{6,15}$";
 	public static final int MAX_LENGTH_FULL_NAME = 50;
 	public static final int MAX_LENGTH_FULL_NAME_KANA = 50;

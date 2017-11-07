@@ -368,12 +368,12 @@ public class Common {
 		return true;
 	}
 	
-	public static boolean areAnyFullWidth(String input) {
-	    for(char c : input.toCharArray())
-	        if(c >= 0xFF00 && c <= 0xFFEF)
-	            return true;
-	        return false;
-	}
+//	public static boolean areAnyFullWidth(String input) {
+//	    for(char c : input.toCharArray())
+//	        if(c >= 0xFF00 && c <= 0xFFEF)
+//	            return true;
+//	        return false;
+//	}
 	
 	/**
 	 * Phương thức kiểm tra tính tồn tại của ngày nhập vào.

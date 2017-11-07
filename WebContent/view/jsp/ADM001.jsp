@@ -33,14 +33,14 @@
 				<tr align="left">
 					<td class="lbl_left">アカウント名:</td>
 					<td align="left">
-						<input class="txBox" type="text" name="${Constant.TXT_LOGIN_ID}" value="<c:out value="${txtUsername}"/>" size="20" onfocus="this.style.borderColor='#0066ff';"
+						<input class="txBox" type="text" name="${Constant.TXT_LOGIN_ID}" value="<c:out value="${txtUsername}" escapeXml="true" />" size="20" onfocus="this.style.borderColor='#0066ff';"
 						onblur="this.style.borderColor='#aaaaaa';" />
 					</td>
 				</tr>
 				<tr>
 					<td class="lbl_left">パスワード:</td>
 					<td align="left">
-						<input class="txBox" type="password" name="${Constant.TXT_PASSWORD}" value=""	size="22" onfocus="this.style.borderColor='#0066ff';"
+						<input class="txBox" type="password" name="${Constant.TXT_PASSWORD}" value="" size="22" onfocus="this.style.borderColor='#0066ff';"
 						onblur="this.style.borderColor='#aaaaaa';" />
 					</td>
 				</tr>

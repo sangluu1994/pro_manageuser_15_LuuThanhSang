@@ -32,4 +32,15 @@ public interface MstGroupLogic {
 	 * @throws ClassNotFoundException
 	 */
 	public boolean isRealGroup(int groupId) throws SQLException, ClassNotFoundException;
+
+	/**
+	 * Lấy ra nhóm có id cho trước
+	 * 
+	 * @param id - mã id của nhóm cần tìm
+	 * @return nhóm trong bảng mst_group | null nếu không tìm thấy
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public MstGroup getGroupById(int id) throws SQLException, ClassNotFoundException;
+	
 }

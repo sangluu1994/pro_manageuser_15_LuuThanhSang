@@ -44,4 +44,12 @@ public class MstGroupLogicImpl implements MstGroupLogic {
 		return (mstGroup != null);
 	}
 
+	/* (non-Javadoc)
+	 * @see logic.MstGroupLogic#getGroupById(int)
+	 */
+	@Override
+	public MstGroup getGroupById(int id) throws SQLException, ClassNotFoundException {
+		return mstGroupDaoImpl.getGroupById(id);
+	}
+
 }

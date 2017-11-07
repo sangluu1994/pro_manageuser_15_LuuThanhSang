@@ -45,7 +45,7 @@
 					<tr>
 						<td class="lbl_left"><font color = "red">*</font> アカウント名:</td>
 						<td align="left">
-							<input class="txBox" type="text" name="id" value=""
+							<input class="txBox" type="text" name="id" value="<c:out value="${userInfor.loginName}" escapeXml="true"></c:out>"
 							size="15" onfocus="this.style.borderColor='#0066ff';"
 							onblur="this.style.borderColor='#aaaaaa';" />
 						</td>
@@ -71,7 +71,7 @@
 					<tr>
 						<td class="lbl_left"><font color = "red">*</font> 氏名:</td>
 						<td align="left">
-						<input class="txBox" type="text" name="fullName" value=""
+						<input class="txBox" type="text" name="fullName" value="<c:out value="${userInfor.fullName}" escapeXml="true"></c:out>"
 							size="30" onfocus="this.style.borderColor='#0066ff';"
 							onblur="this.style.borderColor='#aaaaaa';" />							
 						</td>
@@ -79,7 +79,7 @@
 					<tr>
 						<td class="lbl_left">カタカナ氏名:</td>
 						<td align="left">
-						<input class="txBox" type="text" name="kanaName" value=""
+						<input class="txBox" type="text" name="kanaName" value="<c:out value="${userInfor.fullNameKana}" escapeXml="true"></c:out>"
 							size="30" onfocus="this.style.borderColor='#0066ff';"
 							onblur="this.style.borderColor='#aaaaaa';" />							
 						</td>
@@ -128,7 +128,7 @@
 					<tr>
 						<td class="lbl_left"><font color = "red">*</font> メールアドレス:</td>
 						<td align="left">
-							<input class="txBox" type="text" name="email" value=""
+							<input class="txBox" type="text" name="email" value="<c:out value="${userInfor.email}" escapeXml="true"></c:out>"
 							size="30" onfocus="this.style.borderColor='#0066ff';"
 							onblur="this.style.borderColor='#aaaaaa';" />							
 						</td>
@@ -136,7 +136,7 @@
 					<tr>
 						<td class="lbl_left"><font color = "red">*</font>電話番号:</td>
 						<td align="left">
-						<input class="txBox" type="text" name="tel" value=""
+						<input class="txBox" type="text" name="tel" value="<c:out value="${userInfor.tel}" escapeXml="true"></c:out>"
 							size="30" onfocus="this.style.borderColor='#0066ff';"
 							onblur="this.style.borderColor='#aaaaaa';" />						
 						</td>
@@ -192,7 +192,7 @@
 									<option value="${listMonth}">${listMonth}</option>
 								</c:forEach>
 							</select>月
-							<select name="startDate">
+							<select name="startDay">
 								<c:forEach var="listDay" items="${listDays}">
 									<option value="${listDay}">${listDay}</option>
 								</c:forEach>
@@ -212,7 +212,7 @@
 									<option value="${listMonth}">${listMonth}</option>
 								</c:forEach>
 							</select>月
-							<select name="endDate">
+							<select name="endDay">
 								<c:forEach var="listDay" items="${listDays}">
 									<option value="${listDay}">${listDay}</option>
 								</c:forEach>
@@ -222,7 +222,7 @@
 					<tr class="japaneseField" style="display: none;">
 						<td class="lbl_left">点数: </td>
 						<td align="left">
-							<input class="txBox" type="text" name="total" value=""
+							<input class="txBox" type="text" name="total" value="<c:out value="${userInfor.total}" escapeXml="true"></c:out>"
 							size="5" onfocus="this.style.borderColor='#0066ff';"
 							onblur="this.style.borderColor='#aaaaaa';" />							
 						</td>
