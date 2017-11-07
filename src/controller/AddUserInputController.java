@@ -78,6 +78,7 @@ public class AddUserInputController extends HttpServlet {
 			// validate
 			ValidateUser validateUser = new ValidateUser();
 			List<String> listError = validateUser.validateUserInfor(userInfor);
+			System.out.println(listError.size());
 			if (listError.isEmpty()) { // nếu không có lỗi
 				// tạo URL gọi đến AddUserConfirmController
 				StringBuilder confirmURL = new StringBuilder();
@@ -184,31 +185,31 @@ public class AddUserInputController extends HttpServlet {
 			userInfor.setEndDate(Common.toDate(defaultDate.get(0), defaultDate.get(1), defaultDate.get(2)));
 			userInfor.setTotal(Constant.DEFAULT_TOTAL);
 		} else if (Constant.CONFIRM_TYPE.equals(type)) { // nếu là trường hợp click button xác nhận
-//			// lấy giá trị từ request lưu vào userInfor
-//			userInfor.setLoginName(request.getParameter(Constant.LOGIN_NAME_ADM003));
-//			userInfor.setGroupId(Common.convertStringToInt(request.getParameter(Constant.GROUP_ID_ADM003)));
-//			userInfor.setFullName(request.getParameter(Constant.FULL_NAME_ADM003));
-//			userInfor.setFullNameKana(request.getParameter(Constant.KANA_NAME_ADM003));
-//			userInfor.setBirthYear(request.getParameter(Constant.BIRTH_YEAR_ADM003));
-//			userInfor.setBirthMonth(request.getParameter(Constant.BIRTH_MONTH_ADM003));
-//			userInfor.setBirthDate(request.getParameter(Constant.BIRTH_DATE_ADM003));
-//			userInfor.setEmail(request.getParameter(Constant.EMAIL_ADM003));
-//			userInfor.setTel(request.getParameter(Constant.TEL_ADM003));
-//			userInfor.setPass(request.getParameter(Constant.PASS_ADM003));
-//			userInfor.setRePass(request.getParameter(Constant.CONFIRM_PASS_ADM003));
-//			// kiểm tra xem có những trường thuộc trình độ tiếng Nhật trong request gửi lên hay không
-//			String codeLevel = request.getParameter(Constant.CODE_LEVEL_ADM003);
-//			// nếu có, lưu vào userInfor
-//			if (codeLevel != null && !Constant.DEFAULT_CODE_LEVEL.equals(codeLevel)) {
-//				userInfor.setCodeLevel(request.getParameter(Constant.CODE_LEVEL_ADM003));
-//				userInfor.setStartYear(request.getParameter(Constant.START_YEAR_ADM003));
-//				userInfor.setStartMonth(request.getParameter(Constant.START_MONTH_ADM003));
-//				userInfor.setStartDay(request.getParameter(Constant.START_DAY));
-//				userInfor.setEndYear(request.getParameter(Constant.END_YEAR_ADM003));
-//				userInfor.setEndMonth(request.getParameter(Constant.END_MONTH_ADM003));
-//				userInfor.setEndDay(request.getParameter(Constant.END_DAY_ADM003));
-//				userInfor.setTotal(Common.convertStringToInt(request.getParameter(Constant.TOTAL_ADM003)));
-//			}
+			// lấy giá trị từ request lưu vào userInfor
+			userInfor.setLoginName(request.getParameter(Constant.LOGIN_NAME_ADM003));
+			userInfor.setGroupId(Common.convertStringToInt(request.getParameter(Constant.GROUP_ID_ADM003)));
+			userInfor.setFullName(request.getParameter(Constant.FULL_NAME_ADM003));
+			userInfor.setFullNameKana(request.getParameter(Constant.KANA_NAME_ADM003));
+			userInfor.setBirthYear(request.getParameter(Constant.BIRTH_YEAR_ADM003));
+			userInfor.setBirthMonth(request.getParameter(Constant.BIRTH_MONTH_ADM003));
+			userInfor.setBirthDate(request.getParameter(Constant.BIRTH_DATE_ADM003));
+			userInfor.setEmail(request.getParameter(Constant.EMAIL_ADM003));
+			userInfor.setTel(request.getParameter(Constant.TEL_ADM003));
+			userInfor.setPass(request.getParameter(Constant.PASS_ADM003));
+			userInfor.setRePass(request.getParameter(Constant.CONFIRM_PASS_ADM003));
+			// kiểm tra xem có những trường thuộc trình độ tiếng Nhật trong request gửi lên hay không
+			String codeLevel = request.getParameter(Constant.CODE_LEVEL_ADM003);
+			// nếu có, lưu vào userInfor
+			if (codeLevel != null && !Constant.DEFAULT_CODE_LEVEL.equals(codeLevel)) {
+				userInfor.setCodeLevel(request.getParameter(Constant.CODE_LEVEL_ADM003));
+				userInfor.setStartYear(request.getParameter(Constant.START_YEAR_ADM003));
+				userInfor.setStartMonth(request.getParameter(Constant.START_MONTH_ADM003));
+				userInfor.setStartDay(request.getParameter(Constant.START_DATE));
+				userInfor.setEndYear(request.getParameter(Constant.END_YEAR_ADM003));
+				userInfor.setEndMonth(request.getParameter(Constant.END_MONTH_ADM003));
+				userInfor.setEndDay(request.getParameter(Constant.END_DATE_ADM003));
+				userInfor.setTotal(Common.convertStringToInt(request.getParameter(Constant.TOTAL_ADM003)));
+			}
 		}
 		return userInfor;
 	}

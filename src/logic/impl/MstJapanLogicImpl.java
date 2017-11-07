@@ -32,4 +32,13 @@ public class MstJapanLogicImpl implements MstJapanLogic {
 		return mstJapanDao.getAllMstJapan();
 	}
 
+	/* (non-Javadoc)
+	 * @see logic.MstJapanLogic#isRealJpLv(java.lang.String)
+	 */
+	@Override
+	public boolean isRealJpLv(String codeLevel) throws ClassNotFoundException, SQLException {
+		MstJapan mstJapan = mstJapanDao.getJpById(codeLevel);
+		return (mstJapan != null);
+	}
+
 }

@@ -14,8 +14,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import properties.ConfigProperties;
 
@@ -41,6 +39,9 @@ public class Common {
 	 * @return boolean - true nếu là số | false nếu ngược lại
 	 */
 	public static boolean isNumber(String input) {
+		if (input == null) {
+			throw new NullPointerException("String input cannot be null");
+		}
 		return input.matches("-?\\d+(\\.\\d+)?");
 	}
 	
@@ -321,14 +322,15 @@ public class Common {
 	/**
 	 * Hàm check số halfSize
 	 * 
-	 * @param total - tổng điểm cần check
+	 * @param number - tổng điểm cần check
 	 * @return true nếu là số halfSize - false nếu không phải
 	 */
-	public static boolean isHalfSizeNumber(String total) {
-		if (total == null) {
+	public static boolean isHalfSizeNumber(int number) {
+		String tempNum = ((Integer) number).toString();
+		if (tempNum == null) {
 			throw new NullPointerException("String input cannot be null");
 		}
-		return total.matches("^\\d+$");
+		return tempNum.matches("^\\d+$");
 
 	}
 	

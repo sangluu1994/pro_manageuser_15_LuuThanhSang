@@ -4,6 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -18,6 +19,7 @@
 
 <!-- Begin vung input-->	
 	<form action="<c:url value="${Constant.ADD_USER_INPUT_PATH}" />" method="post" name="inputform">	
+	<input type="hidden" name="type" value="confirm"/>
 	<table  class="tbl_input"   border="0" width="75%"  cellpadding="0" cellspacing="0" >			
 		<tr>
 			<th align="left">
@@ -25,14 +27,17 @@
 					会員情報編集
 				</div>
 			</th>			
-		</tr>		
-		<tr>
-			<td class="errMsg">
-				<div style="padding-left:120px">
-					&nbsp;
-				</div>
-			</td>
-		</tr>
+		</tr>	
+		<c:forEach items="${errList}" var="errMess">
+			<tr>
+				<td class="errMsg" colspan="2">
+					<div style="padding-left:120px">
+						<c:out value="${errMess}"></c:out>
+					</div>
+				</td>
+			</tr>	
+		</c:forEach>	
+		
 		<tr>
 			<td align="left" >
 				<div style="padding-left:100px;">

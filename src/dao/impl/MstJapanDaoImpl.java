@@ -20,6 +20,7 @@ import entity.MstJapan;
  * @author luuthanhsang
  */
 public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
+	Connection connection = null;
 
 	/* (non-Javadoc)
 	 * @see dao.MstJapanDao#getAllMstJapan()
@@ -27,17 +28,16 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 	@SuppressWarnings("finally")
 	@Override
 	public List<MstJapan> getAllMstJapan() throws SQLException, ClassNotFoundException {
-		Connection con = null;
 		// khởi tạo danh sách trả về
 		List<MstJapan> listJapanese = new ArrayList<MstJapan>();
 		try {
 			// khởi tạo connection
-			con = getConnection();
-			if (con != null) {
+			connection = getConnection();
+			if (connection != null) {
 				// khai báo câu truy vấn
 				String query = "SELECT code_level, name_level FROM mst_japan";
 				// truy vấn sử dụng preparedStatement
-				PreparedStatement ps = con.prepareStatement(query);
+				PreparedStatement ps = connection.prepareStatement(query);
 				// lấy dữ liệu trả về
 				ResultSet rs = ps.executeQuery();
 				// format dữ liệu trả về thành các đối tượng MstGroup tương ứng
@@ -48,14 +48,41 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 					listJapanese.add(mstJapan);
 				}
 			}
-		} catch (ClassNotFoundException e) {
-			throw new ClassNotFoundException();
-		} catch (SQLException sqlException) {
-			throw new SQLException();
 		} finally {
 			// đóng kết nối và trả về danh sách
-			close(con);
+			close(connection);
 			return listJapanese;
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see dao.MstJapanDao#getJpById(java.lang.String)
+	 */
+	@SuppressWarnings("finally")
+	@Override
+	public MstJapan getJpById(String codeLevel) throws SQLException, ClassNotFoundException {
+		// khởi tạo danh sách trả về
+		MstJapan mstJapan = new MstJapan();
+		try {
+			// khởi tạo connection
+			connection = getConnection();
+			if (connection != null) {
+				// khai báo câu truy vấn
+				String query = "SELECT code_level, name_level FROM mst_japan WHERE code_level = ? ";
+				// truy vấn sử dụng preparedStatement
+				PreparedStatement ps = connection.prepareStatement(query);
+				// lấy dữ liệu trả về
+				ResultSet rs = ps.executeQuery();
+				// format dữ liệu trả về thành các đối tượng MstGroup tương ứng
+				while (rs.next()) {
+					mstJapan.setCodeLevel(rs.getString("code_level"));
+					mstJapan.setNameLevel(rs.getString("name_level"));
+				}
+			}
+		} finally {
+			// đóng kết nối và trả về danh sách
+			close(connection);
+			return mstJapan;
 		}
 	}
 
