@@ -12,6 +12,7 @@ function toggleJpField() {
 
 function back() {
 	document.inputform.action = "addUserInput.do";
+	document.inputform.method = "get";
 	var accessType = document.createElement('input');
 	accessType.setAttribute("type", "hidden");
 	accessType.setAttribute("name", "type");

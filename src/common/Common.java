@@ -298,11 +298,11 @@ public class Common {
 		int currentDay = now.getDayOfMonth();
 		int currentMonth = now.getMonthValue();
 		int currentYear = now.getYear();
-		List<Integer> currentDate = new ArrayList<>();
-		currentDate.add(currentYear);
-		currentDate.add(currentMonth);
-		currentDate.add(currentDay);
-		return currentDate;
+		List<Integer> listCurrentDate = new ArrayList<>();
+		listCurrentDate.add(currentYear);
+		listCurrentDate.add(currentMonth);
+		listCurrentDate.add(currentDay);
+		return listCurrentDate;
 	}
 	
 	/**
@@ -335,10 +335,10 @@ public class Common {
 	}
 	
 	/**
-	 * Phương thức kiểm tra xem 1 ký tự có phải là ký tự kana hay không.
+	 * Phương thức kiểm tra xem 1 kí tự có phải là kí tự kana hay không.
 	 * 
 	 * @param input - kí tự cần kiểm tra.
-	 * @return true nếu ký tự là ký tự Katakana | false trong trường hợp còn lại
+	 * @return true nếu kí tự là kí tự Katakana | false trong trường hợp còn lại
 	 */
 	public static boolean isKanaChar(char input) {
 		int temp = (int) input;
@@ -349,11 +349,10 @@ public class Common {
 	}
 	
 	/**
-	 * Phương thức kiểm tra chuỗi đầu vào có phải là chuỗi ký tự Katakana hay không.
-	 * (Chỉ chấp nhận các ký tự fullsize)
+	 * Phương thức kiểm tra chuỗi đầu vào có phải là chuỗi kí tự kana hay không.
 	 * 
 	 * @param input - chuỗi cần kiểm tra.
-	 * @return true nếu chuỗi đầu vào là chuỗi ký tự Katakana | false trong các trường hợp còn lại.
+	 * @return true nếu chuỗi đầu vào là chuỗi kí tự kana | false nếu ngược lại.
 	 */
 	public static boolean isKanaString(String input) {
 		if (input == null) {
@@ -378,15 +377,11 @@ public class Common {
 	/**
 	 * Phương thức kiểm tra tính tồn tại của ngày nhập vào.
 	 * 
-	 * @param year
-	 *            Năm cần kiểm tra.
-	 * @param month
-	 *            Tháng cần kiểm tra.
-	 * @param day
-	 *            Ngày cần kiểm tra
+	 * @param year - năm cần kiểm tra.
+	 * @param month - tháng cần kiểm tra.
+	 * @param day - ngày cần kiểm tra
 	 * 
-	 * @return true nếu ngày nhập vào thực sự tồn tại. <br />
-	 *         false trong các trường hợp còn lại.
+	 * @return true nếu ngày nhập vào có tồn tại | false nếu ngược lại.
 	 */
 	public static boolean isRealDay(int year, int month, int day) {
 		int yearNow = getYearNow();
@@ -430,5 +425,4 @@ public class Common {
 		return true;
 	}
 
-	
 }

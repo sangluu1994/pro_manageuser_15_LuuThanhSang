@@ -1,6 +1,5 @@
 <%@ page import="common.Constant"%>
-<%@ page import="entity.MstGroup"%>
-<%@ page import="entity.MstJapan"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -18,7 +17,7 @@
 <%@ include file = "../layout/header.jsp" %>
 
 <!-- Begin vung input-->	
-	<form action="<c:url value="${Constant.ADD_USER_INPUT_PATH}" />" method="post" name="inputform">	
+	<form action="<c:url value="${Constant.ADD_USER_VALIDATE_PATH}" />" method="post" name="inputform">	
 	<input type="hidden" name="type" value="confirm"/>
 	<table  class="tbl_input"   border="0" width="75%"  cellpadding="0" cellspacing="0" >			
 		<tr>
@@ -55,14 +54,7 @@
 						<td align="left">						
 							<select name="groupId">
 								<c:forEach var="group" items="${allMstGroup}">
-									<c:choose>
-										<c:when test="${group.groupId == userInfor.groupId}">
-											<option value="${group.groupId}" selected="selected">${group.groupName}</option>
-										</c:when>
-										<c:otherwise>
-											<option value="${group.groupId}">${group.groupName}</option>
-										</c:otherwise>
-									</c:choose>
+									<option value="${group.groupId}" ${group.groupId == userInfor.groupId ? "selected" : ""}>${group.groupName}</option>
 								</c:forEach>
 							</select>							
 							<span>&nbsp;&nbsp;&nbsp;</span>
@@ -89,38 +81,17 @@
 						<td align="left">
 						<select name="birthYear">
 							<c:forEach var="listYear" items="${listYears}">
-								<c:choose>
-									<c:when test="${listYear == currentYear}">
-										<option value="${listYear}" selected="selected">${listYear}</option>
-									</c:when>
-									<c:otherwise>
-										<option value="${listYear}">${listYear}</option>
-									</c:otherwise>
-								</c:choose>
+								<option value="${listYear}" ${listYear == userInfor.birthYear ? "selected" : ""}>${listYear}</option>
 							</c:forEach>
 						</select>年
 						<select name="birthMonth">
 							<c:forEach var="listMonth" items="${listMonths}">
-								<c:choose>
-									<c:when test="${listMonth == currentMonth}">
-										<option value="${listMonth}" selected="selected">${listMonth}</option>
-									</c:when>
-									<c:otherwise>
-										<option value="${listMonth}">${listMonth}</option>
-									</c:otherwise>
-								</c:choose>
+								<option value="${listMonth}" ${listMonth == userInfor.birthMonth ? "selected" : ""}>${listMonth}</option>
 							</c:forEach>
 						</select>月
 						<select name="birthDate">
 							<c:forEach var="listDay" items="${listDays}">
-								<c:choose>
-									<c:when test="${listDay == currentDay}">
-										<option value="${listDay}" selected="selected">${listDay}</option>
-									</c:when>
-									<c:otherwise>
-										<option value="${listDay}">${listDay}</option>
-									</c:otherwise>
-								</c:choose>
+								<option value="${listDay}" ${listDay == userInfor.birthDate ? "selected" : ""}>${listDay}</option>
 							</c:forEach>
 						</select>日							
 						</td>
@@ -162,64 +133,57 @@
 								<a href="javascript:void(0)" onclick="toggleJpField()">日本語能力</a>
 						</th>			
 					</tr>
-					<tr class="japaneseField" style="display: none;">
+					<tr class="japaneseField" style="display: ${Constant.DEFAULT_CODE_LEVEL == userInfor.codeLevel ? 'none' : 'table-row'};">
 						<td class="lbl_left">資格:</td>
 						<td align="left">
 							<select name="kyu_id">
 								<c:forEach var="kyu" items="${allMstJapan}">
-									<c:choose>
-										<c:when test="${kyu.codeLevel == userInfor.codeLevel}">
-											<option value="${kyu.codeLevel}" selected="selected">${kyu.nameLevel}</option>
-										</c:when>
-										<c:otherwise>
-											<option value="${kyu.codeLevel}">${kyu.nameLevel}</option>
-										</c:otherwise>
-									</c:choose>
+									<option value="${kyu.codeLevel}" ${kyu.codeLevel == userInfor.codeLevel ? "selected" : ""}>${kyu.nameLevel}</option>
 								</c:forEach>
 							</select>									
 						</td>
 					</tr>
-					<tr class="japaneseField" style="display: none;">
+					<tr class="japaneseField" style="display: ${Constant.DEFAULT_CODE_LEVEL == userInfor.codeLevel ? 'none' : 'table-row'};">
 						<td class="lbl_left">資格交付日: </td>
 						<td align="left">
 							<select name="startYear">
 								<c:forEach var="listYear" items="${listYears}">
-									<option value="${listYear}">${listYear}</option>
+									<option value="${listYear}" ${listYear == userInfor.startYear ? "selected" : ""}>${listYear}</option>
 								</c:forEach>
 							</select>年
 							<select name="startMonth">
 								<c:forEach var="listMonth" items="${listMonths}">
-									<option value="${listMonth}">${listMonth}</option>
+									<option value="${listMonth}" ${listMonth == userInfor.startMonth ? "selected" : ""}>${listMonth}</option>
 								</c:forEach>
 							</select>月
 							<select name="startDay">
 								<c:forEach var="listDay" items="${listDays}">
-									<option value="${listDay}">${listDay}</option>
+									<option value="${listDay}" ${listDay == userInfor.startDay ? "selected" : ""}>${listDay}</option>
 								</c:forEach>
 							</select>日							
 						</td>
 					</tr>
-					<tr class="japaneseField" style="display: none;">
+					<tr class="japaneseField" style="display: ${Constant.DEFAULT_CODE_LEVEL == userInfor.codeLevel ? 'none' : 'table-row'};">
 						<td class="lbl_left">失効日: </td>
 						<td align="left">
 							<select name="endYear">
 								<c:forEach var="listYear" items="${listYears}">
-									<option value="${listYear}">${listYear}</option>
+									<option value="${listYear}" ${listYear == userInfor.endYear ? "selected" : ""}>${listYear}</option>
 								</c:forEach>
 							</select>年
 							<select name="endMonth">
 								<c:forEach var="listMonth" items="${listMonths}">
-									<option value="${listMonth}">${listMonth}</option>
+									<option value="${listMonth}" ${listMonth == userInfor.endMonth ? "selected" : ""}>${listMonth}</option>
 								</c:forEach>
 							</select>月
 							<select name="endDay">
 								<c:forEach var="listDay" items="${listDays}">
-									<option value="${listDay}">${listDay}</option>
+									<option value="${listDay}" ${listDay == userInfor.endDay ? "selected" : ""}>${listDay}</option>
 								</c:forEach>
 							</select>日							
 						</td>
 					</tr>
-					<tr class="japaneseField" style="display: none;">
+					<tr class="japaneseField" style="display: ${Constant.DEFAULT_CODE_LEVEL == userInfor.codeLevel ? 'none' : 'table-row'};">
 						<td class="lbl_left">点数: </td>
 						<td align="left">
 							<input class="txBox" type="text" name="total" value="<c:out value="${userInfor.total}" escapeXml="true"></c:out>"

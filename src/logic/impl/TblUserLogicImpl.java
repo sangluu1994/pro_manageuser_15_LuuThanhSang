@@ -7,11 +7,12 @@ package logic.impl;
 
 import java.sql.SQLException;
 import java.util.List;
-
+import common.Constant;
 import dao.impl.TblUserDaoImpl;
 import entity.TblUser;
 import entity.UserInfor;
 import logic.TblUserLogic;
+import properties.AdminProperties;
 
 /**
  * Class thao tác với bảng tbl_user
@@ -50,8 +51,12 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 */
 	@Override
 	public boolean checkExistedLoginName(Integer userId, String loginName) throws ClassNotFoundException, SQLException {
-		TblUser tblUser = tblUserDaoImpl.getUserByLoginName(userId, loginName);
-		return (tblUser != null);
+		if (AdminProperties.getValue(Constant.ADMIN_USER).equals(loginName)) {
+			return true;
+		} else {
+			TblUser tblUser = tblUserDaoImpl.getUserByLoginName(userId, loginName);
+			return (tblUser != null);
+		}
 	}
 
 	/* (non-Javadoc)

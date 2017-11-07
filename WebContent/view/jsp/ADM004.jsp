@@ -1,6 +1,5 @@
 <%@ page import="common.Constant"%>
-<%@ page import="entity.MstGroup"%>
-<%@ page import="entity.UserInfor"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -19,8 +18,8 @@
 <%@ include file = "../layout/header.jsp" %>
 
 <!-- Begin vung input-->	
-<form action="<c:url value="${Constant.ADD_OK_PATH}" />" method="post" name="inputform">
-	<input type="hidden" name="id" value="<c:out value="${userInfor.id}"></c:out>" />
+<form action="<c:url value="${Constant.ADD_USER_OK_PATH}" />" method="post" name="inputform">
+	<input type="hidden" name="id" value="<c:out value="${id}"></c:out>" />
 	<table  class="tbl_input" border="0" width="75%"  cellpadding="0" cellspacing="0" >			
 		<tr>
 			<th align="left">
@@ -97,7 +96,7 @@
 					<input class="btn" type="submit" value="OK" />					
 				</td>	
 				<td>
-					<input class="btn" type="button" value="戻る" />						
+					<input class="btn" type="button" value="戻る" onclick="back()" />						
 				</td>
 		</tr>		
 	</table>

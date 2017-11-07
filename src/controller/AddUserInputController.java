@@ -32,7 +32,7 @@ import validate.ValidateUser;
  * 
  * @author luuthanhsang
  */
-@WebServlet(urlPatterns = {Constant.ADD_USER_INPUT_PATH, Constant.ADD_VALIDATE_PATH})
+@WebServlet(urlPatterns = {Constant.ADD_USER_INPUT_PATH, Constant.ADD_USER_VALIDATE_PATH})
 public class AddUserInputController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private MstGroupLogicImpl mstGroupLogic;
@@ -103,7 +103,7 @@ public class AddUserInputController extends HttpServlet {
 				// tạo URL gọi đến AddUserConfirmController
 				StringBuilder confirmURL = new StringBuilder();
 				confirmURL.append(request.getContextPath());
-				confirmURL.append(Constant.ADD_CONFIRM_PATH);
+				confirmURL.append(Constant.ADD_USER_CONFIRM_PATH);
 				// lấy current timestamp làm id cho userInfor lưu lên session
 				Long timeStampMillis = Instant.now().toEpochMilli();
 				String id = timeStampMillis.toString();
@@ -115,12 +115,16 @@ public class AddUserInputController extends HttpServlet {
 				userInfor.setBirthday(Common.toDate(Common.convertStringToInt(userInfor.getBirthYear()), 
 						Common.convertStringToInt(userInfor.getBirthMonth()), 
 						Common.convertStringToInt(userInfor.getBirthDate())));
-				userInfor.setStartDate(Common.toDate(Common.convertStringToInt(userInfor.getStartYear()), 
-						Common.convertStringToInt(userInfor.getStartMonth()), 
-						Common.convertStringToInt(userInfor.getStartDay())));
-				userInfor.setEndDate(Common.toDate(Common.convertStringToInt(userInfor.getEndYear()), 
-						Common.convertStringToInt(userInfor.getEndMonth()), 
-						Common.convertStringToInt(userInfor.getEndDay())));
+				// nếu có chọn trình độ tiếng Nhật
+				String codeLevel = userInfor.getCodeLevel();
+				if (codeLevel != null && !Constant.DEFAULT_CODE_LEVEL.equals(codeLevel)) {
+					userInfor.setStartDate(Common.toDate(Common.convertStringToInt(userInfor.getStartYear()), 
+							Common.convertStringToInt(userInfor.getStartMonth()), 
+							Common.convertStringToInt(userInfor.getStartDay())));
+					userInfor.setEndDate(Common.toDate(Common.convertStringToInt(userInfor.getEndYear()), 
+							Common.convertStringToInt(userInfor.getEndMonth()), 
+							Common.convertStringToInt(userInfor.getEndDay())));
+				}
 				request.getSession().setAttribute(id, userInfor);
 				// redirect đến AddUserConfirmController
 				response.sendRedirect(confirmURL.toString());
@@ -177,11 +181,11 @@ public class AddUserInputController extends HttpServlet {
 		request.setAttribute(Constant.LIST_MONTH, listMonths);
 		request.setAttribute(Constant.LIST_DAY, listDays);
 		
-		// Gán ngày tháng năm hiện tại lên request
-		List<Integer> currentTime = Common.getCurrentYearMonthDay();
-		request.setAttribute(Constant.CURRENT_YEAR, currentTime.get(0));
-		request.setAttribute(Constant.CURRENT_MONTH, currentTime.get(1));
-		request.setAttribute(Constant.CURRENT_DAY, currentTime.get(2));
+//		// Gán ngày tháng năm hiện tại lên request
+//		List<Integer> currentTime = Common.getCurrentYearMonthDay();
+//		request.setAttribute(Constant.CURRENT_YEAR, currentTime.get(0));
+//		request.setAttribute(Constant.CURRENT_MONTH, currentTime.get(1));
+//		request.setAttribute(Constant.CURRENT_DAY, currentTime.get(2));
 	}
 	
 	/**
@@ -189,30 +193,38 @@ public class AddUserInputController extends HttpServlet {
 	 * 
 	 * @param request - HttpServletRequest
 	 * @param response - HttpServletResponse
-	 * @return
+	 * @return userInfor - đối tượng userInfor
 	 * @throws ParseException 
 	 */
 	private UserInfor setDefaultValue(HttpServletRequest request, HttpServletResponse response) throws ParseException {
 		// lấy tham số "type" để xác định trường hợp vào màn hình ADM003
 		String type = request.getParameter(Constant.TYPE);
 		UserInfor userInfor = new UserInfor();
-		// nếu là null, trường hợp thêm mới
-		if (type == null) {
-			// gán giá trị mặc định cho đối tượng userInfor sẽ ghi vào db
-			List<Integer> defaultDate = Common.getCurrentYearMonthDay();
-			userInfor.setLoginName(Constant.EMPTY_STRING);
-			userInfor.setGroupId(Constant.DEFAULT_GROUP_ID);
-			userInfor.setFullName(Constant.EMPTY_STRING);
-			userInfor.setFullNameKana(Constant.EMPTY_STRING);
-			userInfor.setBirthday(Common.toDate(defaultDate.get(0), defaultDate.get(1), defaultDate.get(2)));
-			userInfor.setEmail(Constant.EMPTY_STRING);
-			userInfor.setTel(Constant.EMPTY_STRING);
-			userInfor.setPass(Constant.EMPTY_STRING);
-			userInfor.setRePass(Constant.EMPTY_STRING);
-			userInfor.setCodeLevel(Constant.DEFAULT_CODE_LEVEL);
-			userInfor.setStartDate(Common.toDate(defaultDate.get(0), defaultDate.get(1), defaultDate.get(2)));
-			userInfor.setEndDate(Common.toDate(defaultDate.get(0), defaultDate.get(1), defaultDate.get(2)));
-			userInfor.setTotal(Constant.DEFAULT_TOTAL);
+		// gán giá trị mặc định cho đối tượng userInfor sẽ ghi vào db
+		List<Integer> defaultDate = Common.getCurrentYearMonthDay();
+//		userInfor.setLoginName(Constant.EMPTY_STRING);
+		userInfor.setGroupId(Constant.DEFAULT_GROUP_ID);
+//		userInfor.setFullName(Constant.EMPTY_STRING);
+//		userInfor.setFullNameKana(Constant.EMPTY_STRING);
+		userInfor.setBirthYear(defaultDate.get(0).toString());
+		userInfor.setBirthMonth(defaultDate.get(1).toString());
+		userInfor.setBirthDate(defaultDate.get(2).toString());
+//		userInfor.setEmail(Constant.EMPTY_STRING);
+//		userInfor.setTel(Constant.EMPTY_STRING);
+//		userInfor.setPass(Constant.EMPTY_STRING);
+//		userInfor.setRePass(Constant.EMPTY_STRING);
+		userInfor.setCodeLevel(Constant.DEFAULT_CODE_LEVEL);
+		userInfor.setStartYear(defaultDate.get(0).toString());
+		userInfor.setStartMonth(defaultDate.get(1).toString());
+		userInfor.setStartDay(defaultDate.get(2).toString());
+		userInfor.setEndYear(((Integer) ((int) defaultDate.get(0) + 1)).toString());
+		userInfor.setEndMonth(defaultDate.get(1).toString());
+		userInfor.setEndDay(defaultDate.get(2).toString());
+		// xét trường hợp vào màn hình ADM003
+		if (type == null) { // nếu là trường hợp thêm mới
+			System.out.println("add");
+			System.out.println("total: " + userInfor.getTotal());
+			// do nothing
 		} else if (Constant.CONFIRM_TYPE.equals(type)) { // nếu là trường hợp click button xác nhận
 			// lấy giá trị từ request lưu vào userInfor
 			userInfor.setLoginName(request.getParameter(Constant.LOGIN_NAME_ADM003));
@@ -229,8 +241,8 @@ public class AddUserInputController extends HttpServlet {
 			// kiểm tra xem có những trường thuộc trình độ tiếng Nhật trong request gửi lên hay không
 			String codeLevel = request.getParameter(Constant.CODE_LEVEL_ADM003);
 			// nếu có, lưu vào userInfor
-			if (codeLevel != null && !Constant.DEFAULT_CODE_LEVEL.equals(codeLevel)) {
-				userInfor.setCodeLevel(request.getParameter(Constant.CODE_LEVEL_ADM003));
+			if (codeLevel != null || !Constant.DEFAULT_CODE_LEVEL.equals(codeLevel)) {
+				userInfor.setCodeLevel(codeLevel);
 				userInfor.setStartYear(request.getParameter(Constant.START_YEAR_ADM003));
 				userInfor.setStartMonth(request.getParameter(Constant.START_MONTH_ADM003));
 				userInfor.setStartDay(request.getParameter(Constant.START_DAY_ADM003));

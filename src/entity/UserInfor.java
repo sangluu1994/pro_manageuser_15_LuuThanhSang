@@ -40,7 +40,6 @@ public class UserInfor {
 	private String endDay;
 	private int total;
 	
-	
 	/**
 	 * @return the birthYear
 	 */

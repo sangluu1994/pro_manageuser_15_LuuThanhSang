@@ -16,12 +16,12 @@ public class Constant {
 	public static final String LOG_IN_PATH = "/login.do";
 	public static final String LIST_USER_PATH = "/listAllUser.do";
 	public static final String ADD_USER_INPUT_PATH = "/addUserInput.do";
-	public static final String ADD_VALIDATE_PATH = "/addUserValidate.do";
+	public static final String ADD_USER_VALIDATE_PATH = "/addUserValidate.do";
+	public static final String ADD_USER_CONFIRM_PATH = "/addUserConfirm.do";
+	public static final String ADD_USER_OK_PATH = "/addUserOK.do";
+	public static final String EDIT_USER_PATH = "/editUser.do";
 	public static final String EDIT_VALIDATE_PATH = "/editUserValidate.do";
 	public static final String EDIT_CONFIRM_PATH = "/editUserConfirm.do";
-	public static final String ADD_CONFIRM_PATH = "/addUserOK.do";
-	public static final String ADD_OK_PATH = "/addUserOK.do";
-	public static final String EDIT_USER_PATH = "/editUser.do";
 	public static final String SYSTEM_ERROR_PATH = "/error.do";
 	public static final String SUCCESS_PATH = "/success.do";
 	public static final String DETAIL_USER_PATH = "/detailUser.do";

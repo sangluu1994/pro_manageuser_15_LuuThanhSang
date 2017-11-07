@@ -211,7 +211,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			// khởi tạo connection
 			connection = getConnection();
 			// xây dựng truy vấn
-			StringBuilder queryBuilder = new StringBuilder("SELECT u.user_id. u.group_id , u.login_name , u.full_name , u.full_name_kana , u.email , u.tel , u.birthday ");
+			StringBuilder queryBuilder = new StringBuilder("SELECT u.user_id, u.group_id, u.login_name, u.full_name, u.full_name_kana, u.email, u.tel, u.birthday ");
 			queryBuilder.append("FROM tbl_user u WHERE u.login_name = ? ");
 			if (userId > 0) {
 				queryBuilder.append("AND u.user_id = ? ");
@@ -251,14 +251,14 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	 */
 	@SuppressWarnings("finally")
 	@Override
-	public TblUser getUserByEmail(Integer userId, String email) throws ClassNotFoundException, SQLException {
+	public TblUser getUserByEmail(final Integer userId, String email) throws ClassNotFoundException, SQLException {
 		TblUser tblUser = null;
 		try {
 			// khởi tạo connection
 			connection = getConnection();
 			// xây dựng truy vấn
-			StringBuilder queryBuilder = new StringBuilder("SELECT u.user_id. u.group_id , u.login_name , u.full_name , u.full_name_kana , u.email , u.tel , u.birthday ");
-			queryBuilder.append("FROM tbl_user WHERE tbl_user.email = ? ");
+			StringBuilder queryBuilder = new StringBuilder("SELECT u.user_id, u.group_id, u.login_name, u.full_name, u.full_name_kana, u.email, u.tel, u.birthday ");
+			queryBuilder.append("FROM tbl_user u WHERE u.email = ? ");
 			if (userId > 0) {
 				queryBuilder.append("AND u.user_id = ? ");
 			}

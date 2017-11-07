@@ -21,7 +21,7 @@ import logic.impl.MstJapanLogicImpl;
 /**
  * Servlet implementation class AddUserConfirmController
  */
-@WebServlet(urlPatterns = {Constant.ADD_CONFIRM_PATH, Constant.ADD_OK_PATH})
+@WebServlet(urlPatterns = {Constant.ADD_USER_CONFIRM_PATH, Constant.ADD_USER_OK_PATH})
 public class AddUserConfirmController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private MstGroupLogic mstGroupLogic;
