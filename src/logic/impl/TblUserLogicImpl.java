@@ -6,9 +6,17 @@
 package logic.impl;
 
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.List;
+import common.Common;
 import common.Constant;
+import dao.BaseDao;
+import dao.TblDetailUserJapanDao;
+import dao.TblUserDao;
+import dao.impl.BaseDaoImpl;
+import dao.impl.TblDetailUserJapanDaoImpl;
 import dao.impl.TblUserDaoImpl;
+import entity.TblDetailUserJapan;
 import entity.TblUser;
 import entity.UserInfor;
 import logic.TblUserLogic;
@@ -20,13 +28,16 @@ import properties.AdminProperties;
  * @author luuthanhsang
  */
 public class TblUserLogicImpl implements TblUserLogic {
-	private TblUserDaoImpl tblUserDaoImpl;
-	
+	private TblUserDao tblUserDao;
+	private BaseDao baseDao;
+	private TblDetailUserJapanDao tblDetailUserJapanDao;
 	/**
 	 * Constructor
 	 */
 	public TblUserLogicImpl() {
-		tblUserDaoImpl = new TblUserDaoImpl();
+		tblUserDao = new TblUserDaoImpl();
+		baseDao = new BaseDaoImpl();
+		tblDetailUserJapanDao = new TblDetailUserJapanDaoImpl();
 	}
 
 	/* (non-Javadoc)
@@ -34,7 +45,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 */
 	@Override
 	public int getTotalUsers(int groupId, String fullName) throws SQLException, ClassNotFoundException {
-		return tblUserDaoImpl.getTotalUsers(groupId, fullName);
+		return tblUserDao.getTotalUsers(groupId, fullName);
 	}
 
 	/* (non-Javadoc)
@@ -43,7 +54,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 	@Override
 	public List<UserInfor> getListUsers(int offset, int limit, int groupId, String fullName, String sortType,
 			String sortByFullName, String sortByCodeLevel, String sortByEndDate) throws SQLException, ClassNotFoundException {
-		return tblUserDaoImpl.getListUsers(offset, limit, groupId, fullName, sortType, sortByFullName, sortByCodeLevel, sortByEndDate);
+		return tblUserDao.getListUsers(offset, limit, groupId, fullName, sortType, sortByFullName, sortByCodeLevel, sortByEndDate);
 	}
 
 	/* (non-Javadoc)
@@ -54,7 +65,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 		if (AdminProperties.getValue(Constant.ADMIN_USER).equals(loginName)) {
 			return true;
 		} else {
-			TblUser tblUser = tblUserDaoImpl.getUserByLoginName(userId, loginName);
+			TblUser tblUser = tblUserDao.getUserByLoginName(userId, loginName);
 			return (tblUser != null);
 		}
 	}
@@ -64,16 +75,68 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 */
 	@Override
 	public boolean checkExistedEmail(Integer userId, String email) throws ClassNotFoundException, SQLException {
-		TblUser tblUser = tblUserDaoImpl.getUserByEmail(userId, email);
+		TblUser tblUser = tblUserDao.getUserByEmail(userId, email);
 		return (tblUser != null);
 	}
 
 	/* (non-Javadoc)
 	 * @see logic.TblUserLogic#createUser(entity.UserInfor)
 	 */
+	@SuppressWarnings("finally")
 	@Override
-	public boolean createUser(UserInfor userInfor) {
-		return false;
+	public boolean createUser(UserInfor userInfor) throws SQLException, ClassNotFoundException {
+		boolean result = false;
+		// lấy current timestamp làm salt cho userInfor
+		Long timeStampMillis = Instant.now().toEpochMilli();
+		String salt = timeStampMillis.toString();
+		String password = Common.encodeMD5(userInfor.getPass() + salt);
+		// tạo đối tượng TblUser để add vào bảng tbl_user
+		TblUser tblUser = new TblUser();
+		tblUser.setGroupId(userInfor.getGroupId());
+		tblUser.setLoginName(userInfor.getLoginName());
+		tblUser.setPassword(password);
+		tblUser.setFullName(userInfor.getFullName());
+		tblUser.setFullNameKana(userInfor.getFullNameKana());
+		tblUser.setEmail(userInfor.getEmail());
+		tblUser.setTel(userInfor.getTel());
+		tblUser.setBirthday(userInfor.getBirthday());
+		tblUser.setSalt(salt);
+		try {
+			// làm việc với transaction
+			baseDao.connectDB();
+			baseDao.disableAutoCommit();
+			Integer userId = tblUserDao.insertUser(tblUser);
+			// nếu insert không thành công vào bảng tbl_user, return false
+			if (userId == null) {
+				result = false;
+			} else if (userInfor.getCodeLevel() != null && !Constant.DEFAULT_CODE_LEVEL.equals(userInfor.getCodeLevel())) {
+				// nếu có các trường trình độ tiếng Nhật, insert vào bảng tbl_detail_user_japan
+				TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
+				tblDetailUserJapan.setUserId(userId);
+				tblDetailUserJapan.setCodeLevel(userInfor.getCodeLevel());
+				tblDetailUserJapan.setStartDate(userInfor.getStartDate());
+				tblDetailUserJapan.setEndDate(userInfor.getEndDate());
+				tblDetailUserJapan.setTotal(userInfor.getTotal());
+				result = tblDetailUserJapanDao.insertDetailUserJapan(tblDetailUserJapan);
+			} else {
+				result = true;
+			}
+			if (result) {
+				// commit
+				baseDao.commit();
+			} else {
+				// rollback nếu insert không thành công
+				baseDao.rollback();
+			}
+		} catch (SQLException e) {
+			// rollback nếu xảy ra lỗi
+			baseDao.rollback();
+			return false;
+		} finally {
+			// đóng kết nối, return
+			baseDao.closeDB();
+			return result;
+		}
 	}
 	
 }

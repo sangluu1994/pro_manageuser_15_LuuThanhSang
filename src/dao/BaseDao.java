@@ -29,29 +29,41 @@ public interface BaseDao {
 	 * @throws SQLException
 	 */
 	public void close(Connection connection) throws SQLException;
+	
+	/**
+	 * Khởi tạo kết nối đến CSDL khi làm việc có transaction
+	 *
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public void connectDB() throws SQLException, ClassNotFoundException;
+	
+	/**
+	 * Disable autocommit
+	 * 
+	 * @throws SQLException
+	 */
+	public void disableAutoCommit() throws SQLException;
 
 	/**
 	 * Phương thức commit một Connection.
 	 * 
-	 * @param connection - Connection cần commit và đóng.
 	 * @throws SQLException
 	 */
-	public void commit(Connection connection) throws SQLException;
+	public void commit() throws SQLException;
 
 	/**
-	 * Phương thức rollback bất kỳ thay đổi nào được thực hiện bởi Connection.
+	 * Phương thức rollback bất kì thay đổi nào được thực hiện bởi Connection.
 	 * 
-	 * @param connection - Connection muốn rollback.
 	 * @throws SQLException
 	 */
-	public void rollback(Connection connection) throws SQLException;
+	public void rollback() throws SQLException;
 
 	/**
-	 * Disable autocommit
-	 * 
-	 * @param connection - Connection cần disable.
+	 * Đóng kết nối đến CSDL khi làm việc có transaction
+	 *
 	 * @throws SQLException
 	 */
-	public void disableAutoCommit(Connection connection) throws SQLException;
+	public void closeDB() throws SQLException;
 	
 }

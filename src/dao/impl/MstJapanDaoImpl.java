@@ -20,7 +20,6 @@ import entity.MstJapan;
  * @author luuthanhsang
  */
 public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
-	Connection connection = null;
 
 	/* (non-Javadoc)
 	 * @see dao.MstJapanDao#getAllMstJapan()
@@ -28,16 +27,17 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 	@SuppressWarnings("finally")
 	@Override
 	public List<MstJapan> getAllMstJapan() throws SQLException, ClassNotFoundException {
+		Connection con = null;
 		// khởi tạo danh sách trả về
 		List<MstJapan> listJapanese = new ArrayList<MstJapan>();
 		try {
 			// khởi tạo connection
-			connection = getConnection();
-			if (connection != null) {
+			con = getConnection();
+			if (con != null) {
 				// khai báo câu truy vấn
 				String query = "SELECT code_level, name_level FROM mst_japan";
 				// truy vấn sử dụng preparedStatement
-				PreparedStatement ps = connection.prepareStatement(query);
+				PreparedStatement ps = con.prepareStatement(query);
 				// lấy dữ liệu trả về
 				ResultSet rs = ps.executeQuery();
 				// format dữ liệu trả về thành các đối tượng MstGroup tương ứng
@@ -50,7 +50,7 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 			}
 		} finally {
 			// đóng kết nối và trả về danh sách
-			close(connection);
+			close(con);
 			return listJapanese;
 		}
 	}
@@ -61,16 +61,17 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 	@SuppressWarnings("finally")
 	@Override
 	public MstJapan getJpById(String codeLevel) throws SQLException, ClassNotFoundException {
+		Connection con = null;
 		// khởi tạo danh sách trả về
 		MstJapan mstJapan = new MstJapan();
 		try {
 			// khởi tạo connection
-			connection = getConnection();
-			if (connection != null) {
+			con = getConnection();
+			if (con != null) {
 				// khai báo câu truy vấn
 				String query = "SELECT code_level, name_level FROM mst_japan WHERE code_level = ? ";
 				// truy vấn sử dụng preparedStatement
-				PreparedStatement ps = connection.prepareStatement(query);
+				PreparedStatement ps = con.prepareStatement(query);
 				ps.setString(1, codeLevel);
 				// lấy dữ liệu trả về
 				ResultSet rs = ps.executeQuery();
@@ -82,7 +83,7 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 			}
 		} finally {
 			// đóng kết nối và trả về danh sách
-			close(connection);
+			close(con);
 			return mstJapan;
 		}
 	}

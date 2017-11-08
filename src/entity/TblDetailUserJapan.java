@@ -5,6 +5,8 @@
  */
 package entity;
 
+import java.util.Date;
+
 /**
  * Class mô phỏng bảng TblDetailUserJapan
  * 
@@ -14,8 +16,8 @@ public class TblDetailUserJapan {
 	private int detailUserJapanId;
 	private int userId;
 	private String codeLevel;
-	private String startDate;
-	private String endDate;
+	private Date startDate;
+	private Date endDate;
 	private int total;
 	/**
 	 * @return the detailUserJapanId
@@ -56,25 +58,25 @@ public class TblDetailUserJapan {
 	/**
 	 * @return the startDate
 	 */
-	public String getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 	/**
 	 * @param startDate the startDate to set
 	 */
-	public void setStartDate(String startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 	/**
 	 * @return the endDate
 	 */
-	public String getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
 	/**
 	 * @param endDate the endDate to set
 	 */
-	public void setEndDate(String endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 	/**

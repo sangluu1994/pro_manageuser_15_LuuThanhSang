@@ -20,7 +20,7 @@ import properties.MessageProperties;
  * 
  * @author luuthanhsang
  */
-@WebServlet("/SuccessController")
+@WebServlet(Constant.SUCCESS_PATH)
 public class SuccessController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

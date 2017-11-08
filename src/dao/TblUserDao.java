@@ -76,5 +76,14 @@ public interface TblUserDao extends BaseDao {
 	 * @throws SQLException
 	 */
 	public TblUser getUserByEmail(Integer userId, String email) throws ClassNotFoundException, SQLException;
+
+	/**
+	 * Insert user vào cơ sở dữ liệu
+	 *
+	 * @param tblUser - đối tượng TblUser cần insert
+	 * @return userId - userId của đối tượng vừa được insert
+	 * @throws SQLException 
+	 */
+	public Integer insertUser(TblUser tblUser) throws SQLException;
 	
 }

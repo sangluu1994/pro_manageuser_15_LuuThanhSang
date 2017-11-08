@@ -20,14 +20,14 @@ import entity.MstGroup;
  * @author luuthanhsang
  */
 public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
-	Connection con = null;
-
+	
 	/* (non-Javadoc)
 	 * @see dao.MstGroupDao#getAllMstGroup()
 	 */
 	@SuppressWarnings("finally")
 	@Override
 	public List<MstGroup> getAllMstGroup() throws SQLException, ClassNotFoundException {
+		Connection con = null;
 		// khởi tạo danh sách trả về
 		List<MstGroup> listGroup = new ArrayList<MstGroup>();
 		try {
@@ -62,6 +62,7 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 	@SuppressWarnings("finally")
 	@Override
 	public MstGroup getGroupById(int id) throws SQLException, ClassNotFoundException {
+		Connection con = null;
 		// khởi tạo đối tượng MstGroup sẽ trả về
 		MstGroup mstGroup = new MstGroup();
 		try {

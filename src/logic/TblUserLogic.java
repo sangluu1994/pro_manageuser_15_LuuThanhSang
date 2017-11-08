@@ -70,6 +70,8 @@ public interface TblUserLogic {
 	 * 
 	 * @param userInfor - đối tượng cần insert
 	 * @return boolean - true: insert thành công | false: insert không thành công
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 */
-	public boolean createUser(UserInfor userInfor);
+	public boolean createUser(UserInfor userInfor) throws SQLException, ClassNotFoundException;
 }

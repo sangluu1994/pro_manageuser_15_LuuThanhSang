@@ -104,9 +104,31 @@ public class AddUserConfirmController extends HttpServlet {
 			HttpSession session = request.getSession();
 			String userInforId = request.getParameter(Constant.USER_INFOR_ID);
 			UserInfor userInfor = (UserInfor) session.getAttribute(userInforId);
-			boolean addSuccess = false;
+			System.out.println("getLoginName: " + userInfor.getLoginName());
+			System.out.println("getGroupId :" + userInfor.getGroupId());
+			System.out.println("getFullName :" + userInfor.getFullName());
+			System.out.println("getFullNameKana :" + userInfor.getFullNameKana());
+			System.out.println("getBirthYear :" + userInfor.getBirthYear());
+			System.out.println("getBirthMonth :" + userInfor.getBirthMonth());
+			System.out.println("getBirthDate :" + userInfor.getBirthDate());
+			System.out.println("getBirthday :" + userInfor.getBirthday());
+			System.out.println("getEmail :" + userInfor.getEmail());
+			System.out.println("getTel :" + userInfor.getTel());
+			System.out.println("getPass :" + userInfor.getPass());
+			System.out.println("getRePass :" + userInfor.getRePass());
+			System.out.println("getCodeLevel :" + userInfor.getCodeLevel());
+			System.out.println("getStartYear :" + userInfor.getStartYear());
+			System.out.println("getStartMonth :" + userInfor.getStartMonth());
+			System.out.println("getStartDay :" + userInfor.getStartDay());
+			System.out.println("getStartDate :" + userInfor.getStartDate());
+			System.out.println("getEndYear :" + userInfor.getEndYear());
+			System.out.println("getEndMonth :" + userInfor.getEndMonth());
+			System.out.println("getEndDay :" + userInfor.getEndDay());
+			System.out.println("getEndDate :" + userInfor.getEndDate());
+			System.out.println("getTotal :" + userInfor.getTotal());
+			boolean insertSuccess = false;
 			if (userInfor != null) {
-				addSuccess = tblUserLogic.createUser(userInfor);
+				insertSuccess = tblUserLogic.createUser(userInfor);
 				session.removeAttribute(userInforId);
 			}
 			StringBuilder successURL = new StringBuilder(request.getContextPath());
@@ -114,7 +136,7 @@ public class AddUserConfirmController extends HttpServlet {
 			successURL.append("?");
 			successURL.append(Constant.TYPE);
 			successURL.append("=");
-			if (addSuccess) {
+			if (insertSuccess) {
 				successURL.append(Constant.INSERT_DONE);
 			} else {
 				successURL.append(Constant.INSERT_FAIL);
