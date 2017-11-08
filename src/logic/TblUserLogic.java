@@ -64,4 +64,12 @@ public interface TblUserLogic {
 	 * @throws SQLException
 	 */
 	public boolean checkExistedEmail(Integer userId, String email) throws ClassNotFoundException, SQLException;
+
+	/**
+	 * Phương thức insert data  user vào bảng tbl_user và tbl_detail_user_japan
+	 * 
+	 * @param userInfor - đối tượng cần insert
+	 * @return boolean - true: insert thành công | false: insert không thành công
+	 */
+	public boolean createUser(UserInfor userInfor);
 }

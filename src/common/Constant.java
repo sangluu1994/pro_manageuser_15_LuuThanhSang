@@ -212,5 +212,14 @@ public class Constant {
 	public static final int MIN_LENGTH_PASSWORD = 6;
 	public static final int MAX_LENGTH_PASSWORD = 50;
 	public static final int EMAIL_MAX_LENGTH = 255;
+	public static final String INSERT_DONE = "insertDone";
+	public static final String INSERT_FAIL = "insertFail";
+	public static final String MSG001 = "MSG001";
+	public static final String MSG002 = "MSG002";
+	public static final String MSG003 = "MSG003";
+	public static final String MSG004 = "MSG004";
+	public static final String MSG005 = "MSG005";
+	public static final String MSG006 = "MSG006";
+	public static final String MESSAGE = "msg";
 	
 }

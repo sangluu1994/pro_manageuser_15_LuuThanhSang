@@ -1,9 +1,12 @@
+/**
+ * Copyright(C) 2017 Luvina Software Company
+ *
+ * AddUserConfirmController.java, 2017-11-02 luuthanhsang
+ */
 package controller;
 
 import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,17 +18,22 @@ import entity.MstJapan;
 import entity.UserInfor;
 import logic.MstGroupLogic;
 import logic.MstJapanLogic;
+import logic.TblUserLogic;
 import logic.impl.MstGroupLogicImpl;
 import logic.impl.MstJapanLogicImpl;
+import logic.impl.TblUserLogicImpl;
 
 /**
- * Servlet implementation class AddUserConfirmController
+ * Controller xử lí xác nhận add user
+ * 
+ * @author luuthanhsang
  */
 @WebServlet(urlPatterns = {Constant.ADD_USER_CONFIRM_PATH, Constant.ADD_USER_OK_PATH})
 public class AddUserConfirmController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private MstGroupLogic mstGroupLogic;
 	private MstJapanLogic mstJapanLogic;
+	private TblUserLogic tblUserLogic;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -33,6 +41,7 @@ public class AddUserConfirmController extends HttpServlet {
     public AddUserConfirmController() {
     	mstJapanLogic = new MstJapanLogicImpl();
 		mstGroupLogic = new MstGroupLogicImpl();
+		tblUserLogic = new TblUserLogicImpl();
     }
 
 	/**
@@ -90,9 +99,37 @@ public class AddUserConfirmController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			HttpSession session = request.getSession();
+			String userInforId = request.getParameter(Constant.USER_INFOR_ID);
+			UserInfor userInfor = (UserInfor) session.getAttribute(userInforId);
+			boolean addSuccess = false;
+			if (userInfor != null) {
+				addSuccess = tblUserLogic.createUser(userInfor);
+				session.removeAttribute(userInforId);
+			}
+			StringBuilder successURL = new StringBuilder(request.getContextPath());
+			successURL.append(Constant.SUCCESS_PATH);
+			successURL.append("?");
+			successURL.append(Constant.TYPE);
+			successURL.append("=");
+			if (addSuccess) {
+				successURL.append(Constant.INSERT_DONE);
+			} else {
+				successURL.append(Constant.INSERT_FAIL);
+			}
+			response.sendRedirect(successURL.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				StringBuilder errorURL = new StringBuilder(request.getContextPath());
+				errorURL.append(Constant.SYSTEM_ERROR_PATH);
+				response.sendRedirect(errorURL.toString());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
 	}
 
 }

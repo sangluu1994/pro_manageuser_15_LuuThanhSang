@@ -67,5 +67,13 @@ public class TblUserLogicImpl implements TblUserLogic {
 		TblUser tblUser = tblUserDaoImpl.getUserByEmail(userId, email);
 		return (tblUser != null);
 	}
+
+	/* (non-Javadoc)
+	 * @see logic.TblUserLogic#createUser(entity.UserInfor)
+	 */
+	@Override
+	public boolean createUser(UserInfor userInfor) {
+		return false;
+	}
 	
 }
