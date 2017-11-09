@@ -82,7 +82,6 @@ public class TblUserLogicImpl implements TblUserLogic {
 	/* (non-Javadoc)
 	 * @see logic.TblUserLogic#createUser(entity.UserInfor)
 	 */
-	@SuppressWarnings("finally")
 	@Override
 	public boolean createUser(UserInfor userInfor) throws SQLException, ClassNotFoundException {
 		boolean result = false;
@@ -108,7 +107,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 			Integer userId = tblUserDao.insertUser(tblUser);
 			// nếu insert không thành công vào bảng tbl_user, return false
 			if (userId == null) {
-				result = false;
+				return false;
 			} else if (userInfor.getCodeLevel() != null && !Constant.DEFAULT_CODE_LEVEL.equals(userInfor.getCodeLevel())) {
 				// nếu có các trường trình độ tiếng Nhật, insert vào bảng tbl_detail_user_japan
 				TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
@@ -118,25 +117,26 @@ public class TblUserLogicImpl implements TblUserLogic {
 				tblDetailUserJapan.setEndDate(userInfor.getEndDate());
 				tblDetailUserJapan.setTotal(userInfor.getTotal());
 				result = tblDetailUserJapanDao.insertDetailUserJapan(tblDetailUserJapan);
-			} else {
+			} else { // nếu không có vùng trình độ tiếng Nhật
 				result = true;
 			}
 			if (result) {
-				// commit
+				// commit nếu insert thành công
 				baseDao.commit();
 			} else {
 				// rollback nếu insert không thành công
 				baseDao.rollback();
 			}
+			return result;
 		} catch (SQLException e) {
-			// rollback nếu xảy ra lỗi
+			// rollback nếu xảy ra lỗi, xóa rác trong bộ nhớ
 			baseDao.rollback();
 			return false;
 		} finally {
-			// đóng kết nối, return
+			// đóng kết nối
 			baseDao.closeDB();
-			return result;
 		}
+		
 	}
 	
 }
