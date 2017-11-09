@@ -186,7 +186,7 @@
 					<tr class="japaneseField" style="display: ${Constant.DEFAULT_CODE_LEVEL == userInfor.codeLevel ? 'none' : 'table-row'};">
 						<td class="lbl_left">点数: </td>
 						<td align="left">
-							<input class="txBox" type="text" name="total" value="<c:out value="${userInfor.total}" escapeXml="true"></c:out>"
+							<input class="txBox" type="text" name="total" value="<c:out value="${userInfor.total == 0 ? '' : userInfor.total}" escapeXml="true"></c:out>"
 							size="5" onfocus="this.style.borderColor='#0066ff';"
 							onblur="this.style.borderColor='#aaaaaa';" />							
 						</td>

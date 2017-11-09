@@ -138,5 +138,40 @@ public class TblUserLogicImpl implements TblUserLogic {
 		}
 		
 	}
+
+	/* (non-Javadoc)
+	 * @see logic.TblUserLogic#isExistedUser(java.lang.String)
+	 */
+	@Override
+	public boolean isExistedUser(int userId) throws ClassNotFoundException, SQLException {
+		TblUser tblUser = tblUserDao.getTblUserById(userId);
+		return (tblUser != null);
+	}
+
+	/* (non-Javadoc)
+	 * @see logic.TblUserLogic#getUserInforById(int)
+	 */
+	@Override
+	public UserInfor getUserInforById(int userId) throws ClassNotFoundException, SQLException {
+		return tblUserDao.getUserInforById(userId);
+	}
+	
+//	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+//		TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
+//		UserInfor userInfor = new UserInfor();
+//		userInfor.setGroupId(1);
+//		userInfor.setLoginName("sangluu1994");
+//		userInfor.setPass("abcdkdkdkdkdkdkdkdkdkdkd");
+//		userInfor.setFullName("Lưu Thanh Sang 001");
+//		userInfor.setFullNameKana("");
+//		userInfor.setEmail("sangluu1994@netflix.com");
+//		userInfor.setTel("0987654321");
+//		userInfor.setBirthday(new Date());
+//		userInfor.setCodeLevel("I2");
+//		userInfor.setStartDate(new Date());
+//		userInfor.setEndDate(new Date());
+//		userInfor.setTotal(125);
+//		System.out.println(tblUserLogic.createUser(userInfor));
+//	}
 	
 }

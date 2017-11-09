@@ -15,6 +15,32 @@
 <body>
 <%@ include file = "../layout/header.jsp" %>
 
+<!-- Begin vung input-->	
+	<form action="listAllUser.do" method="post" name="inputform">
+	<table  class="tbl_input"   border="0" width="80%"  cellpadding="0" cellspacing="0" >	
+		<tr>
+			<td align="center" colspan="2">
+				<div style="height:50px"></div>
+			</td>
+		</tr>
+		<tr>
+			<td align="center" colspan="2" class="<c:out value="${status == 'success' ? '' : 'fail'}" />">
+				<c:out value="${msg}" escapeXml="true" />
+			</td>
+		</tr>
+		<tr>
+			<td align="center" colspan="2">
+				<div style="height:70px"></div>
+			</td>
+		</tr>
+		<tr>
+			<td align="center" colspan="2">
+				<input class="btn" type="submit" value="OK" onclick=""/>
+			</td>
+		</tr>
+	</table>
+	</form>
+<!-- End vung input -->
 	
 <%@ include file = "../layout/footer.jsp" %>
 </body>

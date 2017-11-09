@@ -29,7 +29,7 @@ public interface TblUserDao extends BaseDao {
 	public int getTotalUsers(int groupId, String fullName) throws SQLException, ClassNotFoundException;
 	
 	/**
-	 * Lấy ra các user thỏa mãn điều kiện tìm kiếm
+	 * Lấy ra các đối tượng UserInfor thỏa mãn điều kiện tìm kiếm
 	 * 
 	 * @param offset - vị trí lấy bản ghi
 	 * @param limit - giới hạn số bản ghi trên 1 trang
@@ -46,20 +46,20 @@ public interface TblUserDao extends BaseDao {
 	public List<UserInfor> getListUsers(int offset, int limit, int groupId, String fullName, String sortType, String sortByFullName, String sortByCodeLevel, String sortByEndDate) throws SQLException, ClassNotFoundException;
 	
 	/**
-	 * Lấy ra user có id cho trước
+	 * Lấy ra đối tượng UserInfor có id cho trước
 	 * 
 	 * @param id - ID của user cần lấy thông tin
-	 * @return đối tượng getUsersById | null nếu không tìm thấy
+	 * @return đối tượng UserInfor
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public UserInfor getUsersById(int id) throws SQLException, ClassNotFoundException;
+	public UserInfor getUserInforById(int id) throws SQLException, ClassNotFoundException;
 	
 	/**
-	 * Lấy thông tin của user theo loginName
+	 * Lấy ra đối tượng TblUser theo loginName
 	 * 
-	 * @param userId
-	 * @param loginName
+	 * @param userId - userId của đối tượng cần lấy
+	 * @param loginName - loginName của đối tượng cần lấy
 	 * @return đối tượng TblUser
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
@@ -67,10 +67,10 @@ public interface TblUserDao extends BaseDao {
 	public TblUser getUserByLoginName(Integer userId, String loginName) throws ClassNotFoundException, SQLException;
 	
 	/**
-	 * Lấy thông tin của user theo email
+	 * Lấy đối tượng TblUser theo email
 	 * 
-	 * @param userId
-	 * @param email
+	 * @param userId - userId của đối tượng cần lấy
+	 * @param email - email của đối tượng cần lấy
 	 * @return đối tượng TblUser
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
@@ -78,12 +78,22 @@ public interface TblUserDao extends BaseDao {
 	public TblUser getUserByEmail(Integer userId, String email) throws ClassNotFoundException, SQLException;
 
 	/**
-	 * Insert user vào cơ sở dữ liệu
+	 * Insert 1 đối tượng TblUser vào cơ sở dữ liệu
 	 *
 	 * @param tblUser - đối tượng TblUser cần insert
 	 * @return userId - userId của đối tượng vừa được insert
 	 * @throws SQLException 
 	 */
 	public Integer insertUser(TblUser tblUser) throws SQLException;
+
+	/**
+	 * Lấy ra đối tượng TblUser theo id
+	 *
+	 * @param userId - userId của đối tượng cần lấy
+	 * @return đối tượng TblUser
+	 * @throws ClassNotFoundException 
+	 * @throws SQLException 
+	 */
+	public TblUser getTblUserById(int userId) throws SQLException, ClassNotFoundException;
 	
 }

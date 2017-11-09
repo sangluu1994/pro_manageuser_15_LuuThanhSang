@@ -11,6 +11,7 @@ encoding//src/controller/ListUserController.java=UTF-8
 encoding//src/controller/LoginController.java=UTF-8
 encoding//src/controller/LogoutController.java=UTF-8
 encoding//src/controller/SuccessController.java=UTF-8
+encoding//src/controller/ViewDetailUserController.java=UTF-8
 encoding//src/dao/BaseDao.java=UTF-8
 encoding//src/dao/MstGroupDao.java=UTF-8
 encoding//src/dao/MstJapanDao.java=UTF-8

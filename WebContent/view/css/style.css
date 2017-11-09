@@ -25,6 +25,10 @@
 	width: 200px;
 }
 
+.fail {
+	color: red;
+}
+
 .tr2, .td2 {
 	background-image: url(../img/bg_td2.gif);
 	background-repeat: repeat-x;

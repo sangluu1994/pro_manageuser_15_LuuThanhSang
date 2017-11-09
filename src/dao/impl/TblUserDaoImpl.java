@@ -64,6 +64,9 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 					totalUsers = rs.getInt(1);
 				}
 			}
+		} catch (SQLException e) {
+			totalUsers = 0;
+			throw new SQLException();
 		} finally {
 			// đóng kết nối và trả về tổng số user
 			close(con);
@@ -144,6 +147,9 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 					listUser.add(userInfor);
 				}
 			}
+		} catch (SQLException e) {
+			listUser = null;
+			throw new SQLException();
 		} finally {
 			// đóng kết nối và trả về danh sách user
 			close(con);
@@ -157,10 +163,10 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	 */
 	@SuppressWarnings("finally")
 	@Override
-	public UserInfor getUsersById(int id) throws SQLException, ClassNotFoundException {
+	public UserInfor getUserInforById(int id) throws SQLException, ClassNotFoundException {
 		Connection con = null;
 		// khai báo đối tượng tblUserInfor sẽ trả về
-		UserInfor tblUserInfo = new UserInfor();
+		UserInfor tblUserInfor = new UserInfor();
 		try {
 			// khởi tạo kết nối
 			con = getConnection();
@@ -181,25 +187,28 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 				ResultSet rs = ps.executeQuery();
 				// thiết lập đối tượng UserInfor sẽ trả về dựa vào dữ liệu đã lấy được
 				if (rs.next()) {
-					tblUserInfo.setLoginName(rs.getString("login_name"));
-					tblUserInfo.setFullName(rs.getString("full_name"));
-					tblUserInfo.setFullNameKana(rs.getString("full_name_kana"));
-					tblUserInfo.setEmail(rs.getString("email"));
-					tblUserInfo.setTel(rs.getString("tel"));
-					tblUserInfo.setBirthday(rs.getDate("birthday"));
-					tblUserInfo.setGroupName(rs.getString("group_name"));
-					tblUserInfo.setNameLevel(rs.getString("name_level"));
-					tblUserInfo.setStartDate(rs.getDate("start_date"));
-					tblUserInfo.setEndDate(rs.getDate("end_date"));
-					tblUserInfo.setTotal(rs.getInt("total"));
+					tblUserInfor.setLoginName(rs.getString("login_name"));
+					tblUserInfor.setGroupName(rs.getString("group_name"));
+					tblUserInfor.setFullName(rs.getString("full_name"));
+					tblUserInfor.setFullNameKana(rs.getString("full_name_kana"));
+					tblUserInfor.setBirthday(rs.getDate("birthday"));
+					tblUserInfor.setEmail(rs.getString("email"));
+					tblUserInfor.setTel(rs.getString("tel"));
+					tblUserInfor.setNameLevel(rs.getString("name_level"));
+					tblUserInfor.setStartDate(rs.getDate("start_date"));
+					tblUserInfor.setEndDate(rs.getDate("end_date"));
+					tblUserInfor.setTotal(rs.getInt("total"));
 				} else {
-					tblUserInfo = null;
+					tblUserInfor = null;
 				}
 			}
+		} catch (SQLException e) {
+			tblUserInfor = null;
+			throw new SQLException();
 		} finally {
 			// đóng kết nối và trả về dữ liệu
 			close(con);
-			return tblUserInfo;
+			return tblUserInfor;
 		}
 		
 	}
@@ -244,6 +253,9 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 				tblUser.setTel(rs.getString(++i));
 				tblUser.setBirthday(rs.getDate(++i));
 			}
+		} catch (SQLException e) {
+			tblUser = null;
+			throw new SQLException();
 		} finally {
 			// đóng kết nối, trả về kết quả
 			close(con);
@@ -291,6 +303,9 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 				tblUser.setTel(rs.getString(++i));
 				tblUser.setBirthday(rs.getDate(++i));
 			}
+		} catch (SQLException e) {
+			tblUser = null;
+			throw new SQLException();
 		} finally {
 			// đóng kết nối, trả về kết quả
 			close(con);
@@ -334,12 +349,60 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 				userId = resultSet.getInt(1);
 			}
 		} catch (SQLException e) {
+			// set userId = null và throw exception nếu xảy ra exception
 			userId = null;
 			throw new SQLException();
 		} finally {
 			// trả về giá trị
 			return userId;
 		}
+	}
+
+	/* (non-Javadoc)
+	 * @see dao.TblUserDao#getTblUserById(int)
+	 */
+	@SuppressWarnings("finally")
+	@Override
+	public TblUser getTblUserById(int userId) throws SQLException, ClassNotFoundException {
+		Connection con = null;
+		TblUser tblUser = new TblUser();
+		try {
+			// khởi tạo kết nối đến db
+			con = getConnection();
+			// xây dựng truy vấn
+			StringBuilder query = new StringBuilder();
+			query.append("SELECT u.user_id, u.group_id, u.login_name, u.password, u.salt, u.full_name, u.full_name_kana, u.email, u.tel, u.birthday ");
+			query.append("FROM tbl_user u WHERE u.user_id = ? ");
+			// truy vấn dữ liệu sử dụng PreparedStatement
+			PreparedStatement ps = con.prepareStatement(query.toString());
+			ps.setInt(1, userId);
+			// lấy dữ liệu trả về
+			ResultSet rs = ps.executeQuery();
+			// set các thuộc tính của đối tượng TblUser trả về
+			if (rs.next()) {
+				int i = 0;
+				tblUser.setUserId(rs.getInt(++i));
+				tblUser.setGroupId(rs.getInt(++i));
+				tblUser.setLoginName(rs.getString(++i));
+				tblUser.setPassword(rs.getString(++i));
+				tblUser.setSalt(rs.getString(++i));
+				tblUser.setFullName(rs.getString(++i));
+				tblUser.setFullNameKana(rs.getString(++i));
+				tblUser.setEmail(rs.getString(++i));
+				tblUser.setTel(rs.getString(++i));
+				tblUser.setBirthday(rs.getDate(++i));
+			} else {
+				tblUser = null;
+			}
+		} catch (SQLException e) {
+			tblUser = null;
+			throw new SQLException();
+		} finally {
+			// đóng kết nối và trả về kết quả
+			close(con);
+			return tblUser;
+		}
+		
 	}
 	
 }

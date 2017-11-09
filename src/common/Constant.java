@@ -221,5 +221,9 @@ public class Constant {
 	public static final String MSG005 = "MSG005";
 	public static final String MSG006 = "MSG006";
 	public static final String MESSAGE = "msg";
+	public static final String SUCCESS = "success";
+	public static final String FAIL = "fail";
+	public static final String STATUS = "status";
+	public static final String USER_ID = "id";
 	
 }

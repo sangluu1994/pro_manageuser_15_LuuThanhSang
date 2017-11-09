@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import common.Constant;
+import properties.MessageErrorProperties;
 import properties.MessageProperties;
 
 /**
@@ -37,20 +38,26 @@ public class SuccessController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 		try {
+			// lấy tham số được gửi sang để xác định thông báo thành công hoặc không thành công
 			String type = request.getParameter(Constant.TYPE);
 			StringBuilder msg = new StringBuilder();
+			StringBuilder status = new StringBuilder();
 			if (Constant.INSERT_DONE.equals(type)) {
 				msg.append(MessageProperties.getString(Constant.MSG001));
+				status.append(Constant.SUCCESS);
 			} else if (Constant.INSERT_FAIL.equals(type)) {
-				msg.append(MessageProperties.getString(Constant.SYSTEM_ERROR_PATH));
+				msg.append(MessageErrorProperties.getErrMsg(Constant.ER015));
+				status.append(Constant.FAIL);
 			}
 			request.setAttribute(Constant.MESSAGE, msg.toString());
+			request.setAttribute(Constant.STATUS, status.toString());
 			// forward đến ADM006
 			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM006);
 			rd.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 			try {
+				// điều hướng sang trang lỗi nếu xảy ra exception
 				StringBuilder errorURL = new StringBuilder(request.getContextPath());
 				errorURL.append(Constant.SYSTEM_ERROR_PATH);
 				response.sendRedirect(errorURL.toString());

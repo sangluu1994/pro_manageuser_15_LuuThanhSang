@@ -74,4 +74,24 @@ public interface TblUserLogic {
 	 * @throws ClassNotFoundException 
 	 */
 	public boolean createUser(UserInfor userInfor) throws SQLException, ClassNotFoundException;
+
+	/**
+	 * Phương thức kiểm tra user có tồn tại trong cơ sở dữ liệu không
+	 *
+	 * @param userId - userId của đối tượng user cần kiểm tra
+	 * @return boolean - true: có tồn tại | false: không tồn tại
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 */
+	public boolean isExistedUser(int userId) throws ClassNotFoundException, SQLException;
+
+	/**
+	 * Phương thức lấy đối tượng UserInfor theo userId
+	 *
+	 * @param userId - userId của đối tượng cần lấy
+	 * @return đối tượng UserInfor
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 */
+	public UserInfor getUserInforById(int userId) throws ClassNotFoundException, SQLException;
 }

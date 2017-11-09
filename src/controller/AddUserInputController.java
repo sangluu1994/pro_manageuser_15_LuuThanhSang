@@ -77,25 +77,6 @@ public class AddUserInputController extends HttpServlet {
 		try {
 			// lấy thông tin user từ request
 			UserInfor userInfor = setDefaultValue(request, response);
-//			System.out.println("getLoginName: " + userInfor.getLoginName());
-//			System.out.println("getGroupId :" + userInfor.getGroupId());
-//			System.out.println("getFullName :" + userInfor.getFullName());
-//			System.out.println("getFullNameKana :" + userInfor.getFullNameKana());
-//			System.out.println("getBirthYear :" + userInfor.getBirthYear());
-//			System.out.println("getBirthMonth :" + userInfor.getBirthMonth());
-//			System.out.println("getBirthDate :" + userInfor.getBirthDate());
-//			System.out.println("getEmail :" + userInfor.getEmail());
-//			System.out.println("getTel :" + userInfor.getTel());
-//			System.out.println("getPass :" + userInfor.getPass());
-//			System.out.println("getRePass :" + userInfor.getRePass());
-//			System.out.println("getCodeLevel :" + userInfor.getCodeLevel());
-//			System.out.println("getStartYear :" + userInfor.getStartYear());
-//			System.out.println("getStartMonth :" + userInfor.getStartMonth());
-//			System.out.println("getStartDay :" + userInfor.getStartDay());
-//			System.out.println("getEndYear :" + userInfor.getEndYear());
-//			System.out.println("getEndMonth :" + userInfor.getEndMonth());
-//			System.out.println("getEndDay :" + userInfor.getEndDay());
-//			System.out.println("getTotal :" + userInfor.getTotal());
 			// validate
 			ValidateUser validateUser = new ValidateUser();
 			List<String> listError = validateUser.validateUserInfor(userInfor);
@@ -222,8 +203,6 @@ public class AddUserInputController extends HttpServlet {
 		userInfor.setEndDay(defaultDate.get(2).toString());
 		// xét trường hợp vào màn hình ADM003
 		if (type == null) { // nếu là trường hợp thêm mới
-			System.out.println("add");
-			System.out.println("total: " + userInfor.getTotal());
 			// do nothing
 		} else if (Constant.CONFIRM_TYPE.equals(type)) { // nếu là trường hợp click button xác nhận
 			// lấy giá trị từ request lưu vào userInfor

@@ -101,7 +101,7 @@
 				</tr>
 				<c:forEach var="item" items="${listUser}">
 					<tr>
-						<td align="right"><a href="ADM005.html">${item.userId}</a></td>
+						<td align="right"><a href="<c:url value="${Constant.DETAIL_USER_PATH}" />?id=${item.userId}">${item.userId}</a></td>
 						<td>${item.fullName}</td>
 						<td align="center"><fmt:formatDate pattern="yyyy/MM/dd" value="${item.birthday}" /></td>
 						<td>${item.groupName}</td>

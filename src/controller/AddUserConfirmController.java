@@ -49,28 +49,10 @@ public class AddUserConfirmController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 		try {
+			// Lấy đối tượng userInfor trên session, set thêm thông tin cho userInfor
 			String id = request.getParameter(Constant.USER_INFOR_ID);
 			HttpSession session = request.getSession();
 			UserInfor userInfor = (UserInfor) session.getAttribute(id);
-//			System.out.println("getLoginName: " + userInfor.getLoginName());
-//			System.out.println("getGroupId: " + userInfor.getGroupId());
-//			System.out.println("getFullName: " + userInfor.getFullName());
-//			System.out.println("getFullNameKana: " + userInfor.getFullNameKana());
-//			System.out.println("getBirthYear: " + userInfor.getBirthYear());
-//			System.out.println("getBirthMonth: " + userInfor.getBirthMonth());
-//			System.out.println("getBirthDate: " + userInfor.getBirthDate());
-//			System.out.println("getEmail: " + userInfor.getEmail());
-//			System.out.println("getTel: " + userInfor.getTel());
-//			System.out.println("getPass: " + userInfor.getPass());
-//			System.out.println("getRePass: " + userInfor.getRePass());
-//			System.out.println("getCodeLevel: " + userInfor.getCodeLevel());
-//			System.out.println("getStartYear: " + userInfor.getStartYear());
-//			System.out.println("getStartMonth: " + userInfor.getStartMonth());
-//			System.out.println("getStartDay: " + userInfor.getStartDay());
-//			System.out.println("getEndYear: " + userInfor.getEndYear());
-//			System.out.println("getEndMonth: " + userInfor.getEndMonth());
-//			System.out.println("getEndDay: " + userInfor.getEndDay());
-//			System.out.println("getTotal: " + userInfor.getTotal());
 			MstGroup mstGroup = mstGroupLogic.getGroupById(userInfor.getGroupId());
 			userInfor.setGroupName(mstGroup.getGroupName());
 			MstJapan mstJapan = null;
@@ -79,6 +61,7 @@ public class AddUserConfirmController extends HttpServlet {
 				mstJapan = mstJapanLogic.getJpById(codeLevel);
 				userInfor.setNameLevel(mstJapan.getNameLevel());
 			}
+			// chuyển đối tượng userInfor và id của đối tượng sang ADM004
 			request.setAttribute(Constant.USER_INFOR, userInfor);
 			request.setAttribute(Constant.USER_INFOR_ID, id);
 			// forward đến ADM004
@@ -101,36 +84,17 @@ public class AddUserConfirmController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 		try {
+			// lấy đối tượng userInfor cần insert
 			HttpSession session = request.getSession();
 			String userInforId = request.getParameter(Constant.USER_INFOR_ID);
 			UserInfor userInfor = (UserInfor) session.getAttribute(userInforId);
-			System.out.println("getLoginName: " + userInfor.getLoginName());
-			System.out.println("getGroupId :" + userInfor.getGroupId());
-			System.out.println("getFullName :" + userInfor.getFullName());
-			System.out.println("getFullNameKana :" + userInfor.getFullNameKana());
-			System.out.println("getBirthYear :" + userInfor.getBirthYear());
-			System.out.println("getBirthMonth :" + userInfor.getBirthMonth());
-			System.out.println("getBirthDate :" + userInfor.getBirthDate());
-			System.out.println("getBirthday :" + userInfor.getBirthday());
-			System.out.println("getEmail :" + userInfor.getEmail());
-			System.out.println("getTel :" + userInfor.getTel());
-			System.out.println("getPass :" + userInfor.getPass());
-			System.out.println("getRePass :" + userInfor.getRePass());
-			System.out.println("getCodeLevel :" + userInfor.getCodeLevel());
-			System.out.println("getStartYear :" + userInfor.getStartYear());
-			System.out.println("getStartMonth :" + userInfor.getStartMonth());
-			System.out.println("getStartDay :" + userInfor.getStartDay());
-			System.out.println("getStartDate :" + userInfor.getStartDate());
-			System.out.println("getEndYear :" + userInfor.getEndYear());
-			System.out.println("getEndMonth :" + userInfor.getEndMonth());
-			System.out.println("getEndDay :" + userInfor.getEndDay());
-			System.out.println("getEndDate :" + userInfor.getEndDate());
-			System.out.println("getTotal :" + userInfor.getTotal());
 			boolean insertSuccess = false;
+			// insert userInfor vào cơ sở dữ liệu
 			if (userInfor != null) {
 				insertSuccess = tblUserLogic.createUser(userInfor);
 				session.removeAttribute(userInforId);
 			}
+			// điều hướng sang trang kết quả insert với các trường hợp thành công/ không thành công
 			StringBuilder successURL = new StringBuilder(request.getContextPath());
 			successURL.append(Constant.SUCCESS_PATH);
 			successURL.append("?");
@@ -145,6 +109,7 @@ public class AddUserConfirmController extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 			try {
+				// điều hướng sang trang lỗi nếu xảy ra exception
 				StringBuilder errorURL = new StringBuilder(request.getContextPath());
 				errorURL.append(Constant.SYSTEM_ERROR_PATH);
 				response.sendRedirect(errorURL.toString());
