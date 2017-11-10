@@ -37,7 +37,7 @@ import validate.ValidateUser;
  * @author luuthanhsang
  */
 @WebServlet(urlPatterns = {Constant.ADD_USER_INPUT_PATH, Constant.ADD_USER_VALIDATE_PATH, Constant.EDIT_USER_PATH, Constant.EDIT_VALIDATE_PATH})
-public class AddEditUserInputController extends HttpServlet {
+public class AddUserInputController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private MstGroupLogic mstGroupLogic;
 	private MstJapanLogic mstJapanLogic;
@@ -46,7 +46,7 @@ public class AddEditUserInputController extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddEditUserInputController() {
+    public AddUserInputController() {
     	mstGroupLogic = new MstGroupLogicImpl();
     	mstJapanLogic = new MstJapanLogicImpl();
     	tblUserLogic = new TblUserLogicImpl();
@@ -59,43 +59,47 @@ public class AddEditUserInputController extends HttpServlet {
 		try {
 			// kiểm tra trường hợp edit user
 			String type = request.getParameter(Constant.TYPE);
-			int userId = Common.convertStringToInt(request.getParameter(Constant.USER_INFOR_ID));
 			// nếu là trường hợp edit và userId không tồn tại
-			if (Constant.TYPE_EDIT.equals(type) && !tblUserLogic.isExistedUser(userId)) {
-				// điều hướng về trang lỗi
-				StringBuilder errorURL = new StringBuilder(request.getContextPath());
-				response.sendRedirect(errorURL.append(Constant.SYSTEM_ERROR_PATH).toString());
-			} else { 
-				setDataLogic(request, response);
-				UserInfor userInfor = setDefaultValue(request, response);
-				request.setAttribute(Constant.USER_INFOR, userInfor);
-//				System.out.println("getBirthYear: " + userInfor.getBirthYear());
-//				System.out.println("getBirthMonth: " + userInfor.getBirthMonth());
-//				System.out.println("getBirthDate: " + userInfor.getBirthDate());
-//				System.out.println("getStartYear: " + userInfor.getStartYear());
-//				System.out.println("getStartMonth: " + userInfor.getStartMonth());
-//				System.out.println("getStartDay: " + userInfor.getStartDay());
-//				System.out.println("getEndYear: " + userInfor.getEndYear());
-//				System.out.println("getEndMonth: " + userInfor.getEndMonth());
-//				System.out.println("getEndDay: " + userInfor.getEndDay());
-//				System.out.println("getCodeLevel: " + userInfor.getCodeLevel());
-//				System.out.println("getGroupId: " + userInfor.getGroupId());
-//				System.out.println("getLoginName: " + userInfor.getLoginName());
-//				System.out.println("getFullName: " + userInfor.getFullName());
-//				System.out.println("getFullNameKana: " + userInfor.getFullNameKana());
-//				System.out.println("getEmail: " + userInfor.getEmail());
-//				System.out.println("getTel: " + userInfor.getTel());
-//				System.out.println("getCodeLevel: " + userInfor.getCodeLevel());
-//				System.out.println("getTotal: " + userInfor.getTotal());
-//				System.out.println("getStartDate: " + userInfor.getStartDate());
-//				System.out.println("getEndDate: " + userInfor.getEndDate());
-//				System.out.println("getBirthday: " + userInfor.getBirthday());
-//				System.out.println("getPass: " + userInfor.getPass());
-//				System.out.println("getRePass: " + userInfor.getRePass());
-				// forward sang màn hình ADM003
-				RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM003);
-				rd.forward(request, response);
-			}
+			if (Constant.TYPE_EDIT.equals(type)) {
+				int userId = Common.convertStringToInt(request.getParameter(Constant.USER_INFOR_ID));
+				if (!tblUserLogic.isExistedUser(userId)) {
+					// nếu không tồn tại user, điều hướng về trang lỗi
+					StringBuilder errorURL = new StringBuilder(request.getContextPath());
+					response.sendRedirect(errorURL.append(Constant.SYSTEM_ERROR_PATH).toString());
+					return;
+				}
+			} 
+			// setDataLogic, setDefaultValue
+			setDataLogic(request, response);
+			UserInfor userInfor = setDefaultValue(request, response);
+			request.setAttribute(Constant.USER_INFOR, userInfor);
+//			System.out.println("getBirthYear: " + userInfor.getBirthYear());
+//			System.out.println("getBirthMonth: " + userInfor.getBirthMonth());
+//			System.out.println("getBirthDate: " + userInfor.getBirthDate());
+//			System.out.println("getStartYear: " + userInfor.getStartYear());
+//			System.out.println("getStartMonth: " + userInfor.getStartMonth());
+//			System.out.println("getStartDay: " + userInfor.getStartDay());
+//			System.out.println("getEndYear: " + userInfor.getEndYear());
+//			System.out.println("getEndMonth: " + userInfor.getEndMonth());
+//			System.out.println("getEndDay: " + userInfor.getEndDay());
+//			System.out.println("getCodeLevel: " + userInfor.getCodeLevel());
+//			System.out.println("getGroupId: " + userInfor.getGroupId());
+//			System.out.println("getLoginName: " + userInfor.getLoginName());
+//			System.out.println("getFullName: " + userInfor.getFullName());
+//			System.out.println("getFullNameKana: " + userInfor.getFullNameKana());
+//			System.out.println("getEmail: " + userInfor.getEmail());
+//			System.out.println("getTel: " + userInfor.getTel());
+//			System.out.println("getCodeLevel: " + userInfor.getCodeLevel());
+//			System.out.println("getTotal: " + userInfor.getTotal());
+//			System.out.println("getStartDate: " + userInfor.getStartDate());
+//			System.out.println("getEndDate: " + userInfor.getEndDate());
+//			System.out.println("getBirthday: " + userInfor.getBirthday());
+//			System.out.println("getPass: " + userInfor.getPass());
+//			System.out.println("getRePass: " + userInfor.getRePass());
+			// forward sang màn hình ADM003
+			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM003);
+			rd.forward(request, response);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			try {
