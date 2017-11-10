@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.Constant;
+import properties.MessageErrorProperties;
 
 /**
  * Controller xử lí lỗi
@@ -38,6 +39,8 @@ public class ErrorController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// forward đến ADM_SYSTEM_ERROR
+		String errMsg = MessageErrorProperties.getErrMsg(Constant.ER015);
+		request.setAttribute(Constant.ERR_MSG, errMsg);
 		RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM_SYSTEM_ERROR);
 		rd.forward(request, response);
 	}

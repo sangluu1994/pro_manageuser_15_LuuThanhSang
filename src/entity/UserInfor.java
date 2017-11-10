@@ -39,6 +39,7 @@ public class UserInfor {
 	private String endMonth;
 	private String endDay;
 	private int total;
+	private String salt;
 	
 	/**
 	 * @return the birthYear
@@ -367,6 +368,20 @@ public class UserInfor {
 	 */
 	public void setTotal(int total) {
 		this.total = total;
+	}
+
+	/**
+	 * @return the salt
+	 */
+	public String getSalt() {
+		return salt;
+	}
+
+	/**
+	 * @param salt the salt to set
+	 */
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 	
 	

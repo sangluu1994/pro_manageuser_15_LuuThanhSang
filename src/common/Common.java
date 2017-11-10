@@ -11,7 +11,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -303,6 +305,24 @@ public class Common {
 		listCurrentDate.add(currentMonth);
 		listCurrentDate.add(currentDay);
 		return listCurrentDate;
+	}
+	
+	/**
+	 * Phương thức tách ngày dạng java.util.date sang danh sách năm, tháng, ngày
+	 *
+	 * @param date - ngày cần tách
+	 * @return listYearMonthDay - danh sách năm, tháng, ngày
+	 */
+	public static List<Integer> getYearMonthDay(Date date) {
+		List<Integer> listYearMonthDay = new ArrayList<>();
+		LocalDate localdate = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+		int year = localdate.getYear();
+		int month = localdate.getDayOfMonth();
+		int day = localdate.getDayOfMonth();
+		listYearMonthDay.add(year);
+		listYearMonthDay.add(month);
+		listYearMonthDay.add(day);
+		return listYearMonthDay;
 	}
 	
 	/**

@@ -166,14 +166,15 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	public UserInfor getUserInforById(int id) throws SQLException, ClassNotFoundException {
 		Connection con = null;
 		// khai báo đối tượng tblUserInfor sẽ trả về
-		UserInfor tblUserInfor = new UserInfor();
+		UserInfor userInfor = new UserInfor();
 		try {
 			// khởi tạo kết nối
 			con = getConnection();
 			if (con != null) {
 				// khởi tạo câu truy vấn
 				StringBuilder queryBuilder = new StringBuilder();
-				queryBuilder.append("SELECT u.login_name, g.group_name, u.full_name, u.full_name_kana, u.birthday, u.email, u.tel, j.name_level, de.start_date, de.end_date, de.total ");
+				queryBuilder.append("SELECT u.user_id, u.login_name, u.group_id, g.group_name, u.full_name, u.full_name_kana, u.salt, u.birthday, ");
+				queryBuilder.append("u.email, u.tel, de.code_level, j.name_level, de.start_date, de.end_date, de.total ");
 				queryBuilder.append("FROM tbl_user u LEFT JOIN (mst_japan j INNER JOIN  tbl_detail_user_japan de ON de.code_level = j.code_level) ");
 				queryBuilder.append("ON u.user_id = de.user_id ");
 				queryBuilder.append("INNER JOIN mst_group g ON u.group_id = g.group_id ");
@@ -187,28 +188,32 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 				ResultSet rs = ps.executeQuery();
 				// thiết lập đối tượng UserInfor sẽ trả về dựa vào dữ liệu đã lấy được
 				if (rs.next()) {
-					tblUserInfor.setLoginName(rs.getString("login_name"));
-					tblUserInfor.setGroupName(rs.getString("group_name"));
-					tblUserInfor.setFullName(rs.getString("full_name"));
-					tblUserInfor.setFullNameKana(rs.getString("full_name_kana"));
-					tblUserInfor.setBirthday(rs.getDate("birthday"));
-					tblUserInfor.setEmail(rs.getString("email"));
-					tblUserInfor.setTel(rs.getString("tel"));
-					tblUserInfor.setNameLevel(rs.getString("name_level"));
-					tblUserInfor.setStartDate(rs.getDate("start_date"));
-					tblUserInfor.setEndDate(rs.getDate("end_date"));
-					tblUserInfor.setTotal(rs.getInt("total"));
+					userInfor.setUserId(rs.getInt("user_id"));
+					userInfor.setLoginName(rs.getString("login_name"));
+					userInfor.setGroupId(rs.getInt("group_id"));
+					userInfor.setGroupName(rs.getString("group_name"));
+					userInfor.setFullName(rs.getString("full_name"));
+					userInfor.setFullNameKana(rs.getString("full_name_kana"));
+					userInfor.setSalt(rs.getString("salt"));
+					userInfor.setBirthday(rs.getDate("birthday"));
+					userInfor.setEmail(rs.getString("email"));
+					userInfor.setTel(rs.getString("tel"));
+					userInfor.setCodeLevel(rs.getString("code_level"));
+					userInfor.setNameLevel(rs.getString("name_level"));
+					userInfor.setStartDate(rs.getDate("start_date"));
+					userInfor.setEndDate(rs.getDate("end_date"));
+					userInfor.setTotal(rs.getInt("total"));
 				} else {
-					tblUserInfor = null;
+					userInfor = null;
 				}
 			}
 		} catch (SQLException e) {
-			tblUserInfor = null;
+			userInfor = null;
 			throw new SQLException();
 		} finally {
 			// đóng kết nối và trả về dữ liệu
 			close(con);
-			return tblUserInfor;
+			return userInfor;
 		}
 		
 	}

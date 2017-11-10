@@ -225,5 +225,6 @@ public class Constant {
 	public static final String FAIL = "fail";
 	public static final String STATUS = "status";
 	public static final String USER_ID = "id";
+	public static final String TYPE_EDIT = "edit";
 	
 }

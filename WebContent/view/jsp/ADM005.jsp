@@ -17,7 +17,8 @@
 <%@ include file = "../layout/header.jsp" %>
 
 <!-- Begin vung input-->	
-	<form action="<c:url value="${Constant.EDIT_USER_PATH}" />" method="post" name="inputform">	
+	<form action="<c:url value="${Constant.EDIT_USER_PATH}" />" method="get" name="inputform">
+	<input type="hidden" name="type" value="edit" />
 	<input type="hidden" name="id" value="${userInfor.userId}" />
 	<table  class="tbl_input" border="0" width="75%"  cellpadding="0" cellspacing="0" >			
 		<tr>

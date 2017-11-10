@@ -81,7 +81,9 @@
 						<td align="left">
 						<select name="birthYear">
 							<c:forEach var="listYear" items="${listYears}">
-								<option value="${listYear}" ${listYear == userInfor.birthYear ? "selected" : ""}>${listYear}</option>
+								<c:if test="${(currentYear + 1) != listYear}">
+									<option value="${listYear}" ${listYear == userInfor.birthYear ? "selected" : ""}>${listYear}</option>
+								</c:if>
 							</c:forEach>
 						</select>年
 						<select name="birthMonth">
@@ -148,7 +150,9 @@
 						<td align="left">
 							<select name="startYear">
 								<c:forEach var="listYear" items="${listYears}">
-									<option value="${listYear}" ${listYear == userInfor.startYear ? "selected" : ""}>${listYear}</option>
+									<c:if test="${(currentYear + 1) != listYear}">
+										<option value="${listYear}" ${listYear == userInfor.startYear ? "selected" : ""}>${listYear}</option>
+									</c:if>
 								</c:forEach>
 							</select>年
 							<select name="startMonth">
@@ -206,7 +210,7 @@
 					<input class="btn" type="submit" value="確認" />					
 				</td>	
 				<td>
-					<input class="btn" type="button" value="戻る" />						
+					<input class="btn" type="button" onclick="window.location.href = '<c:url value="${Constant.LIST_USER_PATH}" />?type=back';" value="戻る" />						
 				</td>
 		</tr>		
 	</table>
