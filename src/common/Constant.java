@@ -22,6 +22,7 @@ public class Constant {
 	public static final String EDIT_USER_PATH = "/editUser.do";
 	public static final String EDIT_VALIDATE_PATH = "/editUserValidate.do";
 	public static final String EDIT_CONFIRM_PATH = "/editUserConfirm.do";
+	public static final String EDIT_OK_PATH = "/editUserOK.do";
 	public static final String SYSTEM_ERROR_PATH = "/error.do";
 	public static final String SUCCESS_PATH = "/success.do";
 	public static final String DETAIL_USER_PATH = "/detailUser.do";
@@ -226,5 +227,7 @@ public class Constant {
 	public static final String STATUS = "status";
 	public static final String USER_ID = "id";
 	public static final String TYPE_EDIT = "edit";
+	public static final String BACK_TYPE = "backType";
+	public static final String ACTION_TYPE = "actionType";
 	
 }

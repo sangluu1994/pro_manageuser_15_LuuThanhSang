@@ -96,4 +96,24 @@ public interface TblUserDao extends BaseDao {
 	 */
 	public TblUser getTblUserById(int userId) throws SQLException, ClassNotFoundException;
 	
+	/**
+	 * Update đối tượng TblUser vào database
+	 * 
+	 * @param tblUser - object tbl_user
+	 * @return boolean - true nếu update thành công | false nếu ngược lại
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public Integer updateUser(TblUser tblUser) throws ClassNotFoundException, SQLException;
+	
+	/**
+	 * Xóa đối tượng TblUser trong database
+	 * 
+	 * @param userId - user_id của object cần xóa
+	 * @return boolean - true nếu thành công | false nếu ngược lại
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public boolean deleteUser(int userId) throws ClassNotFoundException, SQLException;
+	
 }

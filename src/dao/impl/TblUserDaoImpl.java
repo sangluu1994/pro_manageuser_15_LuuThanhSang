@@ -409,5 +409,36 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		}
 		
 	}
+
+	/* (non-Javadoc)
+	 * @see dao.TblUserDao#updateUser(entity.TblUser)
+	 */
+	@Override
+	public Integer updateUser(TblUser tblUser) throws ClassNotFoundException, SQLException {
+		Integer userId = null;
+		StringBuilder query = new StringBuilder();
+		query.append("UPDATE tbl_user u ");
+		query.append("SET u.group_id = ?, u.full_name = ?, u.full_name_kana = ?, ");
+		query.append("u.email = ?, u.tel = ?, u.birthday = ? WHERE u.user_id = ?");
+		int i = 0;
+		preparedStatement = connection.prepareStatement(query.toString());
+		preparedStatement.setInt(++i, tblUser.getGroupId());
+		preparedStatement.setString(++i, tblUser.getFullName());
+		preparedStatement.setString(++i, tblUser.getFullNameKana());
+		preparedStatement.setString(++i, tblUser.getEmail());
+		preparedStatement.setString(++i, tblUser.getTel());
+		preparedStatement.setDate(++i, new Date(tblUser.getBirthday().getTime()));
+		preparedStatement.setInt(++i, tblUser.getUserId());
+		preparedStatement.executeUpdate();
+		return userId;
+	}
+
+	/* (non-Javadoc)
+	 * @see dao.TblUserDao#deleteUser(int)
+	 */
+	@Override
+	public boolean deleteUser(int userId) throws ClassNotFoundException, SQLException {
+		return false;
+	}
 	
 }

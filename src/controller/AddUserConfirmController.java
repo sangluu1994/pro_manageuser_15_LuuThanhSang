@@ -28,7 +28,7 @@ import logic.impl.TblUserLogicImpl;
  * 
  * @author luuthanhsang
  */
-@WebServlet(urlPatterns = {Constant.ADD_USER_CONFIRM_PATH, Constant.ADD_USER_OK_PATH})
+@WebServlet(urlPatterns = {Constant.ADD_USER_CONFIRM_PATH, Constant.ADD_USER_OK_PATH, Constant.EDIT_CONFIRM_PATH, Constant.EDIT_OK_PATH})
 public class AddUserConfirmController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private MstGroupLogic mstGroupLogic;
@@ -53,14 +53,29 @@ public class AddUserConfirmController extends HttpServlet {
 			String id = request.getParameter(Constant.USER_INFOR_ID);
 			HttpSession session = request.getSession();
 			UserInfor userInfor = (UserInfor) session.getAttribute(id);
+			// kiểm tra userInfor
+			if (userInfor == null) {
+				// điều hướng sang trang lỗi
+				StringBuilder errorURL = new StringBuilder(request.getContextPath());
+				response.sendRedirect(errorURL.append(Constant.SYSTEM_ERROR_PATH).toString());
+				return;
+			}
+			// set group name
 			MstGroup mstGroup = mstGroupLogic.getGroupById(userInfor.getGroupId());
 			userInfor.setGroupName(mstGroup.getGroupName());
+			// set name level
 			MstJapan mstJapan = null;
 			String codeLevel = userInfor.getCodeLevel();
 			if (codeLevel != null && !Constant.DEFAULT_CODE_LEVEL.equals(codeLevel)) {
 				mstJapan = mstJapanLogic.getJpById(codeLevel);
 				userInfor.setNameLevel(mstJapan.getNameLevel());
 			}
+			// xác định trường hợp add hay edit
+			int userId = userInfor.getUserId();
+			String actionType = userId > 0 ? Constant.EDIT_OK_PATH : Constant.ADD_USER_OK_PATH;
+			String backType = userId > 0 ? Constant.EDIT_USER_PATH : Constant.ADD_USER_INPUT_PATH;
+			request.setAttribute(Constant.ACTION_TYPE, actionType);
+			request.setAttribute(Constant.BACK_TYPE, backType);
 			// chuyển đối tượng userInfor và id của đối tượng sang ADM004
 			request.setAttribute(Constant.USER_INFOR, userInfor);
 			request.setAttribute(Constant.USER_INFOR_ID, id);

@@ -10,8 +10,8 @@ function toggleJpField() {
 	}
 }
 
-function back() {
-	document.inputform.action = "addUserInput.do";
+function back(backType) {
+	document.inputform.action = backType;
 	document.inputform.method = "get";
 	var accessType = document.createElement('input');
 	accessType.setAttribute("type", "hidden");

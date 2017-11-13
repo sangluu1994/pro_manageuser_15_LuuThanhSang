@@ -18,7 +18,7 @@
 <%@ include file = "../layout/header.jsp" %>
 
 <!-- Begin vung input-->	
-<form action="<c:url value="${Constant.ADD_USER_OK_PATH}" />" method="post" name="inputform">
+<form action="<c:url value="${actionType}" />" method="post" name="inputform">
 	<input type="hidden" name="id" value="<c:out value="${id}"></c:out>" />
 	<table  class="tbl_input" border="0" width="75%"  cellpadding="0" cellspacing="0" >			
 		<tr>
@@ -96,7 +96,7 @@
 					<input class="btn" type="submit" value="OK" />					
 				</td>	
 				<td>
-					<input class="btn" type="button" value="戻る" onclick="back()" />						
+					<input class="btn" type="button" value="戻る" onclick="back('${backType}')" />						
 				</td>
 		</tr>		
 	</table>

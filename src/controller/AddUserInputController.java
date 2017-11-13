@@ -126,10 +126,12 @@ public class AddUserInputController extends HttpServlet {
 				// tạo URL gọi đến AddUserConfirmController
 				StringBuilder confirmURL = new StringBuilder();
 				confirmURL.append(request.getContextPath());
-				confirmURL.append(Constant.ADD_USER_CONFIRM_PATH);
 				// lấy current timestamp làm id cho userInfor lưu lên session
 				Long timeStampMillis = Instant.now().toEpochMilli();
 				String id = timeStampMillis.toString();
+				// xác định trường hợp add hay edit
+				String action = userInfor.getUserId() == 0 ? Constant.ADD_USER_CONFIRM_PATH : Constant.EDIT_CONFIRM_PATH;
+				confirmURL.append(action);
 				confirmURL.append("?");
 				confirmURL.append(Constant.USER_INFOR_ID);
 				confirmURL.append("=");
@@ -297,6 +299,7 @@ public class AddUserInputController extends HttpServlet {
 				userInfor.setEndMonth(defaultDate.get(1).toString());
 				userInfor.setEndDay(defaultDate.get(2).toString());
 			}
+			System.out.println("userInfor.getUserId(): " + userInfor.getUserId());
 		}
 		return userInfor;
 	}

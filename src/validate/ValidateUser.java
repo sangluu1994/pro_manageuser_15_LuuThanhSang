@@ -51,19 +51,24 @@ public class ValidateUser {
 	 */
 	public List<String> validateUserInfor(UserInfor userInfor) throws ClassNotFoundException, SQLException, ParseException {
 		List<String> listError = new ArrayList<>();
-		// check login name (4)
-		String loginName = userInfor.getLoginName();
-		if (loginName == null || Constant.EMPTY_STRING.equals(loginName.trim())) { // check empty
-			listError.add(MessageErrorProperties.getErrMsg(Constant.ER001LOGIN));
-		} else if (loginName.length() < Constant.MIN_LENGTH_LOGIN_NAME
-				|| loginName.length() > Constant.MAX_LENGTH_LOGIN_NAME) { // check length
-			listError.add(MessageErrorProperties.getErrMsg(Constant.ER007LOGIN));
-		} else if (!loginName.matches(Constant.LOGIN_NAME_PATTERN)) { // check format
-			listError.add(MessageErrorProperties.getErrMsg(Constant.ER019));
-		} else if (tblUserLogic.checkExistedLoginName(0, loginName)) { // check exist
-			listError.add(MessageErrorProperties.getErrMsg(Constant.ER003LOGIN));
+		Integer userId = userInfor.getUserId() != 0 ? userInfor.getUserId() : null;
+		
+		// nếu là trường hợp add thì kiểm tra loginName
+		if (userId == null) {
+			// check login name (4)
+			String loginName = userInfor.getLoginName();
+			if (loginName == null || Constant.EMPTY_STRING.equals(loginName.trim())) { // check empty
+				listError.add(MessageErrorProperties.getErrMsg(Constant.ER001LOGIN));
+			} else if (loginName.length() < Constant.MIN_LENGTH_LOGIN_NAME
+					|| loginName.length() > Constant.MAX_LENGTH_LOGIN_NAME) { // check length
+				listError.add(MessageErrorProperties.getErrMsg(Constant.ER007LOGIN));
+			} else if (!loginName.matches(Constant.LOGIN_NAME_PATTERN)) { // check format
+				listError.add(MessageErrorProperties.getErrMsg(Constant.ER019));
+			} else if (tblUserLogic.checkExistedLoginName(0, loginName)) { // check exist
+				listError.add(MessageErrorProperties.getErrMsg(Constant.ER003LOGIN));
+			}
 		}
-
+		
 		// check group id (2)
 		Integer groupId = userInfor.getGroupId();
 		if (groupId == null || Constant.DEFAULT_GROUP_ID == groupId) { // check not select
@@ -128,22 +133,25 @@ public class ValidateUser {
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER005TEL));
 		}
 
-		// check password (3)
-		String pass = userInfor.getPass();
-		if (pass == null || Constant.EMPTY_STRING.equals(pass.trim())) { // check empty
-			listError.add(MessageErrorProperties.getErrMsg(Constant.ER001PASS));
-		} else {
-			if (pass.length() < Constant.MIN_LENGTH_PASSWORD
-					|| pass.length() > Constant.MAX_LENGTH_PASSWORD) { // check length
-				listError.add(MessageErrorProperties.getErrMsg(Constant.ER007PASS));
-			} else if (!pass.matches(Constant.PASSWORD_PATTERN)) { // check format
-				listError.add(MessageErrorProperties.getErrMsg(Constant.ER008PASS));
-			}
-
-			// check confirm password (1)
-			String rePass = userInfor.getRePass();
-			if (rePass == null || Constant.EMPTY_STRING.equals(rePass.trim()) || !rePass.equals(pass)) { // check not match
-				listError.add(MessageErrorProperties.getErrMsg(Constant.ER017));
+		// nếu là trường hợp add mới kiểm tra password
+		if (userId == null) {
+			// check password (3)
+			String pass = userInfor.getPass();
+			if (pass == null || Constant.EMPTY_STRING.equals(pass.trim())) { // check empty
+				listError.add(MessageErrorProperties.getErrMsg(Constant.ER001PASS));
+			} else {
+				if (pass.length() < Constant.MIN_LENGTH_PASSWORD
+						|| pass.length() > Constant.MAX_LENGTH_PASSWORD) { // check length
+					listError.add(MessageErrorProperties.getErrMsg(Constant.ER007PASS));
+				} else if (!pass.matches(Constant.PASSWORD_PATTERN)) { // check format
+					listError.add(MessageErrorProperties.getErrMsg(Constant.ER008PASS));
+				}
+	
+				// check confirm password (1)
+				String rePass = userInfor.getRePass();
+				if (rePass == null || Constant.EMPTY_STRING.equals(rePass.trim()) || !rePass.equals(pass)) { // check not match
+					listError.add(MessageErrorProperties.getErrMsg(Constant.ER017));
+				}
 			}
 		}
 
