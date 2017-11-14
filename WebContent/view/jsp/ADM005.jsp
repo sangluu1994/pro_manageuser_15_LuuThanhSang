@@ -1,4 +1,5 @@
 <%@ page import="common.Constant"%>
+<%@ page import="properties.MessageProperties" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -95,10 +96,13 @@
 				<input class="btn" type="submit" value="編集" />					
 			</td>
 			<td>
-				<input class="btn" type="button" value="削除" />					
+				<input class="btn" type="button" value="削除" onclick="del('${MessageProperties.getString(Constant.MSG004)}')" />					
+			</td>
+			<td>
+				<input class="btn" type="button" value="" onclick="window.location.href='<c:url value="${Constant.CHANGE_PASS_PATH}" />?userId=${userInfor.userId}'" />
 			</td>	
 			<td>
-				<input class="btn" type="button" onclick="window.location.href = '<c:url value="${Constant.LIST_USER_PATH}" />?type=back';" value="戻る" />						
+				<input class="btn" type="button" onclick="window.location.href='<c:url value="${Constant.LIST_USER_PATH}" />?type=back';" value="戻る" />						
 			</td>
 		</tr>		
 	</table>

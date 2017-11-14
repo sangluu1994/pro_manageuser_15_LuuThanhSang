@@ -115,13 +115,13 @@ public class TblDetailUserJapanDaoImpl extends BaseDaoImpl implements TblDetailU
 	 */
 	@Override
 	public boolean deleteDetailUserJapan(int userId) throws SQLException {
-		StringBuilder query = new StringBuilder()
-				.append("DELETE FROM tbl_detail_user_japan ")
-				.append("WHERE tbl_detail_user_japan.user_id = ? ");
+		StringBuilder query = new StringBuilder();
+		query.append("DELETE FROM tbl_detail_user_japan ");
+		query.append("WHERE tbl_detail_user_japan.user_id = ? ");
 		preparedStatement = connection.prepareStatement(query.toString());
 		preparedStatement.setInt(1, userId);
-		preparedStatement.executeUpdate();
-		return true;
+		System.out.println(preparedStatement.toString());
+		return (preparedStatement.executeUpdate() == 0);
 	}
 
 }

@@ -173,8 +173,8 @@ public class TblUserLogicImpl implements TblUserLogic {
 		tblUser.setBirthday(userInfor.getBirthday());
 		TblDetailUserJapan detailUserJapan = tblDetailUserJapanDao.getDetailUserJapanByUserId(userId);
 		try {
-			baseDao.connectDB();// create connection
-			baseDao.disableAutoCommit();// set auto commit = false
+			baseDao.connectDB();
+			baseDao.disableAutoCommit();
 			tblUserDao.updateUser(tblUser);
 			if (userInfor.getCodeLevel() != null) {
 				int total = userInfor.getTotal();
@@ -184,12 +184,12 @@ public class TblUserLogicImpl implements TblUserLogic {
 				tblDetailUserJapan.setStartDate(userInfor.getStartDate());
 				tblDetailUserJapan.setEndDate(userInfor.getEndDate());
 				tblDetailUserJapan.setTotal(total);
-				if (detailUserJapan == null) {// if not exist then add to database
+				if (detailUserJapan == null) {
 					tblDetailUserJapanDao.insertDetailUserJapan(tblDetailUserJapan);
 				} else {
 					tblDetailUserJapanDao.updateDetailUserJapan(tblDetailUserJapan);
 				}
-			} else {// if exist detailUserJapan and codeLevel is null then delete detailUserJapan
+			} else {
 				if (detailUserJapan != null) {
 					tblDetailUserJapanDao.deleteDetailUserJapan(userId);
 				}
@@ -203,6 +203,36 @@ public class TblUserLogicImpl implements TblUserLogic {
 			baseDao.closeDB();
 		}
 		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see logic.TblUserLogic#removeUser(int)
+	 */
+	@Override
+	public boolean removeUser(int userId) throws ClassNotFoundException, SQLException {
+		try {
+			baseDao.connectDB();
+			baseDao.disableAutoCommit();
+			System.out.println("delete detail: " + tblDetailUserJapanDao.deleteDetailUserJapan(userId));
+			System.out.println("delete user: " + tblUserDao.deleteUser(userId));
+			baseDao.commit();
+		} catch (SQLException e) {
+			baseDao.rollback();
+			return false;
+		} finally {
+			baseDao.closeDB();
+		}
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see logic.TblUserLogic#changePassword(int, java.lang.String)
+	 */
+	@Override
+	public boolean changePassword(int userId, String passWord) throws ClassNotFoundException, SQLException {
+		TblUser tblUser = tblUserDao.getTblUserById(userId);
+		String newPassword = Common.encodeMD5(passWord, tblUser.getSalt());
+		return tblUserDao.updatePassword(userId, newPassword);
 	}
 	
 //	public static void main(String[] args) throws ClassNotFoundException, SQLException {

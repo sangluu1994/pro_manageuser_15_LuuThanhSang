@@ -115,5 +115,16 @@ public interface TblUserDao extends BaseDao {
 	 * @throws SQLException
 	 */
 	public boolean deleteUser(int userId) throws ClassNotFoundException, SQLException;
+
+	/**
+	 * Update password
+	 *
+	 * @param userId - userId của user cần update password
+	 * @param newPassword - password cập nhật
+	 * @return boolean - true nếu update thành công | false nếu ngược lại
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 */
+	public boolean updatePassword(int userId, String newPassword) throws ClassNotFoundException, SQLException;
 	
 }

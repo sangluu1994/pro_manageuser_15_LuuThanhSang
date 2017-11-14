@@ -5,6 +5,7 @@
  */
 package common;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -16,6 +17,9 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import properties.ConfigProperties;
 
@@ -443,6 +447,33 @@ public class Common {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Phương thức xử lí redirect tới trang báo lỗi nếu có lỗi xảy ra
+	 *
+	 * @param request - HttpServletRequest
+	 * @param response - HttpServletResponse
+	 * @throws IOException 
+	 */
+	public static void redirectErrorPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// điều hướng sang trang lỗi
+		StringBuilder errorURL = new StringBuilder(request.getContextPath());
+		response.sendRedirect(errorURL.append(Constant.SYSTEM_ERROR_PATH).toString());
+	}
+
+	/**
+	 * Phương thức tính chuỗi băm MD5
+	 *
+	 * @param passWord - mật khẩu truyền vào
+	 * @param salt - chuỗi salt tương ứng với mật khẩu
+	 * @return mật khẩu đã được băm
+	 */
+	public static String encodeMD5(String passWord, String salt) {
+		StringBuilder input = new StringBuilder();
+		input.append(passWord);
+		input.append(salt);
+		return encodeMD5(input.toString());
 	}
 
 }

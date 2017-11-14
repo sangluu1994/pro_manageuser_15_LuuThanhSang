@@ -7,7 +7,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="shortcut icon" href="<c:url value="/view/img/logo-icon.png" />">
 <link href="<c:url value="/view/css/style.css" />" rel="stylesheet" type="text/css" />
 <script src="<c:url value="/view/js/fn.js" />"></script>
@@ -213,7 +213,7 @@
 					<input class="btn" type="submit" value="確認" />					
 				</td>	
 				<td>
-					<input class="btn" type="button" onclick="window.location.href = '<c:url value="${Constant.LIST_USER_PATH}" />?type=back';" value="戻る" />						
+					<input class="btn" type="button" onclick="window.location.href = '<c:url value="${userInfor.userId != 0 ? Constant.DETAIL_USER_PATH : Constant.LIST_USER_PATH}" />?type=back';" value="戻る" />						
 				</td>
 		</tr>		
 	</table>

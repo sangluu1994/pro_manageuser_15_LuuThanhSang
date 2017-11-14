@@ -104,4 +104,25 @@ public interface TblUserLogic {
 	 * @throws ClassNotFoundException 
 	 */
 	public boolean editUser(UserInfor userInfor) throws ClassNotFoundException, SQLException;
+
+	/**
+	 * Xóa đối tượng userInfor khỏi database
+	 *
+	 * @param userId - userId của đối tượng cần xóa
+	 * @return boolean - true nếu xóa thành công | false nếu ngược lại
+	 * @throws ClassNotFoundException 
+	 * @throws SQLException 
+	 */
+	public boolean removeUser(int userId) throws ClassNotFoundException, SQLException;
+
+	/**
+	 * Phương thức change password
+	 *
+	 * @param userId - userId của đối tượng cần change password
+	 * @param passWord - password cập nhật
+	 * @return boolean - true nếu change password thành công | false nếu ngược lại
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 */
+	public boolean changePassword(int userId, String passWord) throws ClassNotFoundException, SQLException;
 }

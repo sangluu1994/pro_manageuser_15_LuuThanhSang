@@ -20,3 +20,14 @@ function back(backType) {
 	document.inputform.appendChild(accessType);
 	document.inputform.submit();
 }
+
+function del(message) {
+	var confirmDel = confirm(message);
+	if (confirmDel) {
+		document.inputform.action = "deleteUser.do";
+		document.inputform.method = "post";
+		document.inputform.submit();
+	} else {
+		return false;
+	}
+}

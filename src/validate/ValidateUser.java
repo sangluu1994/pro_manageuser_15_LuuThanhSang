@@ -201,5 +201,34 @@ public class ValidateUser {
 
 		return listError;
 	}
+
+	/**
+	 * Validate password
+	 *
+	 * @param passWord - mật khẩu
+	 * @param confirmPass - mật khẩu xác nhận
+	 * @return errList - danh sách lỗi
+	 */
+	public List<String> validatePassword(String passWord, String confirmPass) {
+		List<String> errList = new ArrayList<>();
+		// check password
+		if (passWord == null || Constant.EMPTY_STRING.equals(passWord)) {
+			errList.add(MessageErrorProperties.getErrMsg(Constant.ER001PASS));
+		} else {
+			if (passWord.length() < Constant.MIN_LENGTH_PASSWORD
+					|| passWord.length() > Constant.MAX_LENGTH_PASSWORD) {
+				errList.add(MessageErrorProperties.getErrMsg(Constant.ER007PASS));
+			} else if (!passWord.matches(Constant.PASSWORD_PATTERN)) {
+				errList.add(MessageErrorProperties.getErrMsg(Constant.ER008PASS));
+			}
+			// check confirm password
+			if (confirmPass == null || Constant.EMPTY_STRING.equals(confirmPass)) {
+				errList.add(MessageErrorProperties.getErrMsg(Constant.ER017));
+			} else if (!confirmPass.equals(passWord)) {
+				errList.add(MessageErrorProperties.getErrMsg(Constant.ER017));
+			}
+		}
+		return errList;
+	}
 	
 }

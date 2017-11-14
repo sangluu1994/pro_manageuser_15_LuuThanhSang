@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import common.Common;
 import common.Constant;
 import entity.MstGroup;
 import entity.MstJapan;
@@ -56,8 +58,7 @@ public class AddUserConfirmController extends HttpServlet {
 			// kiểm tra userInfor
 			if (userInfor == null) {
 				// điều hướng sang trang lỗi
-				StringBuilder errorURL = new StringBuilder(request.getContextPath());
-				response.sendRedirect(errorURL.append(Constant.SYSTEM_ERROR_PATH).toString());
+				Common.redirectErrorPage(request, response);
 				return;
 			}
 			// set group name
@@ -86,10 +87,9 @@ public class AddUserConfirmController extends HttpServlet {
 			e.printStackTrace();
 			try {
 				// điều hướng sang trang lỗi nếu có lỗi
-				StringBuilder errorURL = new StringBuilder(request.getContextPath());
-				response.sendRedirect(errorURL.append(Constant.SYSTEM_ERROR_PATH).toString());
+				Common.redirectErrorPage(request, response);
 			} catch (IOException e1) {
-
+				e1.printStackTrace();
 			}
 		}
 	}
@@ -116,8 +116,7 @@ public class AddUserConfirmController extends HttpServlet {
 			} else { // trường hợp edit
 				if (!tblUserLogic.isExistedUser(userId)) {
 					// nếu không tồn tại user, điều hướng về trang lỗi
-					StringBuilder errorURL = new StringBuilder(request.getContextPath());
-					response.sendRedirect(errorURL.append(Constant.SYSTEM_ERROR_PATH).toString());
+					Common.redirectErrorPage(request, response);
 					return;
 				}
 				// gọi hàm xử lí logic edit user
@@ -140,9 +139,7 @@ public class AddUserConfirmController extends HttpServlet {
 			e.printStackTrace();
 			try {
 				// điều hướng sang trang lỗi nếu xảy ra exception
-				StringBuilder errorURL = new StringBuilder(request.getContextPath());
-				errorURL.append(Constant.SYSTEM_ERROR_PATH);
-				response.sendRedirect(errorURL.toString());
+				Common.redirectErrorPage(request, response);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

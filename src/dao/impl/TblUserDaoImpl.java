@@ -418,8 +418,8 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		Integer userId = null;
 		StringBuilder query = new StringBuilder();
 		query.append("UPDATE tbl_user u ");
-		query.append("SET u.group_id = ?, u.full_name = ?, u.full_name_kana = ?, ");
-		query.append("u.email = ?, u.tel = ?, u.birthday = ? WHERE u.user_id = ?");
+		query.append("SET u.group_id = ?, u.full_name = ?, u.full_name_kana = ?, u.email = ?, u.tel = ?, u.birthday = ? ");
+		query.append("WHERE u.user_id = ? ");
 		int i = 0;
 		preparedStatement = connection.prepareStatement(query.toString());
 		preparedStatement.setInt(++i, tblUser.getGroupId());
@@ -438,7 +438,37 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	 */
 	@Override
 	public boolean deleteUser(int userId) throws ClassNotFoundException, SQLException {
-		return false;
+		StringBuilder query = new StringBuilder();
+		query.append("DELETE FROM tbl_user ");
+		query.append("WHERE tbl_user.user_id = ?");
+		preparedStatement = connection.prepareStatement(query.toString());
+		preparedStatement.setInt(1, userId);
+		System.out.println(preparedStatement.toString());
+		return (preparedStatement.executeUpdate() == 0);
+	}
+
+	/* (non-Javadoc)
+	 * @see dao.TblUserDao#updatePassword(int, java.lang.String)
+	 */
+	@Override
+	public boolean updatePassword(int userId, String newPassword) throws ClassNotFoundException, SQLException {
+		Connection con = null;
+		try {
+			StringBuilder query = new StringBuilder();
+			query.append("UPDATE tbl_user SET tbl_user.password = ? ");
+			query.append("WHERE tbl_user.user_id = ? ");
+			con = getConnection();
+			if (con == null) {
+				return false;
+			}
+			int i = 0;
+			PreparedStatement ps = con.prepareStatement(query.toString());
+			ps.setString(++i, newPassword);
+			ps.setInt(++i, userId);
+			return (ps.executeUpdate() == 0);
+		} finally {
+			close(con);
+		}
 	}
 	
 }

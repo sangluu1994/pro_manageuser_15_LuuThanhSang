@@ -27,6 +27,7 @@ public class Constant {
 	public static final String SUCCESS_PATH = "/success.do";
 	public static final String DETAIL_USER_PATH = "/detailUser.do";
 	public static final String DELETE_USER_PATH = "/deleteUser.do";
+	public static final String CHANGE_PASS_PATH = "/changePass.do";
 	public static final String LOG_OUT_PATH = "/logout.do";
 	public static final String FILTER_URL_PATTERN = "*";
 	
@@ -37,6 +38,7 @@ public class Constant {
 	public static final String ADM004 = "/view/jsp/ADM004.jsp";
 	public static final String ADM005 = "/view/jsp/ADM005.jsp";
 	public static final String ADM006 = "/view/jsp/ADM006.jsp";
+	public static final String ADM007 = "/view/jsp/ADM007.jsp";
 	public static final String ADM_SYSTEM_ERROR = "/view/jsp/System_Error.jsp";
 	
 	// các thư mục css/js/img
@@ -225,11 +227,15 @@ public class Constant {
 	public static final String SUCCESS = "success";
 	public static final String FAIL = "fail";
 	public static final String STATUS = "status";
-	public static final String USER_ID = "id";
+	public static final String USER_ID = "userId";
 	public static final String TYPE_EDIT = "edit";
 	public static final String BACK_TYPE = "backType";
 	public static final String ACTION_TYPE = "actionType";
 	public static final String UPDATE_DONE = "updateDone";
-	public static final Object ERROR = "error";
+	public static final String ERROR = "error";
+	public static final String DELETE_SUCCESS = "deleteDone";
+	public static final String DELETE_FAIL = "deleteFail";
+	public static final String CHANGE_PASSWORD_SUCCESS = "changePassDone";
+	public static final String CHANGE_PASSWORD_FAIL = "changePassFail";
 	
 }
