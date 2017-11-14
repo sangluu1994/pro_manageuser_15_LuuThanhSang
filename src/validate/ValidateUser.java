@@ -51,10 +51,11 @@ public class ValidateUser {
 	 */
 	public List<String> validateUserInfor(UserInfor userInfor) throws ClassNotFoundException, SQLException, ParseException {
 		List<String> listError = new ArrayList<>();
-		Integer userId = userInfor.getUserId() != 0 ? userInfor.getUserId() : null;
+		int userId = userInfor.getUserId();
+		System.out.println("userId: " + userId);
 		
-		// nếu là trường hợp add thì kiểm tra loginName
-		if (userId == null) {
+		// nếu là trường hợp add thì kiểm tra loginName, pass, re-pass
+		if (userId == 0) {
 			// check login name (4)
 			String loginName = userInfor.getLoginName();
 			if (loginName == null || Constant.EMPTY_STRING.equals(loginName.trim())) { // check empty
@@ -64,8 +65,27 @@ public class ValidateUser {
 				listError.add(MessageErrorProperties.getErrMsg(Constant.ER007LOGIN));
 			} else if (!loginName.matches(Constant.LOGIN_NAME_PATTERN)) { // check format
 				listError.add(MessageErrorProperties.getErrMsg(Constant.ER019));
-			} else if (tblUserLogic.checkExistedLoginName(0, loginName)) { // check exist
+			} else if (tblUserLogic.checkExistedLoginName(userId, loginName)) { // check exist
 				listError.add(MessageErrorProperties.getErrMsg(Constant.ER003LOGIN));
+			}
+			
+			// check password (3)
+			String pass = userInfor.getPass();
+			if (pass == null || Constant.EMPTY_STRING.equals(pass.trim())) { // check empty
+				listError.add(MessageErrorProperties.getErrMsg(Constant.ER001PASS));
+			} else {
+				if (pass.length() < Constant.MIN_LENGTH_PASSWORD
+						|| pass.length() > Constant.MAX_LENGTH_PASSWORD) { // check length
+					listError.add(MessageErrorProperties.getErrMsg(Constant.ER007PASS));
+				} else if (!pass.matches(Constant.PASSWORD_PATTERN)) { // check format
+					listError.add(MessageErrorProperties.getErrMsg(Constant.ER008PASS));
+				}
+	
+				// check confirm password (1)
+				String rePass = userInfor.getRePass();
+				if (rePass == null || Constant.EMPTY_STRING.equals(rePass.trim()) || !rePass.equals(pass)) { // check not match
+					listError.add(MessageErrorProperties.getErrMsg(Constant.ER017));
+				}
 			}
 		}
 		
@@ -119,7 +139,7 @@ public class ValidateUser {
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER006MAIL));
 		} else if (!email.matches(Constant.EMAIL_PATTERN)) { // check format
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER005MAIL));
-		} else if (tblUserLogic.checkExistedEmail(0, email)) { // check exist
+		} else if (tblUserLogic.checkExistedEmail(userId, email)) { // check exist
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER003MAIL));
 		}
 
@@ -131,28 +151,6 @@ public class ValidateUser {
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER006TEL));
 		} else if (!tel.matches(Constant.TEL_PATTERN)) { // check format
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER005TEL));
-		}
-
-		// nếu là trường hợp add mới kiểm tra password
-		if (userId == null) {
-			// check password (3)
-			String pass = userInfor.getPass();
-			if (pass == null || Constant.EMPTY_STRING.equals(pass.trim())) { // check empty
-				listError.add(MessageErrorProperties.getErrMsg(Constant.ER001PASS));
-			} else {
-				if (pass.length() < Constant.MIN_LENGTH_PASSWORD
-						|| pass.length() > Constant.MAX_LENGTH_PASSWORD) { // check length
-					listError.add(MessageErrorProperties.getErrMsg(Constant.ER007PASS));
-				} else if (!pass.matches(Constant.PASSWORD_PATTERN)) { // check format
-					listError.add(MessageErrorProperties.getErrMsg(Constant.ER008PASS));
-				}
-	
-				// check confirm password (1)
-				String rePass = userInfor.getRePass();
-				if (rePass == null || Constant.EMPTY_STRING.equals(rePass.trim()) || !rePass.equals(pass)) { // check not match
-					listError.add(MessageErrorProperties.getErrMsg(Constant.ER017));
-				}
-			}
 		}
 
 		// nếu có chọn vùng trình độ tiếng Nhật

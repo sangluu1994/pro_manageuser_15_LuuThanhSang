@@ -17,8 +17,9 @@
 <%@ include file = "../layout/header.jsp" %>
 
 <!-- Begin vung input-->	
-	<form action="<c:url value="${Constant.ADD_USER_VALIDATE_PATH}" />" method="post" name="inputform">	
+	<form action="<c:url value="${userInfor.userId != 0 ? Constant.EDIT_VALIDATE_PATH : Constant.ADD_USER_VALIDATE_PATH}" />" method="post" name="inputform">	
 	<input type="hidden" name="type" value="confirm"/>
+	<c:if test="${userInfor.userId != 0}"><input type="hidden" name="${Constant.USER_INFOR_ID}" value="${userInfor.userId}"/></c:if>
 	<table  class="tbl_input"   border="0" width="75%"  cellpadding="0" cellspacing="0" >			
 		<tr>
 			<th align="left">
@@ -40,11 +41,11 @@
 		<tr>
 			<td align="left" >
 				<div style="padding-left:100px;">
-					<table border="0" width="100%" class="tbl_input" cellpadding="4" cellspacing="0" >					
+					<table border="0" width="100%" class="tbl_input" cellpadding="4" cellspacing="0">					
 					<tr>
 						<td class="lbl_left"><font color = "red">*</font> アカウント名:</td>
 						<td align="left">
-							<input class="txBox" type="text" name="id" value="<c:out value="${userInfor.loginName}" escapeXml="true"></c:out>"
+							<input <c:if test='${userInfor.userId != 0}'>readonly</c:if> class="txBox" type="text" name="${Constant.LOGIN_NAME_ADM003}" value="<c:out value="${userInfor.loginName}" escapeXml="true"></c:out>"
 							size="15" onfocus="this.style.borderColor='#0066ff';"
 							onblur="this.style.borderColor='#aaaaaa';" />
 						</td>
@@ -52,7 +53,7 @@
 					<tr>
 						<td class="lbl_left"><font color = "red">*</font> グループ:</td>
 						<td align="left">						
-							<select name="groupId">
+							<select name="${Constant.GROUP_ID_ADM003}">
 								<c:forEach var="group" items="${allMstGroup}">
 									<option value="${group.groupId}" ${group.groupId == userInfor.groupId ? "selected" : ""}>${group.groupName}</option>
 								</c:forEach>
@@ -63,7 +64,7 @@
 					<tr>
 						<td class="lbl_left"><font color = "red">*</font> 氏名:</td>
 						<td align="left">
-						<input class="txBox" type="text" name="fullName" value="<c:out value="${userInfor.fullName}" escapeXml="true"></c:out>"
+						<input class="txBox" type="text" name="${Constant.FULL_NAME_ADM003}" value="<c:out value="${userInfor.fullName}" escapeXml="true"></c:out>"
 							size="30" onfocus="this.style.borderColor='#0066ff';"
 							onblur="this.style.borderColor='#aaaaaa';" />							
 						</td>
@@ -71,7 +72,7 @@
 					<tr>
 						<td class="lbl_left">カタカナ氏名:</td>
 						<td align="left">
-						<input class="txBox" type="text" name="kanaName" value="<c:out value="${userInfor.fullNameKana}" escapeXml="true"></c:out>"
+						<input class="txBox" type="text" name="${Constant.KANA_NAME_ADM003}" value="<c:out value="${userInfor.fullNameKana}" escapeXml="true"></c:out>"
 							size="30" onfocus="this.style.borderColor='#0066ff';"
 							onblur="this.style.borderColor='#aaaaaa';" />							
 						</td>
@@ -79,19 +80,19 @@
 					<tr>
 						<td class="lbl_left"><font color = "red">*</font> 生年月日:</td>
 						<td align="left">
-						<select name="birthYear">
+						<select name="${Constant.BIRTH_YEAR_ADM003}">
 							<c:forEach var="listYear" items="${listYears}">
 								<c:if test="${(currentYear + 1) != listYear}">
 									<option value="${listYear}" ${listYear == userInfor.birthYear ? "selected" : ""}>${listYear}</option>
 								</c:if>
 							</c:forEach>
 						</select>年
-						<select name="birthMonth">
+						<select name="${Constant.BIRTH_MONTH_ADM003}">
 							<c:forEach var="listMonth" items="${listMonths}">
 								<option value="${listMonth}" ${listMonth == userInfor.birthMonth ? "selected" : ""}>${listMonth}</option>
 							</c:forEach>
 						</select>月
-						<select name="birthDate">
+						<select name="${Constant.BIRTH_DATE_ADM003}">
 							<c:forEach var="listDay" items="${listDays}">
 								<option value="${listDay}" ${listDay == userInfor.birthDate ? "selected" : ""}>${listDay}</option>
 							</c:forEach>
@@ -101,7 +102,7 @@
 					<tr>
 						<td class="lbl_left"><font color = "red">*</font> メールアドレス:</td>
 						<td align="left">
-							<input class="txBox" type="text" name="email" value="<c:out value="${userInfor.email}" escapeXml="true"></c:out>"
+							<input class="txBox" type="text" name="${Constant.EMAIL_ADM003}" value="<c:out value="${userInfor.email}" escapeXml="true"></c:out>"
 							size="30" onfocus="this.style.borderColor='#0066ff';"
 							onblur="this.style.borderColor='#aaaaaa';" />							
 						</td>
@@ -109,88 +110,90 @@
 					<tr>
 						<td class="lbl_left"><font color = "red">*</font>電話番号:</td>
 						<td align="left">
-						<input class="txBox" type="text" name="tel" value="<c:out value="${userInfor.tel}" escapeXml="true"></c:out>"
+						<input class="txBox" type="text" name="${Constant.TEL_ADM003}" value="<c:out value="${userInfor.tel}" escapeXml="true"></c:out>"
 							size="30" onfocus="this.style.borderColor='#0066ff';"
 							onblur="this.style.borderColor='#aaaaaa';" />						
 						</td>
 					</tr>
-					<tr>
-						<td class="lbl_left"><font color = "red">*</font> パスワード:</td>
-						<td align="left">
-							<input class="txBox" type="password" name="password" value=""
-							size="30" onfocus="this.style.borderColor='#0066ff';"
-							onblur="this.style.borderColor='#aaaaaa';" />							
-						</td>
-					</tr>
-					<tr>
-						<td class="lbl_left">パスワード（確認）:</td>
-						<td align="left">
-							<input class="txBox" type="password" name="confirmPass" value=""
-							size="30" onfocus="this.style.borderColor='#0066ff';"
-							onblur="this.style.borderColor='#aaaaaa';" />							
-						</td>
-					</tr>
+					<c:if test="${userInfor.userId == 0}">
+						<tr>
+							<td class="lbl_left"><font color = "red">*</font> パスワード:</td>
+							<td align="left">
+								<input class="txBox" type="password" name="${Constant.PASS_ADM003}" value=""
+								size="30" onfocus="this.style.borderColor='#0066ff';"
+								onblur="this.style.borderColor='#aaaaaa';" />							
+							</td>
+						</tr>
+						<tr>
+							<td class="lbl_left">パスワード（確認）:</td>
+							<td align="left">
+								<input class="txBox" type="password" name="${Constant.CONFIRM_PASS_ADM003}" value=""
+								size="30" onfocus="this.style.borderColor='#0066ff';"
+								onblur="this.style.borderColor='#aaaaaa';" />							
+							</td>
+						</tr>
+					</c:if>
 					<tr>
 						<th align="left" colspan = "2" >							
-								<a href="javascript:void(0)" onclick="toggleJpField()">日本語能力</a>
+							<a href="javascript:void(0)" onclick="toggleJpField()">日本語能力</a>
 						</th>			
 					</tr>
-					<tr class="japaneseField" style="display: ${Constant.DEFAULT_CODE_LEVEL == userInfor.codeLevel ? 'none' : 'table-row'};">
+					<tr class="japaneseField" style="display:<c:if test="${userInfor.codeLevel == null || Constant.DEFAULT_CODE_LEVEL == userInfor.codeLevel}">none;</c:if>">
 						<td class="lbl_left">資格:</td>
 						<td align="left">
-							<select name="kyu_id">
+							<select name="${Constant.CODE_LEVEL_ADM003}">
 								<c:forEach var="kyu" items="${allMstJapan}">
 									<option value="${kyu.codeLevel}" ${kyu.codeLevel == userInfor.codeLevel ? "selected" : ""}>${kyu.nameLevel}</option>
 								</c:forEach>
 							</select>									
 						</td>
 					</tr>
-					<tr class="japaneseField" style="display: ${Constant.DEFAULT_CODE_LEVEL == userInfor.codeLevel ? 'none' : 'table-row'};">
+					<tr class="japaneseField" style="display:<c:if test="${userInfor.codeLevel == null || Constant.DEFAULT_CODE_LEVEL == userInfor.codeLevel}">none;</c:if>">
 						<td class="lbl_left">資格交付日: </td>
 						<td align="left">
-							<select name="startYear">
+							<select name="${Constant.START_YEAR_ADM003}">
 								<c:forEach var="listYear" items="${listYears}">
 									<c:if test="${(currentYear + 1) != listYear}">
 										<option value="${listYear}" ${listYear == userInfor.startYear ? "selected" : ""}>${listYear}</option>
 									</c:if>
 								</c:forEach>
 							</select>年
-							<select name="startMonth">
+							<select name="${Constant.START_MONTH_ADM003}">
 								<c:forEach var="listMonth" items="${listMonths}">
 									<option value="${listMonth}" ${listMonth == userInfor.startMonth ? "selected" : ""}>${listMonth}</option>
 								</c:forEach>
 							</select>月
-							<select name="startDay">
+							<select name="${Constant.START_DAY_ADM003}">
 								<c:forEach var="listDay" items="${listDays}">
 									<option value="${listDay}" ${listDay == userInfor.startDay ? "selected" : ""}>${listDay}</option>
 								</c:forEach>
 							</select>日							
 						</td>
 					</tr>
-					<tr class="japaneseField" style="display: ${Constant.DEFAULT_CODE_LEVEL == userInfor.codeLevel ? 'none' : 'table-row'};">
+					<tr class="japaneseField" style="display:<c:if test="${userInfor.codeLevel == null || Constant.DEFAULT_CODE_LEVEL == userInfor.codeLevel}">none;</c:if>">
 						<td class="lbl_left">失効日: </td>
 						<td align="left">
-							<select name="endYear">
+							<select name="${Constant.END_YEAR_ADM003}">
 								<c:forEach var="listYear" items="${listYears}">
 									<option value="${listYear}" ${listYear == userInfor.endYear ? "selected" : ""}>${listYear}</option>
 								</c:forEach>
 							</select>年
-							<select name="endMonth">
+							<select name="${Constant.END_MONTH_ADM003}">
 								<c:forEach var="listMonth" items="${listMonths}">
 									<option value="${listMonth}" ${listMonth == userInfor.endMonth ? "selected" : ""}>${listMonth}</option>
 								</c:forEach>
 							</select>月
-							<select name="endDay">
+							<select name="${Constant.END_DAY_ADM003}">
 								<c:forEach var="listDay" items="${listDays}">
 									<option value="${listDay}" ${listDay == userInfor.endDay ? "selected" : ""}>${listDay}</option>
 								</c:forEach>
 							</select>日							
 						</td>
 					</tr>
-					<tr class="japaneseField" style="display: ${Constant.DEFAULT_CODE_LEVEL == userInfor.codeLevel ? 'none' : 'table-row'};">
+					<tr class="japaneseField" style="display:<c:if test="${userInfor.codeLevel == null || Constant.DEFAULT_CODE_LEVEL == userInfor.codeLevel}">none;</c:if>">
 						<td class="lbl_left">点数: </td>
 						<td align="left">
-							<input class="txBox" type="text" name="total" value="<c:out value="${userInfor.total == 0 ? '' : userInfor.total}" escapeXml="true"></c:out>"
+							<input class="txBox" type="text" name="${Constant.TOTAL_ADM003}" value="<c:out value="${userInfor.total == 0 ? '' : userInfor.total}" escapeXml="true"></c:out>"
 							size="5" onfocus="this.style.borderColor='#0066ff';"
 							onblur="this.style.borderColor='#aaaaaa';" />							
 						</td>

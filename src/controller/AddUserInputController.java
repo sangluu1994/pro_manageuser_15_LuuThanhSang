@@ -73,29 +73,6 @@ public class AddUserInputController extends HttpServlet {
 			setDataLogic(request, response);
 			UserInfor userInfor = setDefaultValue(request, response);
 			request.setAttribute(Constant.USER_INFOR, userInfor);
-//			System.out.println("getBirthYear: " + userInfor.getBirthYear());
-//			System.out.println("getBirthMonth: " + userInfor.getBirthMonth());
-//			System.out.println("getBirthDate: " + userInfor.getBirthDate());
-//			System.out.println("getStartYear: " + userInfor.getStartYear());
-//			System.out.println("getStartMonth: " + userInfor.getStartMonth());
-//			System.out.println("getStartDay: " + userInfor.getStartDay());
-//			System.out.println("getEndYear: " + userInfor.getEndYear());
-//			System.out.println("getEndMonth: " + userInfor.getEndMonth());
-//			System.out.println("getEndDay: " + userInfor.getEndDay());
-//			System.out.println("getCodeLevel: " + userInfor.getCodeLevel());
-//			System.out.println("getGroupId: " + userInfor.getGroupId());
-//			System.out.println("getLoginName: " + userInfor.getLoginName());
-//			System.out.println("getFullName: " + userInfor.getFullName());
-//			System.out.println("getFullNameKana: " + userInfor.getFullNameKana());
-//			System.out.println("getEmail: " + userInfor.getEmail());
-//			System.out.println("getTel: " + userInfor.getTel());
-//			System.out.println("getCodeLevel: " + userInfor.getCodeLevel());
-//			System.out.println("getTotal: " + userInfor.getTotal());
-//			System.out.println("getStartDate: " + userInfor.getStartDate());
-//			System.out.println("getEndDate: " + userInfor.getEndDate());
-//			System.out.println("getBirthday: " + userInfor.getBirthday());
-//			System.out.println("getPass: " + userInfor.getPass());
-//			System.out.println("getRePass: " + userInfor.getRePass());
 			// forward sang màn hình ADM003
 			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM003);
 			rd.forward(request, response);
@@ -117,6 +94,16 @@ public class AddUserInputController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+			// kiểm tra trường hợp edit user
+			String userId = request.getParameter(Constant.USER_INFOR_ID);
+			if (userId != null) {
+				if (!tblUserLogic.isExistedUser(Common.convertStringToInt(userId))) {
+					// nếu không tồn tại user, điều hướng về trang lỗi
+					StringBuilder errorURL = new StringBuilder(request.getContextPath());
+					response.sendRedirect(errorURL.append(Constant.SYSTEM_ERROR_PATH).toString());
+					return;
+				}
+			} 
 			// lấy thông tin user từ request
 			UserInfor userInfor = setDefaultValue(request, response);
 			// validate
@@ -150,6 +137,7 @@ public class AddUserInputController extends HttpServlet {
 							Common.convertStringToInt(userInfor.getEndMonth()), 
 							Common.convertStringToInt(userInfor.getEndDay())));
 				}
+				// set userInfor object lên session
 				request.getSession().setAttribute(id, userInfor);
 				// redirect đến AddUserConfirmController
 				response.sendRedirect(confirmURL.toString());
@@ -245,7 +233,16 @@ public class AddUserInputController extends HttpServlet {
 			// do nothing
 		} else if (Constant.CONFIRM_TYPE.equals(type)) { // nếu là trường hợp click button xác nhận
 			// lấy giá trị từ request lưu vào userInfor
-			userInfor.setLoginName(request.getParameter(Constant.LOGIN_NAME_ADM003));
+			// kiểm tra trường hợp add và edit
+			String id = request.getParameter(Constant.USER_INFOR_ID);
+			if (id == null) { // nếu là trường hợp add
+				userInfor.setLoginName(request.getParameter(Constant.LOGIN_NAME_ADM003));
+				userInfor.setPass(request.getParameter(Constant.PASS_ADM003));
+				userInfor.setRePass(request.getParameter(Constant.CONFIRM_PASS_ADM003));
+			} else { // nếu là edit
+				userInfor.setUserId(Common.convertStringToInt(id));
+				userInfor.setLoginName(request.getParameter(Constant.LOGIN_NAME_ADM003));
+			}
 			userInfor.setGroupId(Common.convertStringToInt(request.getParameter(Constant.GROUP_ID_ADM003)));
 			userInfor.setFullName(request.getParameter(Constant.FULL_NAME_ADM003));
 			userInfor.setFullNameKana(request.getParameter(Constant.KANA_NAME_ADM003));
@@ -254,8 +251,6 @@ public class AddUserInputController extends HttpServlet {
 			userInfor.setBirthDate(request.getParameter(Constant.BIRTH_DATE_ADM003));
 			userInfor.setEmail(request.getParameter(Constant.EMAIL_ADM003));
 			userInfor.setTel(request.getParameter(Constant.TEL_ADM003));
-			userInfor.setPass(request.getParameter(Constant.PASS_ADM003));
-			userInfor.setRePass(request.getParameter(Constant.CONFIRM_PASS_ADM003));
 			// kiểm tra xem có những trường thuộc trình độ tiếng Nhật trong request gửi lên hay không
 			String codeLevel = request.getParameter(Constant.CODE_LEVEL_ADM003);
 			// nếu có, lưu vào userInfor
@@ -299,7 +294,6 @@ public class AddUserInputController extends HttpServlet {
 				userInfor.setEndMonth(defaultDate.get(1).toString());
 				userInfor.setEndDay(defaultDate.get(2).toString());
 			}
-			System.out.println("userInfor.getUserId(): " + userInfor.getUserId());
 		}
 		return userInfor;
 	}

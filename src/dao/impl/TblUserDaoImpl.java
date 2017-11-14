@@ -233,7 +233,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			StringBuilder queryBuilder = new StringBuilder("SELECT u.user_id, u.group_id, u.login_name, u.full_name, u.full_name_kana, u.email, u.tel, u.birthday ");
 			queryBuilder.append("FROM tbl_user u WHERE u.login_name = ? ");
 			if (userId > 0) {
-				queryBuilder.append("AND u.user_id = ? ");
+				queryBuilder.append("AND u.user_id <> ? ");
 			}
 			// truy vấn sử dụng preparedStatement
 			PreparedStatement ps = con.prepareStatement(queryBuilder.toString());
@@ -283,7 +283,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			StringBuilder queryBuilder = new StringBuilder("SELECT u.user_id, u.group_id, u.login_name, u.full_name, u.full_name_kana, u.email, u.tel, u.birthday ");
 			queryBuilder.append("FROM tbl_user u WHERE u.email = ? ");
 			if (userId > 0) {
-				queryBuilder.append("AND u.user_id = ? ");
+				queryBuilder.append("AND u.user_id <> ? ");
 			}
 			// truy vấn sử dụng preparedStatement
 			PreparedStatement ps = con.prepareStatement(queryBuilder.toString());

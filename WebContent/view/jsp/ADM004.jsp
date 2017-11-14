@@ -79,7 +79,7 @@
 					</tr>	
 					<tr>
 						<td class="lbl_left">点数:</td>
-						<td align="left"><c:out value="${userInfor.total}" escapeXml="true"></c:out></td>
+						<td align="left"><c:out value="${userInfor.total == 0 ? '' : userInfor.total}" escapeXml="true"></c:out></td>
 					</tr>												
 				</table>
 				</div>				

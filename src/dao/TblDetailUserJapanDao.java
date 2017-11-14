@@ -25,4 +25,32 @@ public interface TblDetailUserJapanDao extends BaseDao {
 	 */
 	public boolean insertDetailUserJapan(TblDetailUserJapan tblDetailUserJapan) throws SQLException;
 
+	/**
+	 * Lấy thông tin trình độ tiếng Nhật trong bảng tbl_detail_user_japan
+	 * 
+	 * @param userId - userId của bản ghi cần lấy
+	 * @return đối tượng TblDetailUserJapan
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 */
+	public TblDetailUserJapan getDetailUserJapanByUserId(int userId) throws SQLException, ClassNotFoundException;
+
+	/**
+	 * Update detail user japan
+	 * 
+	 * @param tblDetailUserJapan - đối tượng cần update
+	 * @return boolean - true nếu thành công | false nếu ngược lại
+	 * @throws SQLException 
+	 */
+	public boolean updateDetailUserJapan(TblDetailUserJapan tblDetailUserJapan) throws SQLException;
+
+	/**
+	 * Delete detail user japan
+	 * 
+	 * @param userId - userId của đối tượng cần delete
+	 * @return boolean - true nếu thành công | false nếu ngược lại
+	 * @throws SQLException 
+	 */
+	public boolean deleteDetailUserJapan(int userId) throws SQLException;
+
 }

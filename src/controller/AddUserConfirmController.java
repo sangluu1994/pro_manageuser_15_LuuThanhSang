@@ -104,10 +104,25 @@ public class AddUserConfirmController extends HttpServlet {
 			String userInforId = request.getParameter(Constant.USER_INFOR_ID);
 			UserInfor userInfor = (UserInfor) session.getAttribute(userInforId);
 			boolean insertSuccess = false;
-			// insert userInfor vào cơ sở dữ liệu
-			if (userInfor != null) {
-				insertSuccess = tblUserLogic.createUser(userInfor);
-				session.removeAttribute(userInforId);
+			String type = null;
+			int userId = userInfor.getUserId();
+			if (userId == 0) { // trường hợp insert
+				// insert userInfor vào cơ sở dữ liệu
+				if (userInfor != null) {
+					insertSuccess = tblUserLogic.createUser(userInfor);
+					session.removeAttribute(userInforId);
+					type = Constant.INSERT_DONE;
+				}
+			} else { // trường hợp edit
+				if (!tblUserLogic.isExistedUser(userId)) {
+					// nếu không tồn tại user, điều hướng về trang lỗi
+					StringBuilder errorURL = new StringBuilder(request.getContextPath());
+					response.sendRedirect(errorURL.append(Constant.SYSTEM_ERROR_PATH).toString());
+					return;
+				}
+				// gọi hàm xử lí logic edit user
+				insertSuccess = tblUserLogic.editUser(userInfor);
+				type = Constant.UPDATE_DONE;
 			}
 			// điều hướng sang trang kết quả insert với các trường hợp thành công/ không thành công
 			StringBuilder successURL = new StringBuilder(request.getContextPath());
@@ -116,9 +131,9 @@ public class AddUserConfirmController extends HttpServlet {
 			successURL.append(Constant.TYPE);
 			successURL.append("=");
 			if (insertSuccess) {
-				successURL.append(Constant.INSERT_DONE);
+				successURL.append(type);
 			} else {
-				successURL.append(Constant.INSERT_FAIL);
+				successURL.append(Constant.ERROR);
 			}
 			response.sendRedirect(successURL.toString());
 		} catch (Exception e) {

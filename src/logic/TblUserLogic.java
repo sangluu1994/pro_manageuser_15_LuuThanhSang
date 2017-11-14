@@ -94,4 +94,14 @@ public interface TblUserLogic {
 	 * @throws ClassNotFoundException 
 	 */
 	public UserInfor getUserInforById(int userId) throws ClassNotFoundException, SQLException;
+
+	/**
+	 * Phương thức edit user
+	 * 
+	 * @param userInfor - đối tượng user cần edit
+	 * @return boolean - true nếu thành công | false nếu ngược lại
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 */
+	public boolean editUser(UserInfor userInfor) throws ClassNotFoundException, SQLException;
 }

@@ -155,6 +155,55 @@ public class TblUserLogicImpl implements TblUserLogic {
 	public UserInfor getUserInforById(int userId) throws ClassNotFoundException, SQLException {
 		return tblUserDao.getUserInforById(userId);
 	}
+
+	/* (non-Javadoc)
+	 * @see logic.TblUserLogic#editUser(entity.UserInfor)
+	 */
+	@Override
+	public boolean editUser(UserInfor userInfor) throws ClassNotFoundException, SQLException {
+		int groupId = userInfor.getGroupId();
+		int userId = userInfor.getUserId();
+		TblUser tblUser = new TblUser();
+		tblUser.setUserId(userId);
+		tblUser.setGroupId(groupId);
+		tblUser.setFullName(userInfor.getFullName());
+		tblUser.setFullNameKana(userInfor.getFullNameKana());
+		tblUser.setEmail(userInfor.getEmail());
+		tblUser.setTel(userInfor.getTel());
+		tblUser.setBirthday(userInfor.getBirthday());
+		TblDetailUserJapan detailUserJapan = tblDetailUserJapanDao.getDetailUserJapanByUserId(userId);
+		try {
+			baseDao.connectDB();// create connection
+			baseDao.disableAutoCommit();// set auto commit = false
+			tblUserDao.updateUser(tblUser);
+			if (userInfor.getCodeLevel() != null) {
+				int total = userInfor.getTotal();
+				TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
+				tblDetailUserJapan.setUserId(userInfor.getUserId());
+				tblDetailUserJapan.setCodeLevel(userInfor.getCodeLevel());
+				tblDetailUserJapan.setStartDate(userInfor.getStartDate());
+				tblDetailUserJapan.setEndDate(userInfor.getEndDate());
+				tblDetailUserJapan.setTotal(total);
+				if (detailUserJapan == null) {// if not exist then add to database
+					tblDetailUserJapanDao.insertDetailUserJapan(tblDetailUserJapan);
+				} else {
+					tblDetailUserJapanDao.updateDetailUserJapan(tblDetailUserJapan);
+				}
+			} else {// if exist detailUserJapan and codeLevel is null then delete detailUserJapan
+				if (detailUserJapan != null) {
+					tblDetailUserJapanDao.deleteDetailUserJapan(userId);
+				}
+			}
+			baseDao.commit();
+		} catch (SQLException e) {
+			baseDao.rollback();
+			e.printStackTrace();
+			return false;
+		} finally {
+			baseDao.closeDB();
+		}
+		return true;
+	}
 	
 //	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 //		TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();

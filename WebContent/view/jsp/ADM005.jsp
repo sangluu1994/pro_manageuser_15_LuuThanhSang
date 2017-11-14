@@ -19,7 +19,7 @@
 <!-- Begin vung input-->	
 	<form action="<c:url value="${Constant.EDIT_USER_PATH}" />" method="get" name="inputform">
 	<input type="hidden" name="type" value="edit" />
-	<input type="hidden" name="id" value="${userInfor.userId}" />
+	<input type="hidden" name="${Constant.USER_INFOR_ID}" value="${userInfor.userId}" />
 	<table  class="tbl_input" border="0" width="75%"  cellpadding="0" cellspacing="0" >			
 		<tr>
 			<th align="left">
@@ -98,7 +98,7 @@
 				<input class="btn" type="button" value="削除" />					
 			</td>	
 			<td>
-				<input class="btn" type="button" onclick="window.location.href = '<c:url value="${Constant.LIST_USER_PATH}" />';" value="戻る" />						
+				<input class="btn" type="button" onclick="window.location.href = '<c:url value="${Constant.LIST_USER_PATH}" />?type=back';" value="戻る" />						
 			</td>
 		</tr>		
 	</table>

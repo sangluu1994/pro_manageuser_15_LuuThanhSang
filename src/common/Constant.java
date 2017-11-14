@@ -19,7 +19,7 @@ public class Constant {
 	public static final String ADD_USER_VALIDATE_PATH = "/addUserValidate.do";
 	public static final String ADD_USER_CONFIRM_PATH = "/addUserConfirm.do";
 	public static final String ADD_USER_OK_PATH = "/addUserOK.do";
-	public static final String EDIT_USER_PATH = "/editUser.do";
+	public static final String EDIT_USER_PATH = "/editUserInput.do";
 	public static final String EDIT_VALIDATE_PATH = "/editUserValidate.do";
 	public static final String EDIT_CONFIRM_PATH = "/editUserConfirm.do";
 	public static final String EDIT_OK_PATH = "/editUserOK.do";
@@ -159,7 +159,7 @@ public class Constant {
 	public static final String DRIVER = "driver";
 	
 	// parameters màn hình ADM003
-	public static final String LOGIN_NAME_ADM003 = "id";
+	public static final String LOGIN_NAME_ADM003 = "loginName";
 	public static final String GROUP_ID_ADM003 = "groupId";
 	public static final String FULL_NAME_ADM003 = "fullName";
 	public static final String KANA_NAME_ADM003 = "kanaName";
@@ -229,5 +229,7 @@ public class Constant {
 	public static final String TYPE_EDIT = "edit";
 	public static final String BACK_TYPE = "backType";
 	public static final String ACTION_TYPE = "actionType";
+	public static final String UPDATE_DONE = "updateDone";
+	public static final Object ERROR = "error";
 	
 }
