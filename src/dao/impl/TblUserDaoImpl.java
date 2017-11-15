@@ -416,11 +416,13 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	@Override
 	public Integer updateUser(TblUser tblUser) throws ClassNotFoundException, SQLException {
 		Integer userId = null;
+		// chuẩn bị câu truy vấn
 		StringBuilder query = new StringBuilder();
 		query.append("UPDATE tbl_user u ");
 		query.append("SET u.group_id = ?, u.full_name = ?, u.full_name_kana = ?, u.email = ?, u.tel = ?, u.birthday = ? ");
 		query.append("WHERE u.user_id = ? ");
 		int i = 0;
+		// truy vấn dữ liệu sử dụng PreparedStatement
 		preparedStatement = connection.prepareStatement(query.toString());
 		preparedStatement.setInt(++i, tblUser.getGroupId());
 		preparedStatement.setString(++i, tblUser.getFullName());
@@ -429,7 +431,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		preparedStatement.setString(++i, tblUser.getTel());
 		preparedStatement.setDate(++i, new Date(tblUser.getBirthday().getTime()));
 		preparedStatement.setInt(++i, tblUser.getUserId());
-		preparedStatement.executeUpdate();
+		userId = preparedStatement.executeUpdate();
 		return userId;
 	}
 
@@ -465,7 +467,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			PreparedStatement ps = con.prepareStatement(query.toString());
 			ps.setString(++i, newPassword);
 			ps.setInt(++i, userId);
-			return (ps.executeUpdate() == 0);
+			return (ps.executeUpdate() != 0);
 		} finally {
 			close(con);
 		}

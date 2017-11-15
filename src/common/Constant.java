@@ -215,8 +215,6 @@ public class Constant {
 	public static final int MIN_LENGTH_PASSWORD = 6;
 	public static final int MAX_LENGTH_PASSWORD = 50;
 	public static final int EMAIL_MAX_LENGTH = 255;
-	public static final String INSERT_DONE = "insertDone";
-	public static final String INSERT_FAIL = "insertFail";
 	public static final String MSG001 = "MSG001";
 	public static final String MSG002 = "MSG002";
 	public static final String MSG003 = "MSG003";
@@ -231,11 +229,8 @@ public class Constant {
 	public static final String TYPE_EDIT = "edit";
 	public static final String BACK_TYPE = "backType";
 	public static final String ACTION_TYPE = "actionType";
-	public static final String UPDATE_DONE = "updateDone";
 	public static final String ERROR = "error";
-	public static final String DELETE_SUCCESS = "deleteDone";
-	public static final String DELETE_FAIL = "deleteFail";
-	public static final String CHANGE_PASSWORD_SUCCESS = "changePassDone";
-	public static final String CHANGE_PASSWORD_FAIL = "changePassFail";
+	public static final String TASK_DONE = "taskDone";
+	public static final String TASK_FAIL = "taskFail";
 	
 }

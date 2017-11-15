@@ -40,12 +40,12 @@
 				<tr>
 					<td></td>
 					<td align="left"><input class="btn btn_wider" type="submit"
-						value="Change Pass" /> <input class="btn" type="button"
+						value="パスワード変化" /> <input class="btn" type="button"
 						value="戻る" onclick="window.location.href = '<c:url value="${Constant.DETAIL_USER_PATH}" />?userId=${userId}'" /></td>
 				</tr>
 			</table>
 		</center>
-		<input type="hidden" value="${userId}" name="Constant.USER_ID" />
+		<input type="hidden" value="${userId}" name="${Constant.USER_ID}" />
 	</form>
 	<!-- End vung input -->
 	

@@ -3,9 +3,7 @@ package controller;
 
 import java.io.IOException;
 import java.util.List;
-
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +34,7 @@ public class ChangePasswordController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			int userId = Common.convertStringToInt(request.getParameter(Constant.USER_INFOR_ID));
+			int userId = Common.convertStringToInt(request.getParameter(Constant.USER_ID));
 			// check userId tồn tại
 			if (userId > 0) {
 				if (!tblUserLogic.isExistedUser(userId)) {
@@ -75,7 +73,8 @@ public class ChangePasswordController extends HttpServlet {
 			// nếu không có lỗi
 			if (listMessage.isEmpty()) {
 				boolean checkSuccess = tblUserLogic.changePassword(userId, passWord);
-				String type = checkSuccess ? Constant.CHANGE_PASSWORD_SUCCESS : Constant.CHANGE_PASSWORD_FAIL;
+				System.out.println(checkSuccess);
+				String type = checkSuccess ? Constant.TASK_DONE : Constant.TASK_FAIL;
 				// điều hướng đến trang xử lí hiện kết quả change password
 				StringBuilder successURL = new StringBuilder();
 				successURL.append(request.getContextPath()).append(Constant.SUCCESS_PATH).append("?type=").append(type);

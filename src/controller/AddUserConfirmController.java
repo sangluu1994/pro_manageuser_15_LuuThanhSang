@@ -111,7 +111,7 @@ public class AddUserConfirmController extends HttpServlet {
 				if (userInfor != null) {
 					insertSuccess = tblUserLogic.createUser(userInfor);
 					session.removeAttribute(userInforId);
-					type = Constant.INSERT_DONE;
+					type = Constant.TASK_DONE;
 				}
 			} else { // trường hợp edit
 				if (!tblUserLogic.isExistedUser(userId)) {
@@ -121,7 +121,7 @@ public class AddUserConfirmController extends HttpServlet {
 				}
 				// gọi hàm xử lí logic edit user
 				insertSuccess = tblUserLogic.editUser(userInfor);
-				type = Constant.UPDATE_DONE;
+				type = Constant.TASK_DONE;
 			}
 			// điều hướng sang trang kết quả insert với các trường hợp thành công/ không thành công
 			StringBuilder successURL = new StringBuilder(request.getContextPath());

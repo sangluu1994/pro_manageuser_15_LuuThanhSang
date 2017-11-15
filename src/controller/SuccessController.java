@@ -42,10 +42,10 @@ public class SuccessController extends HttpServlet {
 			String type = request.getParameter(Constant.TYPE);
 			StringBuilder msg = new StringBuilder();
 			StringBuilder status = new StringBuilder();
-			if (Constant.INSERT_DONE.equals(type)) {
+			if (Constant.TASK_DONE.equals(type)) {
 				msg.append(MessageProperties.getString(Constant.MSG001));
 				status.append(Constant.SUCCESS);
-			} else if (Constant.INSERT_FAIL.equals(type)) {
+			} else if (Constant.TASK_FAIL.equals(type)) {
 				msg.append(MessageErrorProperties.getErrMsg(Constant.ER015));
 				status.append(Constant.FAIL);
 			}

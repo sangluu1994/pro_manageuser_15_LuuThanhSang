@@ -99,7 +99,7 @@
 				<input class="btn" type="button" value="削除" onclick="del('${MessageProperties.getString(Constant.MSG004)}')" />					
 			</td>
 			<td>
-				<input class="btn" type="button" value="" onclick="window.location.href='<c:url value="${Constant.CHANGE_PASS_PATH}" />?userId=${userInfor.userId}'" />
+				<input class="btn" type="button" value="変化" onclick="window.location.href='<c:url value="${Constant.CHANGE_PASS_PATH}" />?${Constant.USER_ID}=${userInfor.userId}'" />
 			</td>	
 			<td>
 				<input class="btn" type="button" onclick="window.location.href='<c:url value="${Constant.LIST_USER_PATH}" />?type=back';" value="戻る" />						

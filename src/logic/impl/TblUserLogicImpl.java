@@ -163,6 +163,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 	public boolean editUser(UserInfor userInfor) throws ClassNotFoundException, SQLException {
 		int groupId = userInfor.getGroupId();
 		int userId = userInfor.getUserId();
+		// chuẩn bị các đối tượng TblUser, TblDetailUserJapan sẽ update
 		TblUser tblUser = new TblUser();
 		tblUser.setUserId(userId);
 		tblUser.setGroupId(groupId);
@@ -173,9 +174,11 @@ public class TblUserLogicImpl implements TblUserLogic {
 		tblUser.setBirthday(userInfor.getBirthday());
 		TblDetailUserJapan detailUserJapan = tblDetailUserJapanDao.getDetailUserJapanByUserId(userId);
 		try {
+			// transaction
 			baseDao.connectDB();
 			baseDao.disableAutoCommit();
 			tblUserDao.updateUser(tblUser);
+			// check vùng trình độ tiếng Nhật
 			if (userInfor.getCodeLevel() != null) {
 				int total = userInfor.getTotal();
 				TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
@@ -211,10 +214,11 @@ public class TblUserLogicImpl implements TblUserLogic {
 	@Override
 	public boolean removeUser(int userId) throws ClassNotFoundException, SQLException {
 		try {
+			// transaction
 			baseDao.connectDB();
 			baseDao.disableAutoCommit();
-			System.out.println("delete detail: " + tblDetailUserJapanDao.deleteDetailUserJapan(userId));
-			System.out.println("delete user: " + tblUserDao.deleteUser(userId));
+			tblDetailUserJapanDao.deleteDetailUserJapan(userId);
+			tblUserDao.deleteUser(userId);
 			baseDao.commit();
 		} catch (SQLException e) {
 			baseDao.rollback();
@@ -234,23 +238,5 @@ public class TblUserLogicImpl implements TblUserLogic {
 		String newPassword = Common.encodeMD5(passWord, tblUser.getSalt());
 		return tblUserDao.updatePassword(userId, newPassword);
 	}
-	
-//	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-//		TblUserLogicImpl tblUserLogic = new TblUserLogicImpl();
-//		UserInfor userInfor = new UserInfor();
-//		userInfor.setGroupId(1);
-//		userInfor.setLoginName("sangluu1994");
-//		userInfor.setPass("abcdkdkdkdkdkdkdkdkdkdkd");
-//		userInfor.setFullName("Lưu Thanh Sang 001");
-//		userInfor.setFullNameKana("");
-//		userInfor.setEmail("sangluu1994@netflix.com");
-//		userInfor.setTel("0987654321");
-//		userInfor.setBirthday(new Date());
-//		userInfor.setCodeLevel("I2");
-//		userInfor.setStartDate(new Date());
-//		userInfor.setEndDate(new Date());
-//		userInfor.setTotal(125);
-//		System.out.println(tblUserLogic.createUser(userInfor));
-//	}
 	
 }
