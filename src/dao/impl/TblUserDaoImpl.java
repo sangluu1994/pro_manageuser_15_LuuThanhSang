@@ -145,15 +145,11 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 					listUser.add(userInfor);
 				}
 			}
-		} catch (SQLException e) {
-			listUser = null;
-			throw new SQLException();
 		} finally {
 			// đóng kết nối và trả về danh sách user
 			close(con);
-			return listUser;
 		}
-		
+		return listUser;
 	}
 
 	/* (non-Javadoc)
