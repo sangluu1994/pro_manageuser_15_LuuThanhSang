@@ -70,7 +70,7 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 			con = getConnection();
 			if (con != null) {
 				// khai báo câu truy vấn
-				String query = "SELECT group_id,group_name FROM mst_group where group_id = ?";
+				String query = "SELECT group_id, group_name FROM mst_group where group_id = ?";
 				// truy vấn sử dụng preparedStatement
 				PreparedStatement ps = con.prepareStatement(query);
 				ps.setInt(1, id);

@@ -12,6 +12,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import common.Common;
 import common.Constant;
 import validate.ValidateAdmin;
 
@@ -44,7 +46,7 @@ public class LoginController extends HttpServlet {
 			
 		} catch (Exception e) {
 			try {
-				response.sendRedirect(request.getContextPath() + Constant.SYSTEM_ERROR_PATH);
+				Common.redirectErrorPage(request, response);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

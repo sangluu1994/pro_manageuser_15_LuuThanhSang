@@ -1,4 +1,8 @@
-
+/**
+ * Copyright(C) 2017 Luvina Software Company
+ *
+ * ChangePasswordController.java, 2017-11-02 luuthanhsang
+ */
 package controller;
 
 import java.io.IOException;

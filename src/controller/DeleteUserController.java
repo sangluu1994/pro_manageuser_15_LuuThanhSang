@@ -1,12 +1,15 @@
+/**
+ * Copyright(C) 2017 Luvina Software Company
+ *
+ * DeleteUserController.java, 2017-11-02 luuthanhsang
+ */
 package controller;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import common.Common;
 import common.Constant;
 import logic.TblUserLogic;
@@ -30,16 +33,15 @@ public class DeleteUserController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			int userId = Common.convertStringToInt(request.getParameter(Constant.USER_INFOR_ID));
 			// check userId tồn tại
-			if (userId > 0) {
-				if (!tblUserLogic.isExistedUser(userId)) {
-					Common.redirectErrorPage(request, response);
-					return;
-				}
+			if (!tblUserLogic.isExistedUser(userId)) {
+				Common.redirectErrorPage(request, response);
+				return;
 			}
+			
 			// gọi hàm xử lí logic delete user
 			boolean success = tblUserLogic.removeUser(userId);
 			// điều hướng đến trang xử lí hiện kết quả xóa user
@@ -48,7 +50,12 @@ public class DeleteUserController extends HttpServlet {
 			successURL.append(type);
 			response.sendRedirect(successURL.toString());
 		} catch (Exception e) {
-			
+			e.printStackTrace();
+			try {
+				Common.redirectErrorPage(request, response);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 

@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import common.Common;
 import common.Constant;
 
 /**
@@ -42,7 +44,7 @@ public class LogoutController extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + Constant.LOG_IN_PATH);
 		} catch (Exception e) {
 			try {
-				response.sendRedirect(request.getContextPath() + Constant.SYSTEM_ERROR_PATH);
+				Common.redirectErrorPage(request, response);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

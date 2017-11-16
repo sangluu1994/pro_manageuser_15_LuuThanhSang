@@ -39,18 +39,19 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			con = getConnection();
 			if (con != null) {
 				// xây dựng truy vấn
-				StringBuilder queryBuilder = new StringBuilder();
-				queryBuilder.append("SELECT COUNT(user_id) FROM tbl_user u INNER JOIN mst_group g ON u.group_id = g.group_id ");
-				queryBuilder.append("WHERE 1 = 1 ");
+				StringBuilder query = new StringBuilder()
+					.append("SELECT COUNT(user_id) ")
+					.append("FROM tbl_user u ")
+					.append("INNER JOIN mst_group g ON u.group_id = g.group_id ")
+					.append("WHERE 1 = 1 ");
 				if (groupId != 0) {
-					queryBuilder.append("AND u.group_id = ? ");
+					query.append("AND u.group_id = ? ");
 				}
 				if (!Constant.EMPTY_STRING.equals(fullName) && fullName != null) {
-					queryBuilder.append("AND u.full_name REGEXP ?");
+					query.append("AND u.full_name REGEXP ?");
 				}
-				String query = queryBuilder.toString();
 				// truy vấn sử dụng preparedStatement
-				PreparedStatement ps = con.prepareStatement(query);
+				PreparedStatement ps = con.prepareStatement(query.toString());
 				int i = 0;
 				if (groupId != 0) {
 					ps.setInt(++i, groupId);
@@ -64,9 +65,6 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 					totalUsers = rs.getInt(1);
 				}
 			}
-		} catch (SQLException e) {
-			totalUsers = 0;
-			throw new SQLException();
 		} finally {
 			// đóng kết nối và trả về tổng số user
 			close(con);
@@ -420,7 +418,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		StringBuilder query = new StringBuilder();
 		query.append("UPDATE tbl_user u ");
 		query.append("SET u.group_id = ?, u.full_name = ?, u.full_name_kana = ?, u.email = ?, u.tel = ?, u.birthday = ? ");
-		query.append("WHERE u.user_id = ? ");
+		query.append("WHERE u.user_id = ?");
 		int i = 0;
 		// truy vấn dữ liệu sử dụng PreparedStatement
 		preparedStatement = connection.prepareStatement(query.toString());
