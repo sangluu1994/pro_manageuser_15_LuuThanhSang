@@ -28,7 +28,6 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	/* (non-Javadoc)
 	 * @see dao.TblUserDao#getTotalUsers(int, java.lang.String, java.lang.String)
 	 */
-	@SuppressWarnings("finally")
 	@Override
 	public int getTotalUsers(int groupId, String fullName) throws SQLException, ClassNotFoundException {
 		Connection con = null;
@@ -66,17 +65,14 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 				}
 			}
 		} finally {
-			// đóng kết nối và trả về tổng số user
 			close(con);
-			return totalUsers;
 		}
-		
+		return totalUsers;
 	}
 
 	/* (non-Javadoc)
 	 * @see dao.TblUserDao#getListUsers(int, int, int, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
-	@SuppressWarnings("finally")
 	@Override
 	public List<UserInfor> getListUsers(int offset, int limit, int groupId, String fullName, String sortType,
 			String sortByFullName, String sortByCodeLevel, String sortByEndDate) throws SQLException, ClassNotFoundException {
@@ -146,7 +142,6 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 				}
 			}
 		} finally {
-			// đóng kết nối và trả về danh sách user
 			close(con);
 		}
 		return listUser;
@@ -155,7 +150,6 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 	/* (non-Javadoc)
 	 * @see dao.TblUserDao#getUsersById(int)
 	 */
-	@SuppressWarnings("finally")
 	@Override
 	public UserInfor getUserInforById(int id) throws SQLException, ClassNotFoundException {
 		Connection con = null;
@@ -201,21 +195,15 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 					userInfor = null;
 				}
 			}
-		} catch (SQLException e) {
-			userInfor = null;
-			throw new SQLException();
 		} finally {
-			// đóng kết nối và trả về dữ liệu
 			close(con);
-			return userInfor;
 		}
-		
+		return userInfor;
 	}
 
 	/* (non-Javadoc)
 	 * @see dao.TblUserDao#getUserByLoginName(java.lang.Integer, java.lang.String)
 	 */
-	@SuppressWarnings("finally")
 	@Override
 	public TblUser getUserByLoginName(Integer userId, String loginName) throws ClassNotFoundException, SQLException {
 		Connection con = null;
@@ -252,20 +240,15 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 				tblUser.setTel(rs.getString(++i));
 				tblUser.setBirthday(rs.getDate(++i));
 			}
-		} catch (SQLException e) {
-			tblUser = null;
-			throw new SQLException();
 		} finally {
-			// đóng kết nối, trả về kết quả
 			close(con);
-			return tblUser;
 		}
+		return tblUser;
 	}
 
 	/* (non-Javadoc)
 	 * @see dao.TblUserDao#getUserByEmail(java.lang.Integer, java.lang.String)
 	 */
-	@SuppressWarnings("finally")
 	@Override
 	public TblUser getUserByEmail(final Integer userId, String email) throws ClassNotFoundException, SQLException {
 		Connection con = null;
@@ -302,20 +285,15 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 				tblUser.setTel(rs.getString(++i));
 				tblUser.setBirthday(rs.getDate(++i));
 			}
-		} catch (SQLException e) {
-			tblUser = null;
-			throw new SQLException();
 		} finally {
-			// đóng kết nối, trả về kết quả
 			close(con);
-			return tblUser;
 		}
+		return tblUser;
 	}
 
 	/* (non-Javadoc)
 	 * @see dao.TblUserDao#insertUser(entity.TblUser)
 	 */
-	@SuppressWarnings("finally")
 	@Override
 	public Integer insertUser(TblUser tblUser) throws SQLException {
 		// khai báo giá trị trả về
@@ -325,42 +303,33 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		query.append("INSERT INTO tbl_user (group_id, login_name, password, salt, full_name, full_name_kana, email, tel, birthday) ");
 		query.append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ");
 		int i = 0;
-		try {
-			if (connection == null) {
-				return userId;
-			}
-			// thực thi truy vấn sử dụng preparedStatement
-			preparedStatement = connection.prepareStatement(query.toString(), Statement.RETURN_GENERATED_KEYS);
-			preparedStatement.setInt(++i, tblUser.getGroupId());
-			preparedStatement.setString(++i, tblUser.getLoginName());
-			preparedStatement.setString(++i, tblUser.getPassword());
-			preparedStatement.setString(++i, tblUser.getSalt());
-			preparedStatement.setString(++i, tblUser.getFullName());
-			preparedStatement.setString(++i, tblUser.getFullNameKana());
-			preparedStatement.setString(++i, tblUser.getEmail());
-			preparedStatement.setString(++i, tblUser.getTel());
-			preparedStatement.setDate(++i, new Date(tblUser.getBirthday().getTime()));
-			// execute
-			preparedStatement.executeUpdate();
-			resultSet = preparedStatement.getGeneratedKeys();
-			// lấy auto-generated keys 
-			if (resultSet.next()) {
-				userId = resultSet.getInt(1);
-			}
-		} catch (SQLException e) {
-			// set userId = null và throw exception nếu xảy ra exception
-			userId = null;
-			throw new SQLException();
-		} finally {
-			// trả về giá trị
+		if (connection == null) {
 			return userId;
 		}
+		// thực thi truy vấn sử dụng preparedStatement
+		preparedStatement = connection.prepareStatement(query.toString(), Statement.RETURN_GENERATED_KEYS);
+		preparedStatement.setInt(++i, tblUser.getGroupId());
+		preparedStatement.setString(++i, tblUser.getLoginName());
+		preparedStatement.setString(++i, tblUser.getPassword());
+		preparedStatement.setString(++i, tblUser.getSalt());
+		preparedStatement.setString(++i, tblUser.getFullName());
+		preparedStatement.setString(++i, tblUser.getFullNameKana());
+		preparedStatement.setString(++i, tblUser.getEmail());
+		preparedStatement.setString(++i, tblUser.getTel());
+		preparedStatement.setDate(++i, new Date(tblUser.getBirthday().getTime()));
+		// execute
+		preparedStatement.executeUpdate();
+		resultSet = preparedStatement.getGeneratedKeys();
+		// lấy auto-generated keys 
+		if (resultSet.next()) {
+			userId = resultSet.getInt(1);
+		}
+		return userId;
 	}
 
 	/* (non-Javadoc)
 	 * @see dao.TblUserDao#getTblUserById(int)
 	 */
-	@SuppressWarnings("finally")
 	@Override
 	public TblUser getTblUserById(int userId) throws SQLException, ClassNotFoundException {
 		Connection con = null;
@@ -393,23 +362,17 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 			} else {
 				tblUser = null;
 			}
-		} catch (SQLException e) {
-			tblUser = null;
-			throw new SQLException();
 		} finally {
-			// đóng kết nối và trả về kết quả
 			close(con);
-			return tblUser;
 		}
-		
+		return tblUser;
 	}
 
 	/* (non-Javadoc)
 	 * @see dao.TblUserDao#updateUser(entity.TblUser)
 	 */
 	@Override
-	public Integer updateUser(TblUser tblUser) throws ClassNotFoundException, SQLException {
-		Integer userId = null;
+	public boolean updateUser(TblUser tblUser) throws ClassNotFoundException, SQLException {
 		// chuẩn bị câu truy vấn
 		StringBuilder query = new StringBuilder();
 		query.append("UPDATE tbl_user u ");
@@ -425,8 +388,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		preparedStatement.setString(++i, tblUser.getTel());
 		preparedStatement.setDate(++i, new Date(tblUser.getBirthday().getTime()));
 		preparedStatement.setInt(++i, tblUser.getUserId());
-		userId = preparedStatement.executeUpdate();
-		return userId;
+		return (preparedStatement.executeUpdate() != 0);
 	}
 
 	/* (non-Javadoc)
@@ -440,7 +402,7 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		preparedStatement = connection.prepareStatement(query.toString());
 		preparedStatement.setInt(1, userId);
 		System.out.println(preparedStatement.toString());
-		return (preparedStatement.executeUpdate() == 0);
+		return (preparedStatement.executeUpdate() != 0);
 	}
 
 	/* (non-Javadoc)

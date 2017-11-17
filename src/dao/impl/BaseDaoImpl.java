@@ -28,7 +28,6 @@ public class BaseDaoImpl implements BaseDao {
 	/* (non-Javadoc)
 	 * @see dao.BaseDao#getConnection()
 	 */
-	@SuppressWarnings("finally")
 	@Override
 	public Connection getConnection() throws SQLException, ClassNotFoundException {
 		// khai báo, khởi tạo kết nối
@@ -42,14 +41,15 @@ public class BaseDaoImpl implements BaseDao {
 			// kết nối đến db
 			Class.forName(DRIVE);
 			con = DriverManager.getConnection(DB_URL, USER_NAME, PASS_WORD);
-		} catch(ClassNotFoundException e) {
-			throw new ClassNotFoundException();
-		} catch(SQLException sqlException) {
-			throw new SQLException();
-		} finally {
 			// trả về kết nối
 			return con;
-		}
+		} catch(ClassNotFoundException e) {
+			System.out.println("[DAO] Error at getConnection: " + e.getMessage());
+			throw new ClassNotFoundException();
+		} catch(SQLException sqlException) {
+			System.out.println("[DAO] Error at getConnection: " + sqlException.getMessage());
+			throw new SQLException();
+		} 
 	}
 
 	/* (non-Javadoc)
@@ -62,6 +62,7 @@ public class BaseDaoImpl implements BaseDao {
 			try {
 				con.close();
 			} catch(SQLException e) {
+				System.out.println("[DAO] Error at close: " + e.getMessage());
 				throw new SQLException();
 			}
 		}

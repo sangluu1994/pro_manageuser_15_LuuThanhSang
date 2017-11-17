@@ -24,7 +24,6 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 	/* (non-Javadoc)
 	 * @see dao.MstJapanDao#getAllMstJapan()
 	 */
-	@SuppressWarnings("finally")
 	@Override
 	public List<MstJapan> getAllMstJapan() throws SQLException, ClassNotFoundException {
 		Connection con = null;
@@ -49,16 +48,14 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 				}
 			}
 		} finally {
-			// đóng kết nối và trả về danh sách
 			close(con);
-			return listJapanese;
 		}
+		return listJapanese;
 	}
 
 	/* (non-Javadoc)
 	 * @see dao.MstJapanDao#getJpById(java.lang.String)
 	 */
-	@SuppressWarnings("finally")
 	@Override
 	public MstJapan getJpById(String codeLevel) throws SQLException, ClassNotFoundException {
 		Connection con = null;
@@ -82,10 +79,9 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 				}
 			}
 		} finally {
-			// đóng kết nối và trả về danh sách
 			close(con);
-			return mstJapan;
 		}
+		return mstJapan;
 	}
 	
 }

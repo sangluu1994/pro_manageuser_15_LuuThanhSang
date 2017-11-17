@@ -104,7 +104,7 @@ public interface TblUserDao extends BaseDao {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public Integer updateUser(TblUser tblUser) throws ClassNotFoundException, SQLException;
+	public boolean updateUser(TblUser tblUser) throws ClassNotFoundException, SQLException;
 	
 	/**
 	 * Xóa đối tượng TblUser trong database

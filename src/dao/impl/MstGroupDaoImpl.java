@@ -24,7 +24,6 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 	/* (non-Javadoc)
 	 * @see dao.MstGroupDao#getAllMstGroup()
 	 */
-	@SuppressWarnings("finally")
 	@Override
 	public List<MstGroup> getAllMstGroup() throws SQLException, ClassNotFoundException {
 		Connection con = null;
@@ -49,17 +48,14 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 				}
 			}
 		} finally {
-			// đóng kết nối và trả về danh sách
 			close(con);
-			return listGroup;
 		}
-		
+		return listGroup;
 	}
 
 	/* (non-Javadoc)
 	 * @see dao.MstGroupDao#getGroup(int)
 	 */
-	@SuppressWarnings("finally")
 	@Override
 	public MstGroup getGroupById(int id) throws SQLException, ClassNotFoundException {
 		Connection con = null;
@@ -85,11 +81,9 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 				}
 			}
 		} finally {
-			// đóng kết nối và trả về kết quả
 			close(con);
-			return mstGroup;
 		}
-		
+		return mstGroup;
 	}
 
 }

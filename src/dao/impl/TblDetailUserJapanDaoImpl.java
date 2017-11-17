@@ -24,7 +24,6 @@ public class TblDetailUserJapanDaoImpl extends BaseDaoImpl implements TblDetailU
 	/* (non-Javadoc)
 	 * @see dao.TblDetailUserJapanDao#insertDetailUserJapan(entity.TblDetailUserJapan)
 	 */
-	@SuppressWarnings("finally")
 	@Override
 	public boolean insertDetailUserJapan(TblDetailUserJapan tblDetailUserJapan) throws SQLException {
 		boolean result = false;
@@ -45,11 +44,10 @@ public class TblDetailUserJapanDaoImpl extends BaseDaoImpl implements TblDetailU
 				// trả về kết quả theo 2 trường hợp add thành công hoặc không thành công
 				result = (preparedStatement.executeUpdate() != 0);
 			}
+			return result;
 		} catch (SQLException e) {
 			result = false;
-			throw new SQLException();
-		} finally {
-			return result;
+			throw e;
 		}
 	}
 
@@ -106,8 +104,7 @@ public class TblDetailUserJapanDaoImpl extends BaseDaoImpl implements TblDetailU
 		preparedStatement.setDate(++i, new Date(tblDetailUserJapan.getEndDate().getTime()));
 		preparedStatement.setInt(++i, tblDetailUserJapan.getTotal());
 		preparedStatement.setInt(++i, tblDetailUserJapan.getUserId());
-		preparedStatement.executeUpdate();
-		return true;
+		return (preparedStatement.executeUpdate() != 0);
 	}
 
 	/* (non-Javadoc)
@@ -121,7 +118,7 @@ public class TblDetailUserJapanDaoImpl extends BaseDaoImpl implements TblDetailU
 		preparedStatement = connection.prepareStatement(query.toString());
 		preparedStatement.setInt(1, userId);
 		System.out.println(preparedStatement.toString());
-		return (preparedStatement.executeUpdate() == 0);
+		return (preparedStatement.executeUpdate() != 0);
 	}
 
 }

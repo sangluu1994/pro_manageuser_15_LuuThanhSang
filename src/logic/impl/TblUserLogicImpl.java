@@ -161,6 +161,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 */
 	@Override
 	public boolean editUser(UserInfor userInfor) throws ClassNotFoundException, SQLException {
+		boolean success = false;
 		int groupId = userInfor.getGroupId();
 		int userId = userInfor.getUserId();
 		// chuẩn bị các đối tượng TblUser, TblDetailUserJapan sẽ update
@@ -177,7 +178,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 			// transaction
 			baseDao.connectDB();
 			baseDao.disableAutoCommit();
-			tblUserDao.updateUser(tblUser);
+			success = tblUserDao.updateUser(tblUser);
 			// check vùng trình độ tiếng Nhật
 			if (userInfor.getCodeLevel() != null) {
 				int total = userInfor.getTotal();
@@ -188,16 +189,21 @@ public class TblUserLogicImpl implements TblUserLogic {
 				tblDetailUserJapan.setEndDate(userInfor.getEndDate());
 				tblDetailUserJapan.setTotal(total);
 				if (detailUserJapan == null) {
-					tblDetailUserJapanDao.insertDetailUserJapan(tblDetailUserJapan);
+					success = tblDetailUserJapanDao.insertDetailUserJapan(tblDetailUserJapan);
 				} else {
-					tblDetailUserJapanDao.updateDetailUserJapan(tblDetailUserJapan);
+					success = tblDetailUserJapanDao.updateDetailUserJapan(tblDetailUserJapan);
 				}
 			} else {
 				if (detailUserJapan != null) {
-					tblDetailUserJapanDao.deleteDetailUserJapan(userId);
+					success = tblDetailUserJapanDao.deleteDetailUserJapan(userId);
 				}
 			}
-			baseDao.commit();
+			if (success) {
+				baseDao.commit();
+			} else {
+				baseDao.rollback();
+			}
+			return success;
 		} catch (SQLException e) {
 			baseDao.rollback();
 			e.printStackTrace();
@@ -205,7 +211,6 @@ public class TblUserLogicImpl implements TblUserLogic {
 		} finally {
 			baseDao.closeDB();
 		}
-		return true;
 	}
 
 	/* (non-Javadoc)
@@ -213,20 +218,24 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 */
 	@Override
 	public boolean removeUser(int userId) throws ClassNotFoundException, SQLException {
+		boolean success = false;
 		try {
 			// transaction
 			baseDao.connectDB();
 			baseDao.disableAutoCommit();
 			tblDetailUserJapanDao.deleteDetailUserJapan(userId);
-			tblUserDao.deleteUser(userId);
-			baseDao.commit();
+			success = tblUserDao.deleteUser(userId);
+			if (success) {
+				baseDao.commit();
+			} else {
+				baseDao.rollback();
+			}
 		} catch (SQLException e) {
 			baseDao.rollback();
-			return false;
 		} finally {
 			baseDao.closeDB();
 		}
-		return true;
+		return success;
 	}
 
 	/* (non-Javadoc)
