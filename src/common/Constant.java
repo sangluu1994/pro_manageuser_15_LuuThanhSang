@@ -190,7 +190,7 @@ public class Constant {
 	public static final String DEFAULT_RESPONSE_CONTENT_TYPE = "text/html; charset=UTF-8";
 	public static final String LIST_ERROR = "errList";
 	public static final String ERR_MSG = "errMsg";
-	public static final int START_YEAR = 1900;
+	public static final int START_YEAR = 1980;
 	public static final String ALL_MST_GROUP = "allMstGroup";
 	public static final String DEFAULT_CODE_LEVEL = "";
 	public static final String ALL_MST_JAPAN = "allMstJapan";

@@ -52,7 +52,6 @@ public class ValidateUser {
 	public List<String> validateUserInfor(UserInfor userInfor) throws ClassNotFoundException, SQLException, ParseException {
 		List<String> listError = new ArrayList<>();
 		int userId = userInfor.getUserId();
-		System.out.println("userId: " + userId);
 		
 		// nếu là trường hợp add thì kiểm tra loginName, pass, re-pass
 		if (userId == 0) {
@@ -69,24 +68,6 @@ public class ValidateUser {
 				listError.add(MessageErrorProperties.getErrMsg(Constant.ER003LOGIN));
 			}
 			
-			// check password (3)
-			String pass = userInfor.getPass();
-			if (pass == null || Constant.EMPTY_STRING.equals(pass.trim())) { // check empty
-				listError.add(MessageErrorProperties.getErrMsg(Constant.ER001PASS));
-			} else {
-				if (pass.length() < Constant.MIN_LENGTH_PASSWORD
-						|| pass.length() > Constant.MAX_LENGTH_PASSWORD) { // check length
-					listError.add(MessageErrorProperties.getErrMsg(Constant.ER007PASS));
-				} else if (!pass.matches(Constant.PASSWORD_PATTERN)) { // check format
-					listError.add(MessageErrorProperties.getErrMsg(Constant.ER008PASS));
-				}
-	
-				// check confirm password (1)
-				String rePass = userInfor.getRePass();
-				if (rePass == null || Constant.EMPTY_STRING.equals(rePass.trim()) || !rePass.equals(pass)) { // check not match
-					listError.add(MessageErrorProperties.getErrMsg(Constant.ER017));
-				}
-			}
 		}
 		
 		// check group id (2)
@@ -151,6 +132,27 @@ public class ValidateUser {
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER006TEL));
 		} else if (!tel.matches(Constant.TEL_PATTERN)) { // check format
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER005TEL));
+		}
+		
+		if (userId == 0) {
+			// check password (3)
+			String pass = userInfor.getPass();
+			if (pass == null || Constant.EMPTY_STRING.equals(pass.trim())) { // check empty
+				listError.add(MessageErrorProperties.getErrMsg(Constant.ER001PASS));
+			} else {
+				if (pass.length() < Constant.MIN_LENGTH_PASSWORD
+						|| pass.length() > Constant.MAX_LENGTH_PASSWORD) { // check length
+					listError.add(MessageErrorProperties.getErrMsg(Constant.ER007PASS));
+				} else if (!pass.matches(Constant.PASSWORD_PATTERN)) { // check format
+					listError.add(MessageErrorProperties.getErrMsg(Constant.ER008PASS));
+				}
+	
+				// check confirm password (1)
+				String rePass = userInfor.getRePass();
+				if (rePass == null || Constant.EMPTY_STRING.equals(rePass.trim()) || !rePass.equals(pass)) { // check not match
+					listError.add(MessageErrorProperties.getErrMsg(Constant.ER017));
+				}
+			}
 		}
 
 		// nếu có chọn vùng trình độ tiếng Nhật

@@ -96,7 +96,7 @@
 					<input class="btn" type="submit" value="OK" />					
 				</td>	
 				<td>
-					<input class="btn" type="button" value="戻る" onclick="back('${backType}')" />						
+					<input class="btn" type="button" value="戻る" onclick="back('<c:url value="${backType}" />')" />						
 				</td>
 		</tr>		
 	</table>

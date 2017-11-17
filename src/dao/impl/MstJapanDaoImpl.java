@@ -34,7 +34,7 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 			con = getConnection();
 			if (con != null) {
 				// khai báo câu truy vấn
-				String query = "SELECT code_level, name_level FROM mst_japan";
+				String query = "SELECT code_level, name_level FROM mst_japan ORDER BY code_level DESC";
 				// truy vấn sử dụng preparedStatement
 				PreparedStatement ps = con.prepareStatement(query);
 				// lấy dữ liệu trả về
@@ -60,7 +60,7 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 	public MstJapan getJpById(String codeLevel) throws SQLException, ClassNotFoundException {
 		Connection con = null;
 		// khởi tạo danh sách trả về
-		MstJapan mstJapan = new MstJapan();
+		MstJapan mstJapan = null;
 		try {
 			// khởi tạo connection
 			con = getConnection();
@@ -74,6 +74,7 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 				ResultSet rs = ps.executeQuery();
 				// format dữ liệu trả về thành các đối tượng MstGroup tương ứng
 				while (rs.next()) {
+					mstJapan = new MstJapan();
 					mstJapan.setCodeLevel(rs.getString("code_level"));
 					mstJapan.setNameLevel(rs.getString("name_level"));
 				}

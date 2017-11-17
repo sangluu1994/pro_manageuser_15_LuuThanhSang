@@ -213,14 +213,22 @@
 					<input class="btn" type="submit" value="確認" />					
 				</td>	
 				<td>
-					<input class="btn" type="button" onclick="window.location.href = '<c:url value="${userInfor.userId != 0 ? Constant.DETAIL_USER_PATH : Constant.LIST_USER_PATH}" />${userInfor.userId != 0 ? '?type=back&' + Constant.USER_ID + '=' + userInfor.userId : ''}';" value="戻る" />						
+					<input class="btn" type="button" onclick="back(${userInfor.userId})" value="戻る" />						
 				</td>
 		</tr>		
 	</table>
 	<!-- End vung button -->	
 </form>
 <!-- End vung input -->
-
+<script>
+	function back(userId) {
+		if (userId != 0) {
+			window.location.href = 'detailUser.do?userId=' + userId;
+		} else {
+			window.location.href = 'listAllUser.do?type=back';
+		}
+	}
+</script>
 
 <%@ include file = "../layout/footer.jsp" %>
 </body>
