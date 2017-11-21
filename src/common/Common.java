@@ -321,7 +321,7 @@ public class Common {
 		List<Integer> listYearMonthDay = new ArrayList<>();
 		LocalDate localdate = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
 		int year = localdate.getYear();
-		int month = localdate.getDayOfMonth();
+		int month = localdate.getMonthValue();
 		int day = localdate.getDayOfMonth();
 		listYearMonthDay.add(year);
 		listYearMonthDay.add(month);

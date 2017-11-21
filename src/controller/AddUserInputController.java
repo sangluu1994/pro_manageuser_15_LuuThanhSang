@@ -250,7 +250,7 @@ public class AddUserInputController extends HttpServlet {
 			// kiểm tra xem có những trường thuộc trình độ tiếng Nhật trong request gửi lên hay không
 			String codeLevel = request.getParameter(Constant.CODE_LEVEL_ADM003);
 			// nếu có, lưu vào userInfor
-			if (codeLevel != null || !Constant.DEFAULT_CODE_LEVEL.equals(codeLevel)) {
+			if (codeLevel != null && !Constant.DEFAULT_CODE_LEVEL.equals(codeLevel)) {
 				userInfor.setCodeLevel(codeLevel);
 				userInfor.setStartYear(request.getParameter(Constant.START_YEAR_ADM003));
 				userInfor.setStartMonth(request.getParameter(Constant.START_MONTH_ADM003));

@@ -128,8 +128,6 @@ public class ValidateUser {
 		String tel = userInfor.getTel();
 		if (tel == null || Constant.EMPTY_STRING.equals(tel.trim())) { // check empty
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER001TEL));
-		} else if (tel.length() > Constant.TEL_MAX_LENGTH) { // check length
-			listError.add(MessageErrorProperties.getErrMsg(Constant.ER006TEL));
 		} else if (!tel.matches(Constant.TEL_PATTERN)) { // check format
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER005TEL));
 		}

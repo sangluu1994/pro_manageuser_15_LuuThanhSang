@@ -63,21 +63,21 @@
 						<td align="left"><c:out value="${userInfor.tel}" escapeXml="true"></c:out></td>
 					</tr>	
 					<tr>
-						<th colspan = "2"><a href = "#">日本語能力</a></th>
+						<th colspan = "2"><a href="javascript:void(0)" onclick="toggleJpField()">日本語能力</a></th>
 					</tr>
-					<tr>
+					<tr class="japaneseField" style="display:none;">
 						<td class="lbl_left">資格:</td>
 						<td align="left"><c:out value="${userInfor.nameLevel}" escapeXml="true"></c:out></td>
 					</tr>
-					<tr>
+					<tr class="japaneseField" style="display:none;">
 						<td class="lbl_left">資格交付日:</td>
 						<td align="left"><fmt:formatDate pattern="yyyy/MM/dd" value="${userInfor.startDate}" /></td>
 					</tr>
-					<tr>
+					<tr class="japaneseField" style="display:none;">
 						<td class="lbl_left">失効日:</td>
 						<td align="left"><fmt:formatDate pattern="yyyy/MM/dd" value="${userInfor.endDate}" /></td>
 					</tr>	
-					<tr>
+					<tr class="japaneseField" style="display:none;">
 						<td class="lbl_left">点数:</td>
 						<td align="left"><c:out value="${userInfor.total == 0 ? '' : userInfor.total}" escapeXml="true"></c:out></td>
 					</tr>													

@@ -119,7 +119,7 @@
 						<tr>
 							<td class="lbl_left"><font color = "red">*</font> パスワード:</td>
 							<td align="left">
-								<input class="txBox" type="password" name="${Constant.PASS_ADM003}" value=""
+								<input class="txBox" type="password" name="${Constant.PASS_ADM003}" value="<c:out value="${userInfor.pass}" escapeXml="true"></c:out>"
 								size="30" onfocus="this.style.borderColor='#0066ff';"
 								onblur="this.style.borderColor='#aaaaaa';" />							
 							</td>
@@ -127,7 +127,7 @@
 						<tr>
 							<td class="lbl_left">パスワード（確認）:</td>
 							<td align="left">
-								<input class="txBox" type="password" name="${Constant.CONFIRM_PASS_ADM003}" value=""
+								<input class="txBox" type="password" name="${Constant.CONFIRM_PASS_ADM003}" value="<c:out value="${userInfor.rePass}" escapeXml="true"></c:out>"
 								size="30" onfocus="this.style.borderColor='#0066ff';"
 								onblur="this.style.borderColor='#aaaaaa';" />							
 							</td>
@@ -138,7 +138,7 @@
 							<a href="javascript:void(0)" onclick="toggleJpField()">日本語能力</a>
 						</th>			
 					</tr>
-					<tr class="japaneseField" style="display:<c:if test="${userInfor.codeLevel == null || Constant.DEFAULT_CODE_LEVEL == userInfor.codeLevel}">none;</c:if>">
+					<tr class="japaneseField" style="display:none;">
 						<td class="lbl_left">資格:</td>
 						<td align="left">
 							<select name="${Constant.CODE_LEVEL_ADM003}">
@@ -148,7 +148,7 @@
 							</select>									
 						</td>
 					</tr>
-					<tr class="japaneseField" style="display:<c:if test="${userInfor.codeLevel == null || Constant.DEFAULT_CODE_LEVEL == userInfor.codeLevel}">none;</c:if>">
+					<tr class="japaneseField" style="display:none;">
 						<td class="lbl_left">資格交付日: </td>
 						<td align="left">
 							<select name="${Constant.START_YEAR_ADM003}">
@@ -170,7 +170,7 @@
 							</select>日							
 						</td>
 					</tr>
-					<tr class="japaneseField" style="display:<c:if test="${userInfor.codeLevel == null || Constant.DEFAULT_CODE_LEVEL == userInfor.codeLevel}">none;</c:if>">
+					<tr class="japaneseField" style="display:none;">
 						<td class="lbl_left">失効日: </td>
 						<td align="left">
 							<select name="${Constant.END_YEAR_ADM003}">
@@ -190,7 +190,7 @@
 							</select>日							
 						</td>
 					</tr>
-					<tr class="japaneseField" style="display:<c:if test="${userInfor.codeLevel == null || Constant.DEFAULT_CODE_LEVEL == userInfor.codeLevel}">none;</c:if>">
+					<tr class="japaneseField" style="display:none;">
 						<td class="lbl_left">点数: </td>
 						<td align="left">
 							<input class="txBox" type="text" name="${Constant.TOTAL_ADM003}" value="<c:out value="${userInfor.total == 0 ? '' : userInfor.total}" escapeXml="true"></c:out>"
