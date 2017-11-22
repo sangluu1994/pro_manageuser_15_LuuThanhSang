@@ -174,13 +174,14 @@ public class TblUserLogicImpl implements TblUserLogic {
 		tblUser.setTel(userInfor.getTel());
 		tblUser.setBirthday(userInfor.getBirthday());
 		TblDetailUserJapan detailUserJapan = tblDetailUserJapanDao.getDetailUserJapanByUserId(userId);
+		System.out.println("null: " + (detailUserJapan == null));
 		try {
 			// transaction
 			baseDao.connectDB();
 			baseDao.disableAutoCommit();
 			success = tblUserDao.updateUser(tblUser);
 			// check vùng trình độ tiếng Nhật
-			if (userInfor.getCodeLevel() != null) {
+			if (!Constant.DEFAULT_CODE_LEVEL.equals(userInfor.getCodeLevel())) {
 				int total = userInfor.getTotal();
 				TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
 				tblDetailUserJapan.setUserId(userInfor.getUserId());
@@ -196,7 +197,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 			} else {
 				if (detailUserJapan != null) {
 					success = tblDetailUserJapanDao.deleteDetailUserJapan(userId);
-				}
+				} 
 			}
 			if (success) {
 				baseDao.commit();

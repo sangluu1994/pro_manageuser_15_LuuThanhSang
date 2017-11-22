@@ -61,7 +61,7 @@ public class TblDetailUserJapanDaoImpl extends BaseDaoImpl implements TblDetailU
 		try {
 			con = getConnection();// get connection
 			// if connect null then return
-			if (connection == null) {
+			if (con == null) {
 				return null;
 			}
 			StringBuilder query = new StringBuilder()
@@ -72,7 +72,7 @@ public class TblDetailUserJapanDaoImpl extends BaseDaoImpl implements TblDetailU
 			ps.setInt(1, userId);
 			ResultSet rs = ps.executeQuery();// execute sql
 			int i;
-			if (resultSet.next()) {
+			while (rs.next()) {
 				i = 0;
 				tblDetailUserJapan = new TblDetailUserJapan();
 				tblDetailUserJapan.setDetailUserJapanId(rs.getInt(++i));

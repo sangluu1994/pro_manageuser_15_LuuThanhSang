@@ -209,7 +209,7 @@ public class Constant {
 	public static final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
 	public static final String TEL_PATTERN = "^[0-9]{1,4}-[0-9]{1,4}-[0-9]{1,4}$";
 	public static final String PASSWORD_PATTERN = "^[a-zA-Z0-9!@#$%^&*()_+.,<>?;:'-=]{6,15}$";
-	public static final int MAX_LENGTH_FULL_NAME = 50;
+	public static final int MAX_LENGTH_FULL_NAME = 255;
 	public static final int MAX_LENGTH_FULL_NAME_KANA = 50;
 	public static final int TEL_MAX_LENGTH = 15;
 	public static final int MIN_LENGTH_PASSWORD = 5;
