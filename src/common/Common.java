@@ -454,12 +454,15 @@ public class Common {
 	 *
 	 * @param request - HttpServletRequest
 	 * @param response - HttpServletResponse
-	 * @throws IOException 
 	 */
-	public static void redirectErrorPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public static void redirectErrorPage(HttpServletRequest request, HttpServletResponse response) {
 		// điều hướng sang trang lỗi
 		StringBuilder errorURL = new StringBuilder(request.getContextPath());
-		response.sendRedirect(errorURL.append(Constant.SYSTEM_ERROR_PATH).toString());
+		try {
+			response.sendRedirect(errorURL.append(Constant.SYSTEM_ERROR_PATH).toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

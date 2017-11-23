@@ -5,14 +5,11 @@
  */
 package controller;
 
-import java.io.IOException;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import common.Common;
 import common.Constant;
 
@@ -43,11 +40,8 @@ public class LogoutController extends HttpServlet {
 			session.invalidate();
 			response.sendRedirect(request.getContextPath() + Constant.LOG_IN_PATH);
 		} catch (Exception e) {
-			try {
-				Common.redirectErrorPage(request, response);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			e.printStackTrace();
+			Common.redirectErrorPage(request, response);
 		}
 	}
 

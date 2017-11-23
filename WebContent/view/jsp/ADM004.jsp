@@ -9,16 +9,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="shortcut icon" href="<c:url value="/view/img/logo-icon.png" />">
-<link href="<c:url value="/view/css/style.css" />" rel="stylesheet" type="text/css" />
-<script src="<c:url value="/view/js/fn.js" />"></script>
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/view/img/logo-icon.png">
+<link href="${pageContext.request.contextPath}/view/css/style.css" rel="stylesheet" type="text/css" />
+<script src="${pageContext.request.contextPath}/view/js/fn.js"></script>
 <title>ユーザ管理</title>
 </head>
 <body>
 <%@ include file = "../layout/header.jsp" %>
 
 <!-- Begin vung input-->	
-<form action="<c:url value="${actionType}" />" method="post" name="inputform">
+<form action="${pageContext.request.contextPath}${actionType}" method="post" name="inputform">
 	<input type="hidden" name="id" value="<c:out value="${id}"></c:out>" />
 	<table  class="tbl_input" border="0" width="75%"  cellpadding="0" cellspacing="0" >			
 		<tr>
@@ -33,7 +33,7 @@
 		<tr>
 			<td align="left" >
 				<div style="padding-left:100px;">
-					<table border="1" width="70%" class="tbl_input" cellpadding="4" cellspacing="0" >					
+					<table border="1" width="70%" class="tbl_list" cellpadding="4" cellspacing="0" >					
 					<tr>
 						<td class="lbl_left">アカウント名:</td>
 						<td align="left"><c:out value="${userInfor.loginName}" escapeXml="true"></c:out></td>
@@ -96,7 +96,7 @@
 					<input class="btn" type="submit" value="OK" />					
 				</td>	
 				<td>
-					<input class="btn" type="button" value="戻る" onclick="back('<c:url value="${backType}" />')" />						
+					<input class="btn" type="button" value="戻る" onclick="back('${pageContext.request.contextPath}${backType}')" />						
 				</td>
 		</tr>		
 	</table>

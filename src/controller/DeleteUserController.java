@@ -5,7 +5,6 @@
  */
 package controller;
 
-import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -51,11 +50,7 @@ public class DeleteUserController extends HttpServlet {
 			response.sendRedirect(successURL.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
-			try {
-				Common.redirectErrorPage(request, response);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			Common.redirectErrorPage(request, response);
 		}
 	}
 

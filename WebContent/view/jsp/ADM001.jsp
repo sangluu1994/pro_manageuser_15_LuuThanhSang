@@ -6,12 +6,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="shortcut icon" href="<c:url value="/view/img/logo-icon.png" />">
-<link href="<c:url value="/view/css/style.css" />" rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/view/img/logo-icon.png">
+<link href="${pageContext.request.contextPath}/view/css/style.css" rel="stylesheet" type="text/css" />
 <title>ユーザ管理</title>
 </head>
 <body align="center">
-	<form action="<c:url value="${Constant.LOG_IN_PATH}" />" method="post">
+	<form action="${pageContext.request.contextPath}${Constant.LOG_IN_PATH}" method="post">
 		<center>
 			<table class="tbl_input" cellpadding="4" cellspacing="0" width="400px">
 				<tr>

@@ -9,16 +9,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="shortcut icon" href="<c:url value="/view/img/logo-icon.png" />">
-<link href="<c:url value="/view/css/style.css" />" rel="stylesheet" type="text/css" />
-<script src="<c:url value="/view/js/fn.js" />"></script>
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/view/img/logo-icon.png">
+<link href="${pageContext.request.contextPath}/view/css/style.css" rel="stylesheet" type="text/css" />
+<script src="${pageContext.request.contextPath}/view/js/fn.js"></script>
 <title>ユーザ管理</title>
 </head>
 <body>
 <%@ include file = "../layout/header.jsp" %>
 
 <!-- Begin vung input-->	
-	<form action="<c:url value="${Constant.EDIT_USER_PATH}" />" method="get" name="inputform">
+	<form action="${pageContext.request.contextPath}${Constant.EDIT_USER_PATH}" method="get" name="inputform">
 	<input type="hidden" name="type" value="edit" />
 	<input type="hidden" name="${Constant.USER_INFOR_ID}" value="${userInfor.userId}" />
 	<table  class="tbl_input" border="0" width="75%"  cellpadding="0" cellspacing="0" >			
@@ -33,7 +33,7 @@
 		<tr>
 			<td align="left" >
 				<div style="padding-left:100px;">
-					<table border="1" width="70%" class="tbl_input" cellpadding="4" cellspacing="0" >					
+					<table border="1" width="70%" class="tbl_list" cellpadding="4" cellspacing="0" >					
 					<tr>
 						<td class="lbl_left">アカウント名:</td>
 						<td align="left"><c:out value="${userInfor.loginName}" escapeXml="true"></c:out></td>
@@ -99,10 +99,10 @@
 				<input class="btn" type="button" value="削除" onclick="del('${MessageProperties.getString(Constant.MSG004)}')" />					
 			</td>
 			<td>
-				<input class="btn" type="button" value="変化" onclick="window.location.href='<c:url value="${Constant.CHANGE_PASS_PATH}" />?${Constant.USER_ID}=${userInfor.userId}'" />
+				<input class="btn" type="button" value="変化" onclick="window.location.href='${pageContext.request.contextPath}${Constant.CHANGE_PASS_PATH}?${Constant.USER_ID}=${userInfor.userId}'" />
 			</td>	
 			<td>
-				<input class="btn" type="button" onclick="window.location.href='<c:url value="${Constant.LIST_USER_PATH}" />?type=back';" value="戻る" />						
+				<input class="btn" type="button" onclick="window.location.href='${pageContext.request.contextPath}${Constant.LIST_USER_PATH}?type=back';" value="戻る" />						
 			</td>
 		</tr>		
 	</table>

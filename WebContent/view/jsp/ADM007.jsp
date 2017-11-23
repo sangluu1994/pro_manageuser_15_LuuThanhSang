@@ -6,15 +6,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="shortcut icon" href="<c:url value="/view/img/logo-icon.png" />">
-<link href="<c:url value="/view/css/style.css" />" rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/view/img/logo-icon.png">
+<link href="${pageContext.request.contextPath}/view/css/style.css" rel="stylesheet" type="text/css" />
 <title>ユーザ管理</title>
 </head>
 <body align="center">
 	<%@ include file="../layout/header.jsp"%>
 	
 	<!-- Begin vung input-->
-	<form action="<c:url value="${Constant.CHANGE_PASS_PATH}" />" method="post">
+	<form action="${pageContext.request.contextPath}${Constant.CHANGE_PASS_PATH}" method="post">
 		<center>
 			<table class="tbl_input" border="0" style="padding-top: 50px">
 				<c:forEach var="errMess" items="${errList}">
@@ -26,14 +26,14 @@
 					<td class="lbl_left">New Password:</td>
 					<td align="left"><input class="txBox" type="password"
 						name="${Constant.PASS_ADM003}"
-						value="<c:out value="${loginName}" escapeXml="true" />" size="22"
+						value="<c:out value="${password}" escapeXml="true" />" size="22"
 						onfocus="this.style.borderColor='#0066ff';"
 						onblur="this.style.borderColor='#aaaaaa';" /></td>
 				</tr>
 				<tr>
 					<td class="lbl_left">Confirm Password:</td>
 					<td align="left"><input class="txBox" type="password"
-						name="${Constant.CONFIRM_PASS_ADM003}" value="" size="22"
+						name="${Constant.CONFIRM_PASS_ADM003}" value="<c:out value="${confirmPass}" escapeXml="true" />" size="22"
 						onfocus="this.style.borderColor='#0066ff';"
 						onblur="this.style.borderColor='#aaaaaa';" /></td>
 				</tr>
@@ -41,7 +41,7 @@
 					<td></td>
 					<td align="left"><input class="btn btn_wider" type="submit"
 						value="パスワード変化" /> <input class="btn" type="button"
-						value="戻る" onclick="window.location.href = '<c:url value="${Constant.DETAIL_USER_PATH}" />?userId=${userId}'" /></td>
+						value="戻る" onclick="window.location.href = '${pageContext.request.contextPath}${Constant.DETAIL_USER_PATH}?userId=${userId}'" /></td>
 				</tr>
 			</table>
 		</center>

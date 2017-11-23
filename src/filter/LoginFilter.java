@@ -97,7 +97,7 @@ public class LoginFilter implements Filter {
 		// nếu không phải các đường dẫn trên
 		// kiểm tra có user đang đăng nhập không
 		if (req.getSession().getAttribute(Constant.CURRENT_LOGIN_USER) != null) {
-			// nếu là đã có user đăng nhập
+			// nếu đã có user đăng nhập
 			// cho phép request vượt qua Filter
 			chain.doFilter(req, res);
 			return;

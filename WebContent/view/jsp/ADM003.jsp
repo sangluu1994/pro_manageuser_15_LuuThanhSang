@@ -8,16 +8,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="shortcut icon" href="<c:url value="/view/img/logo-icon.png" />">
-<link href="<c:url value="/view/css/style.css" />" rel="stylesheet" type="text/css" />
-<script src="<c:url value="/view/js/fn.js" />"></script>
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/view/img/logo-icon.png">
+<link href="${pageContext.request.contextPath}/view/css/style.css" rel="stylesheet" type="text/css" />
+<script src="${pageContext.request.contextPath}/view/js/fn.js"></script>
 <title>ユーザ管理</title>
 </head>
 <body>
 <%@ include file = "../layout/header.jsp" %>
 
 <!-- Begin vung input-->	
-	<form action="<c:url value="${userInfor.userId != 0 ? Constant.EDIT_VALIDATE_PATH : Constant.ADD_USER_VALIDATE_PATH}" />" method="post" name="inputform">	
+	<form action="${pageContext.request.contextPath}${userInfor.userId != 0 ? Constant.EDIT_VALIDATE_PATH : Constant.ADD_USER_VALIDATE_PATH}" method="post" name="inputform">	
 	<input type="hidden" name="type" value="confirm"/>
 	<c:if test="${userInfor.userId != 0}"><input type="hidden" name="${Constant.USER_INFOR_ID}" value="${userInfor.userId}"/></c:if>
 	<table  class="tbl_input"   border="0" width="75%"  cellpadding="0" cellspacing="0" >			

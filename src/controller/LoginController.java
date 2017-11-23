@@ -5,14 +5,12 @@
  */
 package controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import common.Common;
 import common.Constant;
 import validate.ValidateAdmin;
@@ -45,11 +43,8 @@ public class LoginController extends HttpServlet {
 			rd.forward(request, response);
 			
 		} catch (Exception e) {
-			try {
-				Common.redirectErrorPage(request, response);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			e.printStackTrace();
+			Common.redirectErrorPage(request, response);
 		}
 	}
 
@@ -63,7 +58,7 @@ public class LoginController extends HttpServlet {
 			String password = request.getParameter(Constant.TXT_PASSWORD);
 			// gán giá trị trường txtUsername vào request để view in ra
 			request.setAttribute(Constant.TXT_USERNAME, loginName);
-			
+			System.out.println(loginName);
 			// khởi tạo danh sách lỗi đăng nhập
 			ArrayList<String> errMsgList = ValidateAdmin.validateLogin(loginName, password);
 			// nếu có lỗi đăng nhập:
@@ -82,11 +77,8 @@ public class LoginController extends HttpServlet {
 			}
 			
 		} catch (Exception e) {
-			try {
-				response.sendRedirect(request.getContextPath() + Constant.SYSTEM_ERROR_PATH);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			e.printStackTrace();
+			Common.redirectErrorPage(request, response);
 		}
 	}
 

@@ -22,7 +22,6 @@ import entity.MstGroup;
 import entity.UserInfor;
 import logic.impl.MstGroupLogicImpl;
 import logic.impl.TblUserLogicImpl;
-import properties.MessageErrorProperties;
 
 /**
  * Controller xử lí in, tìm kiếm danh sách user
@@ -185,18 +184,7 @@ public class ListUserController extends HttpServlet {
 		} catch (Exception e) {
 			// show console log ngoại lệ
 			System.out.println(e.getMessage());
-			try {
-				// khai báo, truyền message lỗi sang view
-				String errMsg = MessageErrorProperties.getErrMsg(Constant.ER015);
-				request.setAttribute(Constant.ERR_MSG, errMsg);
-				// forward sang màn hình listUser
-				RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM_SYSTEM_ERROR);
-				rd.forward(request, response);
-			} catch (ServletException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			Common.redirectErrorPage(request, response);
 		}
 	}
 

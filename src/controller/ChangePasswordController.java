@@ -5,7 +5,6 @@
  */
 package controller;
 
-import java.io.IOException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
@@ -51,11 +50,7 @@ public class ChangePasswordController extends HttpServlet {
 			rd.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
-			try {
-				Common.redirectErrorPage(request, response);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			Common.redirectErrorPage(request, response);
 		}
 	}
 
@@ -86,16 +81,14 @@ public class ChangePasswordController extends HttpServlet {
 				return;
 			}
 			request.setAttribute(Constant.USER_ID, userId);
+			request.setAttribute(Constant.PASSWORD, passWord);
+			request.setAttribute(Constant.CONFIRM_PASS, confirmPass);
 			request.setAttribute(Constant.LIST_ERROR, listMessage);
 			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM007);
 			rd.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
-			try {
-				Common.redirectErrorPage(request, response);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			Common.redirectErrorPage(request, response);
 		}
 	}
 

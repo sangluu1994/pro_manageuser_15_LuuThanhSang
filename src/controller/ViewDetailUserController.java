@@ -5,14 +5,11 @@
  */
 package controller;
 
-import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import common.Common;
 import common.Constant;
 import entity.UserInfor;
@@ -51,19 +48,11 @@ public class ViewDetailUserController extends HttpServlet {
 				RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM005);
 				rd.forward(request, response);
 			} else {
-				// điều hướng sang trang lỗi nếu userId không tồn tại
-				StringBuilder errorURL = new StringBuilder(request.getContextPath());
-				response.sendRedirect(errorURL.append(Constant.SYSTEM_ERROR_PATH).toString());
+				Common.redirectErrorPage(request, response);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			try {
-				// điều hướng sang trang lỗi nếu xảy ra exception
-				StringBuilder errorURL = new StringBuilder(request.getContextPath());
-				response.sendRedirect(errorURL.append(Constant.SYSTEM_ERROR_PATH).toString());
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			Common.redirectErrorPage(request, response);
 		}
 	}
 

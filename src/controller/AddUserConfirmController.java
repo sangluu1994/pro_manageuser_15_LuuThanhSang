@@ -5,14 +5,12 @@
  */
 package controller;
 
-import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import common.Common;
 import common.Constant;
 import entity.MstGroup;
@@ -85,12 +83,7 @@ public class AddUserConfirmController extends HttpServlet {
 			rd.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
-			try {
-				// điều hướng sang trang lỗi nếu có lỗi
-				Common.redirectErrorPage(request, response);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			Common.redirectErrorPage(request, response);
 		}
 	}
 
@@ -137,12 +130,7 @@ public class AddUserConfirmController extends HttpServlet {
 			response.sendRedirect(successURL.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
-			try {
-				// điều hướng sang trang lỗi nếu xảy ra exception
-				Common.redirectErrorPage(request, response);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			Common.redirectErrorPage(request, response);
 		}
 	}
 

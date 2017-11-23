@@ -5,13 +5,12 @@
  */
 package controller;
 
-import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import common.Common;
 import common.Constant;
 import properties.MessageErrorProperties;
 import properties.MessageProperties;
@@ -56,14 +55,7 @@ public class SuccessController extends HttpServlet {
 			rd.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
-			try {
-				// điều hướng sang trang lỗi nếu xảy ra exception
-				StringBuilder errorURL = new StringBuilder(request.getContextPath());
-				errorURL.append(Constant.SYSTEM_ERROR_PATH);
-				response.sendRedirect(errorURL.toString());
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			Common.redirectErrorPage(request, response);
 		}
 	}
 

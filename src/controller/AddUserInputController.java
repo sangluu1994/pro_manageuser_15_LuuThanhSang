@@ -77,11 +77,7 @@ public class AddUserInputController extends HttpServlet {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			try {
-				Common.redirectErrorPage(request, response);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			Common.redirectErrorPage(request, response);
 		}
 	}
 
@@ -94,9 +90,7 @@ public class AddUserInputController extends HttpServlet {
 			String userId = request.getParameter(Constant.USER_INFOR_ID);
 			if (userId != null) {
 				if (!tblUserLogic.isExistedUser(Common.convertStringToInt(userId))) {
-					// nếu không tồn tại user, điều hướng về trang lỗi
-					StringBuilder errorURL = new StringBuilder(request.getContextPath());
-					response.sendRedirect(errorURL.append(Constant.SYSTEM_ERROR_PATH).toString());
+					Common.redirectErrorPage(request, response);
 					return;
 				}
 			} 
@@ -148,12 +142,7 @@ public class AddUserInputController extends HttpServlet {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			try {
-				StringBuilder errorPath = new StringBuilder(request.getContextPath());
-				response.sendRedirect(errorPath.append(Constant.SYSTEM_ERROR_PATH).toString());
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			Common.redirectErrorPage(request, response);
 		}
 	}
 	
