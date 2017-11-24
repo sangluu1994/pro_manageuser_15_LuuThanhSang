@@ -34,7 +34,7 @@ public class DeleteUserController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			int userId = Common.convertStringToInt(request.getParameter(Constant.USER_INFOR_ID));
+			int userId = Common.convertStringToInt(request.getParameter(Constant.USER_INFOR_ID), 0);
 			// check userId tồn tại
 			if (!tblUserLogic.isExistedUser(userId)) {
 				Common.redirectErrorPage(request, response);

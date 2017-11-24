@@ -88,7 +88,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 		// lấy current timestamp làm salt cho userInfor
 		Long timeStampMillis = Instant.now().toEpochMilli();
 		String salt = timeStampMillis.toString();
-		String password = Common.encodeMD5(userInfor.getPass() + salt);
+		String password = Common.SHA1(userInfor.getPass() + salt);
 		// tạo đối tượng TblUser để add vào bảng tbl_user
 		TblUser tblUser = new TblUser();
 		tblUser.setGroupId(userInfor.getGroupId());
@@ -245,7 +245,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 	@Override
 	public boolean changePassword(int userId, String passWord) throws ClassNotFoundException, SQLException {
 		TblUser tblUser = tblUserDao.getTblUserById(userId);
-		String newPassword = Common.encodeMD5(passWord, tblUser.getSalt());
+		String newPassword = Common.SHA1(passWord, tblUser.getSalt());
 		return tblUserDao.updatePassword(userId, newPassword);
 	}
 	

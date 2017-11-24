@@ -57,7 +57,7 @@ public class Common {
 	 * @return số lượng tối đa các bản ghi hiển thị trên 1 trang
 	 */
 	public static int getLimit() {
-		return Common.convertStringToInt(ConfigProperties.getValue(Constant.LIMIT));
+		return Common.convertStringToInt(ConfigProperties.getValue(Constant.LIMIT), 0);
 	}
 	
 	/**
@@ -66,27 +66,27 @@ public class Common {
 	 * @return số lượng page tối đa hiển thị ở vùng paging
 	 */
 	public static int getPageLimit() {
-		return Common.convertStringToInt(ConfigProperties.getValue(Constant.PAGE_LIMIT));
+		return Common.convertStringToInt(ConfigProperties.getValue(Constant.PAGE_LIMIT), 0);
 	}
 	
 	/**
-	 * Phương thức băm MD5
+	 * Phương thức băm SHA1
 	 * 
-	 * @param text - chuỗi cần băm
+	 * @param value - giá trị truyền vào cần băm
 	 * @return chuỗi băm
 	 * @throws NoSuchAlgorithmException
 	 */
-	public static String encodeMD5(String text) {
-		String encryptedPass = "";
+	public static String SHA1(String value) {
+		String hashString = "";
 		try {
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			byte[] encryptText = md.digest(text.getBytes());
-			BigInteger bigInt = new BigInteger(1, encryptText);
-			encryptedPass = bigInt.toString(16);
+			MessageDigest m = MessageDigest.getInstance("SHA-1");
+			m.update(value.getBytes(), 0, value.length());
+			hashString = new BigInteger(1, m.digest()).toString(16).toUpperCase();
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
+			hashString = "";
 		}
-		return encryptedPass;
+		return hashString;
 	}
 	
 	/**
@@ -113,11 +113,12 @@ public class Common {
 	 * Phương thức chuyển đổi dữ liệu String sang Int
 	 * 
 	 * @param inputString - chuỗi đầu vào
+	 * @param defaultValue - giá trị mặc định khi có lỗi xảy ra
 	 * @return outputInt - số nguyên đầu ra
 	 */
-	public static int convertStringToInt(String inputString) {
+	public static int convertStringToInt(String inputString, int defaultValue) {
 		// khởi tạo giá trị trả về
-		int outputInt = 0;
+		int outputInt = defaultValue;
 		// nếu chuỗi đầu vào là số
 		if (isNumber(inputString)) {
 			// parse String đầu vào sang kiểu int
@@ -156,7 +157,7 @@ public class Common {
 			return listPaging;
 		}
 		// lấy số trang tối đa được hiển thị trên vùng phân trang
-		int pageLimit = convertStringToInt(ConfigProperties.getValue(Constant.PAGE_LIMIT));
+		int pageLimit = convertStringToInt(ConfigProperties.getValue(Constant.PAGE_LIMIT), 0);
 		// lấy trang bắt đầu của vùng phân trang sẽ hiển thị
 		int startPage = getStartPage(currentPage, pageLimit);
 		// lấy trang kết thúc của vùng phân trang sẽ hiển thị
@@ -344,61 +345,6 @@ public class Common {
 	}
 	
 	/**
-	 * Hàm check số halfSize
-	 * 
-	 * @param number - tổng điểm cần check
-	 * @return true nếu là số halfSize - false nếu không phải
-	 */
-	public static boolean isHalfSizeNumber(int number) {
-		String tempNum = ((Integer) number).toString();
-		if (tempNum == null) {
-			throw new NullPointerException("String input cannot be null");
-		}
-		return tempNum.matches("^\\d+$");
-
-	}
-	
-	/**
-	 * Phương thức kiểm tra xem 1 kí tự có phải là kí tự kana hay không.
-	 * 
-	 * @param input - kí tự cần kiểm tra.
-	 * @return true nếu kí tự là kí tự Katakana | false trong trường hợp còn lại
-	 */
-	public static boolean isKanaChar(char input) {
-		int temp = (int) input;
-		if ((temp >= 0x30A0 && temp <= 0x30FF) || (temp >= 0xFF65 && temp <= 0xFF9F)) {
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * Phương thức kiểm tra chuỗi đầu vào có phải là chuỗi kí tự kana hay không.
-	 * 
-	 * @param input - chuỗi cần kiểm tra.
-	 * @return true nếu chuỗi đầu vào là chuỗi kí tự kana | false nếu ngược lại.
-	 */
-	public static boolean isKanaString(String input) {
-		if (input == null) {
-			throw new NullPointerException("String input cannot be null");
-		}
-		char[] charArray = input.toCharArray();
-		for (int i = 0; i < charArray.length; i++) {
-			if (!isKanaChar(charArray[i])) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
-//	public static boolean areAnyFullWidth(String input) {
-//	    for(char c : input.toCharArray())
-//	        if(c >= 0xFF00 && c <= 0xFFEF)
-//	            return true;
-//	        return false;
-//	}
-	
-	/**
 	 * Phương thức kiểm tra tính tồn tại của ngày nhập vào.
 	 * 
 	 * @param year - năm cần kiểm tra.
@@ -466,17 +412,17 @@ public class Common {
 	}
 
 	/**
-	 * Phương thức tính chuỗi băm MD5
+	 * Phương thức tính chuỗi băm SHA1
 	 *
 	 * @param passWord - mật khẩu truyền vào
 	 * @param salt - chuỗi salt tương ứng với mật khẩu
 	 * @return mật khẩu đã được băm
 	 */
-	public static String encodeMD5(String passWord, String salt) {
+	public static String SHA1(String passWord, String salt) {
 		StringBuilder input = new StringBuilder();
 		input.append(passWord);
 		input.append(salt);
-		return encodeMD5(input.toString());
+		return SHA1(input.toString());
 	}
 
 }

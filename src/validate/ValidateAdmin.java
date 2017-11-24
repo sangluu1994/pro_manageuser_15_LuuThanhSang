@@ -39,7 +39,7 @@ public class ValidateAdmin {
 			return errList;
 		}
 		// nếu password không trùng với admin password, return lỗi
-		if (!AdminProperties.getValue(Constant.ADMIN_PASS_HASH).equals(Common.encodeMD5(password))) {
+		if (!AdminProperties.getValue(Constant.ADMIN_PASS_HASH).equals(Common.SHA1(password))) {
 			errList.add(MessageErrorProperties.getErrMsg(Constant.ER016));
 			return errList;
 		}

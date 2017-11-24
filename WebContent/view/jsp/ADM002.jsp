@@ -11,6 +11,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="shortcut icon" href="${pageContext.request.contextPath}/view/img/logo-icon.png">
 <link href="${pageContext.request.contextPath}/view/css/style.css" rel="stylesheet" type="text/css" />
+<script src="${pageContext.request.contextPath}/view/js/fn.js"></script>
 <title>ユーザ管理</title>
 </head>
 <body>
@@ -80,7 +81,7 @@
 							${sessionScope.searchCondition.sortByFullName == Constant.ASC ? '▲▽' : '△▼'}
 						</a>
 					</th>
-					<th align="left">生年月日</th>
+					<th align="left" width="64px">生年月日</th>
 					<th align="left">グループ</th>
 					<th align="left">メールアドレス</th>
 					<th align="left" width="70px">電話番号</th>
@@ -90,13 +91,13 @@
 							${sessionScope.searchCondition.sortByCodeLevel == Constant.ASC? '▲▽' : '△▼'}
 						</a>
 					</th>
-					<th align="left">失効日 
+					<th align="left" width="64px">失効日 
 						<a href="${pageContext.request.contextPath}${Constant.LIST_USER_PATH}?type=sort&sortType=sortByEndDate&sortByEndDate=${sessionScope.searchCondition.sortByEndDate == Constant.ASC ? Constant.DESC : Constant.ASC}"
 							class="${sessionScope.searchCondition.sortType == Constant.SORT_BY_END_DATE ? 'is-sorted' : 'unsorted'}">
 							${sessionScope.searchCondition.sortByEndDate == Constant.ASC ? '▲▽' : '△▼'}
 						</a>
 					</th>
-					<th align="left">点数</th>
+					<th align="left" width="26px">点数</th>
 				</tr>
 				<c:forEach var="item" items="${listUser}">
 					<tr>

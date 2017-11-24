@@ -58,7 +58,6 @@ public class LoginController extends HttpServlet {
 			String password = request.getParameter(Constant.TXT_PASSWORD);
 			// gán giá trị trường txtUsername vào request để view in ra
 			request.setAttribute(Constant.TXT_USERNAME, loginName);
-			System.out.println(loginName);
 			// khởi tạo danh sách lỗi đăng nhập
 			ArrayList<String> errMsgList = ValidateAdmin.validateLogin(loginName, password);
 			// nếu có lỗi đăng nhập:

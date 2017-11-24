@@ -53,7 +53,7 @@ public class ValidateUser {
 		List<String> listError = new ArrayList<>();
 		int userId = userInfor.getUserId();
 		
-		// nếu là trường hợp add thì kiểm tra loginName, pass, re-pass
+		// nếu là trường hợp add thì kiểm tra loginName
 		if (userId == 0) {
 			// check login name (4)
 			String loginName = userInfor.getLoginName();
@@ -88,10 +88,10 @@ public class ValidateUser {
 
 		// check full name kana (2)
 		String fullNameKana = userInfor.getFullNameKana();
-		if (fullNameKana != null || !Constant.EMPTY_STRING.equals(fullNameKana)) {
+		if (fullNameKana != null && !Constant.EMPTY_STRING.equals(fullNameKana.trim())) {
 			if (fullNameKana.length() > Constant.MAX_LENGTH_FULL_NAME_KANA) { // check length
 				listError.add(MessageErrorProperties.getErrMsg(Constant.ER006FULL));
-			} else if (!Common.isKanaString(fullNameKana)) { // check format
+			} else if (!fullNameKana.matches(Constant.FULL_NAME_KATA_PATTERN)) { // check format
 				listError.add(MessageErrorProperties.getErrMsg(Constant.ER009KATA));
 			}
 		}
@@ -101,9 +101,9 @@ public class ValidateUser {
 		String birthMonthInfo = userInfor.getBirthMonth();
 		String birthDateInfo = userInfor.getBirthDate();
 		if (birthYearInfo != null && birthMonthInfo != null && birthDateInfo != null) { // (check not null)
-			int birthYear = Common.convertStringToInt(birthYearInfo);
-			int birthMonth = Common.convertStringToInt(birthMonthInfo);
-			int birthDate = Common.convertStringToInt(birthDateInfo);
+			int birthYear = Common.convertStringToInt(birthYearInfo, 0);
+			int birthMonth = Common.convertStringToInt(birthMonthInfo, 0);
+			int birthDate = Common.convertStringToInt(birthDateInfo, 0);
 			if (!Common.isRealDay(birthYear, birthMonth, birthDate) 
 					|| Common.toDate(birthYear, birthMonth, birthDate).compareTo(new Date()) >= 0) { // check real day and < current date
 				listError.add(MessageErrorProperties.getErrMsg(Constant.ER011BIRTH));
@@ -134,6 +134,7 @@ public class ValidateUser {
 			listError.add(MessageErrorProperties.getErrMsg(Constant.ER005TEL));
 		}
 		
+		// nếu là trường hợp add thì kiểm tra pass, re-pass
 		if (userId == 0) {
 			// check password (3)
 			String pass = userInfor.getPass();
@@ -157,7 +158,7 @@ public class ValidateUser {
 
 		// nếu có chọn vùng trình độ tiếng Nhật
 		String codeLevel = userInfor.getCodeLevel();
-		if (codeLevel != null && !Constant.DEFAULT_CODE_LEVEL.equals(codeLevel)) { // (check not null)
+		if (codeLevel != null && !Constant.DEFAULT_CODE_LEVEL.equals(codeLevel.trim())) { // (check not null)
 			// check code level exist (1)
 			if (!mstJapanLogic.isRealJpLv(codeLevel)) { // check exist
 				listError.add(MessageErrorProperties.getErrMsg(Constant.ER004JAPAN));
@@ -171,12 +172,12 @@ public class ValidateUser {
 			String endDayInfo = userInfor.getEndDay();
 			if (startYearInfo != null && startMonthInfo != null && startDayInfo != null 
 					&& endYearInfo != null && endMonthInfo != null && endDayInfo != null) { // (check not null)
-				int startYear = Common.convertStringToInt(startYearInfo);
-				int startMonth = Common.convertStringToInt(startMonthInfo);
-				int startDay = Common.convertStringToInt(startDayInfo);
-				int endYear = Common.convertStringToInt(endYearInfo);
-				int endMonth = Common.convertStringToInt(endMonthInfo);
-				int endDay = Common.convertStringToInt(endDayInfo);
+				int startYear = Common.convertStringToInt(startYearInfo, 0);
+				int startMonth = Common.convertStringToInt(startMonthInfo, 0);
+				int startDay = Common.convertStringToInt(startDayInfo, 0);
+				int endYear = Common.convertStringToInt(endYearInfo, 0);
+				int endMonth = Common.convertStringToInt(endMonthInfo, 0);
+				int endDay = Common.convertStringToInt(endDayInfo, 0);
 	
 				// check start date (1), check end date (2)
 				if (!Common.isRealDay(startYear, startMonth, startDay)) { // check real day
@@ -196,7 +197,7 @@ public class ValidateUser {
 			Integer total = userInfor.getTotal();
 			if (total == null || Constant.DEFAULT_TOTAL == total) { // check empty
 				listError.add(MessageErrorProperties.getErrMsg(Constant.ER001TOTAL));
-			} else if (!Common.isHalfSizeNumber(total)) { // check halfsize
+			} else if (!((Integer) total).toString().matches(Constant.TOTAL_PATTERN)) { // check halfsize
 				listError.add(MessageErrorProperties.getErrMsg(Constant.ER018TOTAL));
 			}
 		}

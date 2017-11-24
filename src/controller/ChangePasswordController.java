@@ -37,7 +37,7 @@ public class ChangePasswordController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			int userId = Common.convertStringToInt(request.getParameter(Constant.USER_ID));
+			int userId = Common.convertStringToInt(request.getParameter(Constant.USER_ID), 0);
 			// check userId tồn tại
 			if (userId > 0) {
 				if (!tblUserLogic.isExistedUser(userId)) {
@@ -59,7 +59,7 @@ public class ChangePasswordController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			int userId = Common.convertStringToInt(request.getParameter(Constant.USER_ID));
+			int userId = Common.convertStringToInt(request.getParameter(Constant.USER_ID), 0);
 			// kiểm tra user tồn tại
 			if (!tblUserLogic.isExistedUser(userId)) {
 				Common.redirectErrorPage(request, response);
@@ -72,7 +72,6 @@ public class ChangePasswordController extends HttpServlet {
 			// nếu không có lỗi
 			if (listMessage.isEmpty()) {
 				boolean checkSuccess = tblUserLogic.changePassword(userId, passWord);
-				System.out.println(checkSuccess);
 				String type = checkSuccess ? Constant.TASK_DONE : Constant.TASK_FAIL;
 				// điều hướng đến trang xử lí hiện kết quả change password
 				StringBuilder successURL = new StringBuilder();
@@ -81,8 +80,6 @@ public class ChangePasswordController extends HttpServlet {
 				return;
 			}
 			request.setAttribute(Constant.USER_ID, userId);
-			request.setAttribute(Constant.PASSWORD, passWord);
-			request.setAttribute(Constant.CONFIRM_PASS, confirmPass);
 			request.setAttribute(Constant.LIST_ERROR, listMessage);
 			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM007);
 			rd.forward(request, response);

@@ -123,7 +123,6 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 				ps.setInt(++i, limit);
 				ps.setInt(++i, offset);
 				
-				System.out.println(ps.toString());
 				// lấy dữ liệu trả về
 				ResultSet rs = ps.executeQuery();
 				// thiết lập danh sách các đối tượng UserInfor trả về dựa trên dữ liệu đã lấy được
@@ -401,7 +400,6 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 		query.append("WHERE tbl_user.user_id = ?");
 		preparedStatement = connection.prepareStatement(query.toString());
 		preparedStatement.setInt(1, userId);
-		System.out.println(preparedStatement.toString());
 		return (preparedStatement.executeUpdate() != 0);
 	}
 

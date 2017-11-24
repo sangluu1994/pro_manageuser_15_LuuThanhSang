@@ -5,11 +5,14 @@
  */
 package controller;
 
+import java.io.IOException;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import common.Common;
 import common.Constant;
 import entity.UserInfor;
@@ -39,7 +42,7 @@ public class ViewDetailUserController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			// kiểm tra userId có tồn tại không
-			int userId = Common.convertStringToInt(request.getParameter(Constant.USER_ID));
+			int userId = Common.convertStringToInt(request.getParameter(Constant.USER_ID), 0);
 			if (tblUserLogic.isExistedUser(userId)) {
 				// nếu có tồn tại, lấy ra đối tượng UserInfor, set lên request
 				UserInfor userInfor = tblUserLogic.getUserInforById(userId);
@@ -48,11 +51,19 @@ public class ViewDetailUserController extends HttpServlet {
 				RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM005);
 				rd.forward(request, response);
 			} else {
-				Common.redirectErrorPage(request, response);
+				// điều hướng sang trang lỗi nếu userId không tồn tại
+				StringBuilder errorURL = new StringBuilder(request.getContextPath());
+				response.sendRedirect(errorURL.append(Constant.SYSTEM_ERROR_PATH).toString());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			Common.redirectErrorPage(request, response);
+			try {
+				// điều hướng sang trang lỗi nếu xảy ra exception
+				StringBuilder errorURL = new StringBuilder(request.getContextPath());
+				response.sendRedirect(errorURL.append(Constant.SYSTEM_ERROR_PATH).toString());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 

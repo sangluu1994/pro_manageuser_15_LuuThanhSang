@@ -22,6 +22,7 @@ import entity.MstGroup;
 import entity.UserInfor;
 import logic.impl.MstGroupLogicImpl;
 import logic.impl.TblUserLogicImpl;
+import properties.MessageErrorProperties;
 
 /**
  * Controller xử lí in, tìm kiếm danh sách user
@@ -95,7 +96,7 @@ public class ListUserController extends HttpServlet {
 				
 				if (Constant.TYPE_SEARCH.equals(type)) { // trường hợp tìm kiếm
 					// lấy điều kiện tìm kiếm từ request
-					groupId = Common.convertStringToInt(request.getParameter(Constant.SL_GROUP_ID));
+					groupId = Common.convertStringToInt(request.getParameter(Constant.SL_GROUP_ID), 0);
 					fullName = request.getParameter(Constant.TXT_FULL_NAME);
 					// về trang đầu
 					currentPage = Constant.DEFAULT_PAGE;
@@ -132,7 +133,7 @@ public class ListUserController extends HttpServlet {
 					
 				} else if (Constant.TYPE_PAGING.equals(type)) { // trường hợp click vào phân trang
 					// lấy trang được yêu cầu
-					currentPage = Common.convertStringToInt(request.getParameter(Constant.PAGE_PARAM));
+					currentPage = Common.convertStringToInt(request.getParameter(Constant.PAGE_PARAM), 1);
 					
 				} else if (Constant.TYPE_BACK.equals(type)) { // trường hợp quay lại màn hình listUser
 					// sử dụng các điều kiện tìm kiếm đã lấy từ session
@@ -184,7 +185,18 @@ public class ListUserController extends HttpServlet {
 		} catch (Exception e) {
 			// show console log ngoại lệ
 			System.out.println(e.getMessage());
-			Common.redirectErrorPage(request, response);
+			try {
+				// khai báo, truyền message lỗi sang view
+				String errMsg = MessageErrorProperties.getErrMsg(Constant.ER015);
+				request.setAttribute(Constant.ERR_MSG, errMsg);
+				// forward sang màn hình listUser
+				RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM_SYSTEM_ERROR);
+				rd.forward(request, response);
+			} catch (ServletException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 

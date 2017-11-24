@@ -61,7 +61,7 @@ public class AddUserInputController extends HttpServlet {
 			String type = request.getParameter(Constant.TYPE);
 			// nếu là trường hợp edit và userId không tồn tại
 			if (Constant.TYPE_EDIT.equals(type)) {
-				int userId = Common.convertStringToInt(request.getParameter(Constant.USER_INFOR_ID));
+				int userId = Common.convertStringToInt(request.getParameter(Constant.USER_INFOR_ID), 0);
 				if (!tblUserLogic.isExistedUser(userId)) {
 					Common.redirectErrorPage(request, response);
 					return;
@@ -89,8 +89,10 @@ public class AddUserInputController extends HttpServlet {
 			// kiểm tra trường hợp edit user
 			String userId = request.getParameter(Constant.USER_INFOR_ID);
 			if (userId != null) {
-				if (!tblUserLogic.isExistedUser(Common.convertStringToInt(userId))) {
-					Common.redirectErrorPage(request, response);
+				if (!tblUserLogic.isExistedUser(Common.convertStringToInt(userId, 0))) {
+					// nếu không tồn tại user, điều hướng về trang lỗi
+					StringBuilder errorURL = new StringBuilder(request.getContextPath());
+					response.sendRedirect(errorURL.append(Constant.SYSTEM_ERROR_PATH).toString());
 					return;
 				}
 			} 
@@ -114,18 +116,18 @@ public class AddUserInputController extends HttpServlet {
 				confirmURL.append("=");
 				confirmURL.append(id);
 				// lưu đối tượng userInfor lên session
-				userInfor.setBirthday(Common.toDate(Common.convertStringToInt(userInfor.getBirthYear()), 
-						Common.convertStringToInt(userInfor.getBirthMonth()), 
-						Common.convertStringToInt(userInfor.getBirthDate())));
+				userInfor.setBirthday(Common.toDate(Common.convertStringToInt(userInfor.getBirthYear(), 0), 
+						Common.convertStringToInt(userInfor.getBirthMonth(), 0), 
+						Common.convertStringToInt(userInfor.getBirthDate(), 0)));
 				// nếu có chọn trình độ tiếng Nhật
 				String codeLevel = userInfor.getCodeLevel();
 				if (codeLevel != null && !Constant.DEFAULT_CODE_LEVEL.equals(codeLevel)) {
-					userInfor.setStartDate(Common.toDate(Common.convertStringToInt(userInfor.getStartYear()), 
-							Common.convertStringToInt(userInfor.getStartMonth()), 
-							Common.convertStringToInt(userInfor.getStartDay())));
-					userInfor.setEndDate(Common.toDate(Common.convertStringToInt(userInfor.getEndYear()), 
-							Common.convertStringToInt(userInfor.getEndMonth()), 
-							Common.convertStringToInt(userInfor.getEndDay())));
+					userInfor.setStartDate(Common.toDate(Common.convertStringToInt(userInfor.getStartYear(), 0), 
+							Common.convertStringToInt(userInfor.getStartMonth(), 0), 
+							Common.convertStringToInt(userInfor.getStartDay(), 0)));
+					userInfor.setEndDate(Common.toDate(Common.convertStringToInt(userInfor.getEndYear(), 0), 
+							Common.convertStringToInt(userInfor.getEndMonth(), 0), 
+							Common.convertStringToInt(userInfor.getEndDay(), 0)));
 				}
 				// set userInfor object lên session
 				request.getSession().setAttribute(id, userInfor);
@@ -142,7 +144,12 @@ public class AddUserInputController extends HttpServlet {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			Common.redirectErrorPage(request, response);
+			try {
+				StringBuilder errorPath = new StringBuilder(request.getContextPath());
+				response.sendRedirect(errorPath.append(Constant.SYSTEM_ERROR_PATH).toString());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 	
@@ -225,10 +232,10 @@ public class AddUserInputController extends HttpServlet {
 				userInfor.setPass(request.getParameter(Constant.PASS_ADM003));
 				userInfor.setRePass(request.getParameter(Constant.CONFIRM_PASS_ADM003));
 			} else { // nếu là edit
-				userInfor.setUserId(Common.convertStringToInt(id));
+				userInfor.setUserId(Common.convertStringToInt(id, 0));
 				userInfor.setLoginName(request.getParameter(Constant.LOGIN_NAME_ADM003));
 			}
-			userInfor.setGroupId(Common.convertStringToInt(request.getParameter(Constant.GROUP_ID_ADM003)));
+			userInfor.setGroupId(Common.convertStringToInt(request.getParameter(Constant.GROUP_ID_ADM003), 0));
 			userInfor.setFullName(request.getParameter(Constant.FULL_NAME_ADM003));
 			userInfor.setFullNameKana(request.getParameter(Constant.KANA_NAME_ADM003));
 			userInfor.setBirthYear(request.getParameter(Constant.BIRTH_YEAR_ADM003));
@@ -247,7 +254,7 @@ public class AddUserInputController extends HttpServlet {
 				userInfor.setEndYear(request.getParameter(Constant.END_YEAR_ADM003));
 				userInfor.setEndMonth(request.getParameter(Constant.END_MONTH_ADM003));
 				userInfor.setEndDay(request.getParameter(Constant.END_DAY_ADM003));
-				userInfor.setTotal(Common.convertStringToInt(request.getParameter(Constant.TOTAL_ADM003)));
+				userInfor.setTotal(Common.convertStringToInt(request.getParameter(Constant.TOTAL_ADM003), 0));
 			}
 		} else if (Constant.TYPE_BACK.equals(type)) { // trường hợp back từ màn hình ADM004
 			// lấy đối tượng userInfor từ session
@@ -256,7 +263,7 @@ public class AddUserInputController extends HttpServlet {
 			userInfor = (UserInfor) session.getAttribute(id);
 		} else if (Constant.TYPE_EDIT.equals(type)) { // trường hợp edit user
 			// lấy đối tượng userInfor từ database
-			int userId = Common.convertStringToInt(request.getParameter(Constant.USER_INFOR_ID));
+			int userId = Common.convertStringToInt(request.getParameter(Constant.USER_INFOR_ID), 0);
 			userInfor = tblUserLogic.getUserInforById(userId);
 			List<Integer> listBirday = Common.getYearMonthDay(userInfor.getBirthday());
 			userInfor.setBirthYear(listBirday.get(0).toString());

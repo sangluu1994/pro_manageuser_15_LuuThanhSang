@@ -29,7 +29,7 @@ public class Constant {
 	public static final String DELETE_USER_PATH = "/deleteUser.do";
 	public static final String CHANGE_PASS_PATH = "/changePass.do";
 	public static final String LOG_OUT_PATH = "/logout.do";
-	public static final String FILTER_URL_PATTERN = "/*";
+	public static final String FILTER_URL_PATTERN = "*";
 	
 	// các trang jsp chính
 	public static final String ADM001 = "/view/jsp/ADM001.jsp";
@@ -184,7 +184,6 @@ public class Constant {
 	public static final String TOTAL_ADM003 = "total";
 	
 	// khác...
-	public static final String CONFIRM_PASS = "confirmPass";
 	public static final String EMPTY_STRING = "";
 	public static final String OK = "OK";
 	public static final String DEFAULT_CHARSET_ENCODING = "UTF-8";
@@ -233,5 +232,7 @@ public class Constant {
 	public static final String ERROR = "error";
 	public static final String TASK_DONE = "taskDone";
 	public static final String TASK_FAIL = "taskFail";
+	public static final String FULL_NAME_KATA_PATTERN = "^[ア-ンーッ ]*$";
+	public static final String TOTAL_PATTERN = "^[1-9]{1}[0-9]{0,10}$";
 	
 }
