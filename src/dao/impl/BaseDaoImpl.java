@@ -74,15 +74,8 @@ public class BaseDaoImpl implements BaseDao {
 	 * @see dao.BaseDao#connectDB()
 	 */
 	@Override
-	public void connectDB() throws SQLException, ClassNotFoundException {
+	public void startTransaction() throws SQLException, ClassNotFoundException {
 		connection = getConnection();
-	}
-
-	/* (non-Javadoc)
-	 * @see dao.BaseDao#disableAutoCommit()
-	 */
-	@Override
-	public void disableAutoCommit() throws SQLException {
 		connection.setAutoCommit(false);
 	}
 
@@ -106,7 +99,7 @@ public class BaseDaoImpl implements BaseDao {
 	 * @see dao.BaseDao#closeDB()
 	 */
 	@Override
-	public void closeDB() throws SQLException {
+	public void endTransaction() throws SQLException {
 		close(connection);
 	}
 

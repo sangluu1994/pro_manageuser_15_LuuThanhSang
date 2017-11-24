@@ -38,7 +38,7 @@ public class UserInfor {
 	private String endYear;
 	private String endMonth;
 	private String endDay;
-	private int total;
+	private String total;
 	private String salt;
 	
 	/**
@@ -360,13 +360,13 @@ public class UserInfor {
 	/**
 	 * @return the total
 	 */
-	public int getTotal() {
+	public String getTotal() {
 		return total;
 	}
 	/**
 	 * @param total the total to set
 	 */
-	public void setTotal(int total) {
+	public void setTotal(String total) {
 		this.total = total;
 	}
 

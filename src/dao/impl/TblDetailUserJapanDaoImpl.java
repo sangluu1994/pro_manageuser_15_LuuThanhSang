@@ -40,7 +40,7 @@ public class TblDetailUserJapanDaoImpl extends BaseDaoImpl implements TblDetailU
 				preparedStatement.setString(++i, tblDetailUserJapan.getCodeLevel());
 				preparedStatement.setDate(++i, new Date(tblDetailUserJapan.getStartDate().getTime()));
 				preparedStatement.setDate(++i, new Date(tblDetailUserJapan.getEndDate().getTime()));
-				preparedStatement.setInt(++i, tblDetailUserJapan.getTotal());
+				preparedStatement.setString(++i, tblDetailUserJapan.getTotal());
 				// trả về kết quả theo 2 trường hợp add thành công hoặc không thành công
 				result = (preparedStatement.executeUpdate() != 0);
 			}
@@ -80,7 +80,7 @@ public class TblDetailUserJapanDaoImpl extends BaseDaoImpl implements TblDetailU
 				tblDetailUserJapan.setCodeLevel(rs.getString(++i));
 				tblDetailUserJapan.setStartDate(rs.getDate(++i));
 				tblDetailUserJapan.setEndDate(rs.getDate(++i));
-				tblDetailUserJapan.setTotal(rs.getInt(++i));
+				tblDetailUserJapan.setTotal(rs.getString(++i));
 			}
 		} finally {
 			close(con);
@@ -102,7 +102,7 @@ public class TblDetailUserJapanDaoImpl extends BaseDaoImpl implements TblDetailU
 		preparedStatement.setString(++i, tblDetailUserJapan.getCodeLevel());
 		preparedStatement.setDate(++i, new Date(tblDetailUserJapan.getStartDate().getTime()));
 		preparedStatement.setDate(++i, new Date(tblDetailUserJapan.getEndDate().getTime()));
-		preparedStatement.setInt(++i, tblDetailUserJapan.getTotal());
+		preparedStatement.setString(++i, tblDetailUserJapan.getTotal());
 		preparedStatement.setInt(++i, tblDetailUserJapan.getUserId());
 		return (preparedStatement.executeUpdate() != 0);
 	}

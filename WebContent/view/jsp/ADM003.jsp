@@ -193,7 +193,7 @@
 					<tr class="japaneseField" style="display:none;">
 						<td class="lbl_left">点数: </td>
 						<td align="left">
-							<input class="txBox" type="text" name="${Constant.TOTAL_ADM003}" value="<c:out value="${userInfor.total == 0 ? '' : userInfor.total}" escapeXml="true"></c:out>"
+							<input class="txBox" type="text" name="${Constant.TOTAL_ADM003}" value="<c:out value="${userInfor.total}" escapeXml="true"></c:out>"
 							size="5" onfocus="this.style.borderColor='#0066ff';"
 							onblur="this.style.borderColor='#aaaaaa';" />							
 						</td>

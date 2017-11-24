@@ -30,6 +30,17 @@ import properties.ConfigProperties;
  */
 public class Common {
 	/**
+	 * Phương thức lấy giá trị current timestamp
+	 *
+	 * @return
+	 */
+	public static String getTimeStampMillis() {
+		Long timeStampMillis = Instant.now().toEpochMilli();
+		String timeStampMillisVal = timeStampMillis.toString();
+		return timeStampMillisVal;
+	}
+	
+	/**
 	 * Phương thức kiểm tra một chuỗi đầu vào có null hoặc rỗng không.
 	 * 
 	 * @param input - Chuỗi cần kiểm tra.

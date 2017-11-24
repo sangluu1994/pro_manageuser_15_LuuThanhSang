@@ -36,24 +36,17 @@ public interface BaseDao {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	public void connectDB() throws SQLException, ClassNotFoundException;
+	public void startTransaction() throws SQLException, ClassNotFoundException;
 	
 	/**
-	 * Disable autocommit
-	 * 
-	 * @throws SQLException
-	 */
-	public void disableAutoCommit() throws SQLException;
-
-	/**
-	 * Phương thức commit một Connection.
+	 * Lưu các thay đổi vào CSDL
 	 * 
 	 * @throws SQLException
 	 */
 	public void commit() throws SQLException;
 
 	/**
-	 * Phương thức rollback bất kì thay đổi nào được thực hiện bởi Connection.
+	 * Quay lui, xóa bỏ các thay đổi chưa commit
 	 * 
 	 * @throws SQLException
 	 */
@@ -64,6 +57,6 @@ public interface BaseDao {
 	 *
 	 * @throws SQLException
 	 */
-	public void closeDB() throws SQLException;
+	public void endTransaction() throws SQLException;
 	
 }

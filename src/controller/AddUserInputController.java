@@ -8,7 +8,6 @@ package controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.time.Instant;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import common.Common;
 import common.Constant;
 import entity.MstGroup;
@@ -106,8 +104,7 @@ public class AddUserInputController extends HttpServlet {
 				StringBuilder confirmURL = new StringBuilder();
 				confirmURL.append(request.getContextPath());
 				// lấy current timestamp làm id cho userInfor lưu lên session
-				Long timeStampMillis = Instant.now().toEpochMilli();
-				String id = timeStampMillis.toString();
+				String id = Common.getTimeStampMillis();
 				// xác định trường hợp add hay edit
 				String action = userInfor.getUserId() == 0 ? Constant.ADD_USER_CONFIRM_PATH : Constant.EDIT_CONFIRM_PATH;
 				confirmURL.append(action);
@@ -254,7 +251,7 @@ public class AddUserInputController extends HttpServlet {
 				userInfor.setEndYear(request.getParameter(Constant.END_YEAR_ADM003));
 				userInfor.setEndMonth(request.getParameter(Constant.END_MONTH_ADM003));
 				userInfor.setEndDay(request.getParameter(Constant.END_DAY_ADM003));
-				userInfor.setTotal(Common.convertStringToInt(request.getParameter(Constant.TOTAL_ADM003), 0));
+				userInfor.setTotal(request.getParameter(Constant.TOTAL_ADM003));
 			}
 		} else if (Constant.TYPE_BACK.equals(type)) { // trường hợp back từ màn hình ADM004
 			// lấy đối tượng userInfor từ session

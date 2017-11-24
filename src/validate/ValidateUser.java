@@ -194,10 +194,10 @@ public class ValidateUser {
 			}
 
 			// check total (2)
-			Integer total = userInfor.getTotal();
-			if (total == null || Constant.DEFAULT_TOTAL == total) { // check empty
+			String total = userInfor.getTotal();
+			if (total == null || Constant.EMPTY_STRING.equals(total)) { // check empty
 				listError.add(MessageErrorProperties.getErrMsg(Constant.ER001TOTAL));
-			} else if (!((Integer) total).toString().matches(Constant.TOTAL_PATTERN)) { // check halfsize
+			} else if (!total.matches(Constant.TOTAL_PATTERN)) { // check halfsize
 				listError.add(MessageErrorProperties.getErrMsg(Constant.ER018TOTAL));
 			}
 		}

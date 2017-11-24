@@ -102,8 +102,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 		tblUser.setSalt(salt);
 		try {
 			// làm việc với transaction
-			baseDao.connectDB();
-			baseDao.disableAutoCommit();
+			baseDao.startTransaction();
 			Integer userId = tblUserDao.insertUser(tblUser);
 			// nếu insert không thành công vào bảng tbl_user, return false
 			if (userId == null) {
@@ -134,7 +133,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 			return false;
 		} finally {
 			// đóng kết nối
-			baseDao.closeDB();
+			baseDao.endTransaction();
 		}
 		
 	}
@@ -177,12 +176,11 @@ public class TblUserLogicImpl implements TblUserLogic {
 		System.out.println("null: " + (detailUserJapan == null));
 		try {
 			// transaction
-			baseDao.connectDB();
-			baseDao.disableAutoCommit();
+			baseDao.startTransaction();
 			success = tblUserDao.updateUser(tblUser);
 			// check vùng trình độ tiếng Nhật
 			if (!Constant.DEFAULT_CODE_LEVEL.equals(userInfor.getCodeLevel())) {
-				int total = userInfor.getTotal();
+				String total = userInfor.getTotal();
 				TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
 				tblDetailUserJapan.setUserId(userInfor.getUserId());
 				tblDetailUserJapan.setCodeLevel(userInfor.getCodeLevel());
@@ -210,7 +208,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 			e.printStackTrace();
 			return false;
 		} finally {
-			baseDao.closeDB();
+			baseDao.endTransaction();
 		}
 	}
 
@@ -222,8 +220,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 		boolean success = false;
 		try {
 			// transaction
-			baseDao.connectDB();
-			baseDao.disableAutoCommit();
+			baseDao.startTransaction();
 			tblDetailUserJapanDao.deleteDetailUserJapan(userId);
 			success = tblUserDao.deleteUser(userId);
 			if (success) {
@@ -234,7 +231,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 		} catch (SQLException e) {
 			baseDao.rollback();
 		} finally {
-			baseDao.closeDB();
+			baseDao.endTransaction();
 		}
 		return success;
 	}

@@ -18,7 +18,7 @@ public class TblDetailUserJapan {
 	private String codeLevel;
 	private Date startDate;
 	private Date endDate;
-	private int total;
+	private String total;
 	/**
 	 * @return the detailUserJapanId
 	 */
@@ -82,13 +82,13 @@ public class TblDetailUserJapan {
 	/**
 	 * @return the total
 	 */
-	public int getTotal() {
+	public String getTotal() {
 		return total;
 	}
 	/**
 	 * @param total the total to set
 	 */
-	public void setTotal(int total) {
+	public void setTotal(String total) {
 		this.total = total;
 	}
 	

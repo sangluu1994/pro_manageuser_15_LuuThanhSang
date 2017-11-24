@@ -10,7 +10,7 @@ function toggleJpField() {
 	}
 }
 
-function back(backType) {
+function backFromConfirm(backType) {
 	document.inputform.action = backType;
 	document.inputform.method = "get";
 	var accessType = document.createElement('input');

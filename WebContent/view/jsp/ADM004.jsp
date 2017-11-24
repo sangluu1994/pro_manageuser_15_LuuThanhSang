@@ -79,7 +79,7 @@
 					</tr>	
 					<tr class="japaneseField" style="display:none;">
 						<td class="lbl_left">点数:</td>
-						<td align="left"><c:out value="${userInfor.total == 0 ? '' : userInfor.total}" escapeXml="true"></c:out></td>
+						<td align="left"><c:out value="${userInfor.total}" escapeXml="true"></c:out></td>
 					</tr>												
 				</table>
 				</div>				
@@ -96,7 +96,7 @@
 					<input class="btn" type="submit" value="OK" />					
 				</td>	
 				<td>
-					<input class="btn" type="button" value="戻る" onclick="back('${pageContext.request.contextPath}${backType}')" />						
+					<input class="btn" type="button" value="戻る" onclick="backFromConfirm('${pageContext.request.contextPath}${backType}')" />						
 				</td>
 		</tr>		
 	</table>
