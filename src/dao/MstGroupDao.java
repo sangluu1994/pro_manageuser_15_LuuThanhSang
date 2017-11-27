@@ -18,7 +18,7 @@ public interface MstGroupDao extends BaseDao {
 	/**
 	 * Lấy tất cả các nhóm
 	 * 
-	 * @return mảng các nhóm
+	 * @return list object MstGroup
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */

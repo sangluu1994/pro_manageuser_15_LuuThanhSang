@@ -31,6 +31,18 @@ public class Constant {
 	public static final String LOG_OUT_PATH = "/logout.do";
 	public static final String FILTER_URL_PATTERN = "*";
 	
+	// tên các servlet
+	public static final String ADD_USER_CONFIRM_SERVLET = "AddUserConfirmServlet";
+	public static final String ADD_USER_INPUT_SERVLET = "AddUserInputServlet";
+	public static final String CHANGE_PASSWORD_SERVLET = "ChangePasswordServlet";
+	public static final String DELETE_USER_SERVLET = "DeleteUserServlet";
+	public static final String ERROR_SERVLET = "ErrorServlet";
+	public static final String LIST_USER_SERVLET = "ListUserServlet";
+	public static final String LOGIN_SERVLET = "LoginServlet";
+	public static final String LOGOUT_SERVLET = "LogoutServlet";
+	public static final String SUCCESS_SERVLET = "SuccessServlet";
+	public static final String VIEW_DETAIL_USER_SERVLET = "ViewDetailUserServlet";
+	
 	// các trang jsp chính
 	public static final String ADM001 = "/view/jsp/ADM001.jsp";
 	public static final String ADM002 = "/view/jsp/ADM002.jsp";

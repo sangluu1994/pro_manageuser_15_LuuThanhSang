@@ -19,7 +19,9 @@ import logic.impl.TblUserLogicImpl;
  * 
  * @author luuthanhsang
  */
-@WebServlet(Constant.DELETE_USER_PATH)
+@WebServlet(
+		name = Constant.DELETE_USER_SERVLET,
+		urlPatterns = Constant.DELETE_USER_PATH)
 public class DeleteUserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	// khai báo các đối tượng xử lí logic sẽ được sử dụng trong class
@@ -55,7 +57,7 @@ public class DeleteUserController extends HttpServlet {
 			successURL.append(type);
 			response.sendRedirect(successURL.toString());
 		} catch (Exception e) {
-			System.out.println("Error in DeleteUserController#doPost: " + e.getMessage());
+			e.printStackTrace();
 			Common.redirectErrorPage(request, response);
 		}
 	}

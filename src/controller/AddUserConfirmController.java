@@ -28,7 +28,9 @@ import logic.impl.TblUserLogicImpl;
  * 
  * @author luuthanhsang
  */
-@WebServlet(urlPatterns = {Constant.ADD_USER_CONFIRM_PATH, Constant.ADD_USER_OK_PATH, Constant.EDIT_CONFIRM_PATH, Constant.EDIT_OK_PATH})
+@WebServlet(
+		name = Constant.ADD_USER_CONFIRM_SERVLET,
+		urlPatterns = {Constant.ADD_USER_CONFIRM_PATH, Constant.ADD_USER_OK_PATH, Constant.EDIT_CONFIRM_PATH, Constant.EDIT_OK_PATH})
 public class AddUserConfirmController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	// khai báo các đối tượng xử lí logic được sử dụng trong class
@@ -84,7 +86,7 @@ public class AddUserConfirmController extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM004);
 			rd.forward(request, response);
 		} catch (Exception e) {
-			System.out.println("Error in AddUserConfirmController#doGet: " + e.getMessage());
+			e.printStackTrace();
 			Common.redirectErrorPage(request, response);
 		}
 	}
@@ -130,7 +132,7 @@ public class AddUserConfirmController extends HttpServlet {
 			successURL.append(type);
 			response.sendRedirect(successURL.toString());
 		} catch (Exception e) {
-			System.out.println("Error in AddUserConfirmController#doPost: " + e.getMessage());
+			e.printStackTrace();
 			Common.redirectErrorPage(request, response);
 		}
 	}

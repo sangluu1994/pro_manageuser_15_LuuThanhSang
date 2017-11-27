@@ -22,7 +22,9 @@ import properties.MessageErrorProperties;
  * 
  * @author luuthanhsang
  */
-@WebServlet(Constant.SYSTEM_ERROR_PATH)
+@WebServlet(
+		name = Constant.ERROR_SERVLET,
+		urlPatterns = Constant.SYSTEM_ERROR_PATH)
 public class ErrorController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

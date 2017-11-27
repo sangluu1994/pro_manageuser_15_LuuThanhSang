@@ -21,7 +21,9 @@ import validate.ValidateAdmin;
  * 
  * @author luuthanhsang
  */
-@WebServlet(Constant.LOG_IN_PATH)
+@WebServlet(
+		name = Constant.LOGIN_SERVLET,
+		urlPatterns = Constant.LOG_IN_PATH)
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

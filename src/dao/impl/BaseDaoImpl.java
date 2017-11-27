@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import common.Constant;
+import common.LogFile;
 import dao.BaseDao;
 import properties.DatabaseProperties;
 
@@ -43,12 +44,12 @@ public class BaseDaoImpl implements BaseDao {
 			con = DriverManager.getConnection(DB_URL, USER_NAME, PASS_WORD);
 			// trả về kết nối
 			return con;
-		} catch(ClassNotFoundException e) {
-			System.out.println("[DAO] Error at getConnection: " + e.getMessage());
-			throw new ClassNotFoundException();
-		} catch(SQLException sqlException) {
-			System.out.println("[DAO] Error at getConnection: " + sqlException.getMessage());
-			throw new SQLException();
+		} catch (ClassNotFoundException e) {
+			LogFile.warning("Error in dao.impl.BaseDaoImpl#getConnection: " + e.getMessage());
+			throw e;
+		} catch (SQLException sqlException) {
+			LogFile.warning("Error in dao.impl.BaseDaoImpl#getConnection: " + sqlException.getMessage());
+			throw sqlException;
 		} 
 	}
 
@@ -62,8 +63,8 @@ public class BaseDaoImpl implements BaseDao {
 			try {
 				con.close();
 			} catch(SQLException e) {
-				System.out.println("[DAO] Error at close: " + e.getMessage());
-				throw new SQLException();
+				LogFile.warning("[DAO] Error in dao.impl.BaseDaoImpl#close: " + e.getMessage());
+				throw e;
 			}
 		}
 	}
@@ -84,7 +85,12 @@ public class BaseDaoImpl implements BaseDao {
 	 */
 	@Override
 	public void commit() throws SQLException {
-		connection.commit();
+		try {
+			connection.commit();
+		} catch (SQLException e) {
+			LogFile.warning("Error in dao.impl.BaseDaoImpl#commit: " + e.getMessage());
+			throw e;
+		}
 	}
 
 	/* (non-Javadoc)
@@ -92,7 +98,12 @@ public class BaseDaoImpl implements BaseDao {
 	 */
 	@Override
 	public void rollback() throws SQLException {
-		connection.rollback();
+		try {
+			connection.rollback();
+		} catch (SQLException e) {
+			LogFile.warning("Error in dao.impl.BaseDaoImpl#rollback: " + e.getMessage());
+			throw e;
+		}
 	}
 
 	/* (non-Javadoc)

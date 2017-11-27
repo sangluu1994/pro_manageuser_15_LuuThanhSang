@@ -18,7 +18,7 @@ public interface MstJapanDao extends BaseDao {
 	/**
 	 * Phương thức lấy tất cả danh sách trình độ tiếng Nhật của bảng mst_japan
 	 * 
-	 * @return danh sách tất cả trình độ tiếng Nhật của bảng mst_japan
+	 * @return danh sách đối tượng MstJapan lấy từ bảng mst_japan
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
@@ -28,7 +28,7 @@ public interface MstJapanDao extends BaseDao {
 	 * Phương thức lấy trình độ tiếng Nhật theo codeLevel truyền vào
 	 * 
 	 * @param codeLevel - code_level của đối tượng mst_japan cần lấy
-	 * @return đối tượng MstJapan cần lấy
+	 * @return đối tượng MstJapan (trình độ tiếng Nhật) cần lấy
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */

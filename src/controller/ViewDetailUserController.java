@@ -21,7 +21,9 @@ import logic.impl.TblUserLogicImpl;
  * 
  * @author luuthanhsang
  */
-@WebServlet(Constant.DETAIL_USER_PATH)
+@WebServlet(
+		name = Constant.VIEW_DETAIL_USER_SERVLET,
+		urlPatterns = Constant.DETAIL_USER_PATH)
 public class ViewDetailUserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	// khai báo đối tượng xử lí logic sử dụng trong class
@@ -56,7 +58,7 @@ public class ViewDetailUserController extends HttpServlet {
 				Common.redirectErrorPage(request, response);
 			}
 		} catch (Exception e) {
-			System.out.println("Error in ViewDetailUserController#doGet: " + e.getMessage());
+			e.printStackTrace();
 			Common.redirectErrorPage(request, response);
 		}
 	}

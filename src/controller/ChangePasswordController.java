@@ -22,7 +22,9 @@ import validate.ValidateUser;
  * 
  * @author luuthanhsang
  */
-@WebServlet(Constant.CHANGE_PASS_PATH)
+@WebServlet(
+		name = Constant.CHANGE_PASSWORD_SERVLET,
+		urlPatterns = Constant.CHANGE_PASS_PATH)
 public class ChangePasswordController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	// khai báo đối tượng xử lí logic sử dụng trong class
@@ -54,7 +56,7 @@ public class ChangePasswordController extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM007);
 			rd.forward(request, response);
 		} catch (Exception e) {
-			System.out.println("Error in ChangePasswordController#doGet: " + e.getMessage());
+			e.printStackTrace();
 			Common.redirectErrorPage(request, response);
 		}
 	}
@@ -95,7 +97,7 @@ public class ChangePasswordController extends HttpServlet {
 				rd.forward(request, response);
 			}
 		} catch (Exception e) {
-			System.out.println("Error in ChangePasswordController#doPost: " + e.getMessage());
+			e.printStackTrace();
 			Common.redirectErrorPage(request, response);
 		}
 	}

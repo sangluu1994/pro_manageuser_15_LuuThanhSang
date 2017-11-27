@@ -35,8 +35,7 @@ public class MessageProperties {
                 messageProperties.put(key, value);
             }
 		} catch (Exception e) {
-			// show console log ngoại lệ
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	

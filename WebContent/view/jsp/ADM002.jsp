@@ -91,7 +91,7 @@
 							${sessionScope.searchCondition.sortByCodeLevel == Constant.ASC? '▲▽' : '△▼'}
 						</a>
 					</th>
-					<th align="left" width="64px">失効日 
+					<th align="left" width="70px">失効日 
 						<a href="${pageContext.request.contextPath}${Constant.LIST_USER_PATH}?type=sort&sortType=sortByEndDate&sortByEndDate=${sessionScope.searchCondition.sortByEndDate == Constant.ASC ? Constant.DESC : Constant.ASC}"
 							class="${sessionScope.searchCondition.sortType == Constant.SORT_BY_END_DATE ? 'is-sorted' : 'unsorted'}">
 							${sessionScope.searchCondition.sortByEndDate == Constant.ASC ? '▲▽' : '△▼'}

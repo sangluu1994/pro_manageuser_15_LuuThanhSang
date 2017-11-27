@@ -17,7 +17,9 @@ import common.Constant;
  * 
  * @author luuthanhsang
  */
-@WebServlet(Constant.LOG_OUT_PATH)
+@WebServlet(
+		name = Constant.LOGOUT_SERVLET,
+		urlPatterns = Constant.LOG_OUT_PATH)
 public class LogoutController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

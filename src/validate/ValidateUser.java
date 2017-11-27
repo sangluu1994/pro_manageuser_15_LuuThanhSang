@@ -50,7 +50,9 @@ public class ValidateUser {
 	 * @throws ParseException 
 	 */
 	public List<String> validateUserInfor(UserInfor userInfor) throws ClassNotFoundException, SQLException, ParseException {
+		// khởi tạo danh sách lỗi
 		List<String> listError = new ArrayList<>();
+		// lấy userId để phân biệt trường hợp add và edit
 		int userId = userInfor.getUserId();
 		
 		// nếu là trường hợp add thì kiểm tra loginName

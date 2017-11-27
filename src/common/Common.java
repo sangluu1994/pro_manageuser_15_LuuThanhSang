@@ -32,7 +32,7 @@ public class Common {
 	/**
 	 * Phương thức lấy giá trị current timestamp
 	 *
-	 * @return
+	 * @return timeStampMillisVal - timestamp milliseconds
 	 */
 	public static String getTimeStampMillis() {
 		Long timeStampMillis = Instant.now().toEpochMilli();
@@ -101,13 +101,14 @@ public class Common {
 	}
 	
 	/**
-	 * Phương thức format điều kiện search, format lại kí tự đặc biệt
+	 * Phương thức format điều kiện search, format lại kí tự wildcard
+	 * đối với câu lệnh LIKE
 	 * 
 	 * @param ioString
 	 * @return ioString
 	 */
-	public static String formatCondSearch(String ioString) {
-		// Khai báo danh sách các kí tự đặc biệt
+	public static String escapeWildCard(String ioString) {
+		// Khai báo danh sách các kí tự cần escape
 		final String[] specialChars = { "\\", "%", "_", "[", "]", "-", "!" };
 		// Thêm \ vào trước các kí tự đặc biệt
 		int specialCharsLeng = specialChars.length;

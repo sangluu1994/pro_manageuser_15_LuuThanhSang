@@ -130,7 +130,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 		} catch (SQLException e) {
 			// rollback nếu xảy ra lỗi, xóa rác trong bộ nhớ
 			baseDao.rollback();
-			return false;
+			throw e;
 		} finally {
 			// đóng kết nối
 			baseDao.endTransaction();
@@ -173,7 +173,6 @@ public class TblUserLogicImpl implements TblUserLogic {
 		tblUser.setTel(userInfor.getTel());
 		tblUser.setBirthday(userInfor.getBirthday());
 		TblDetailUserJapan detailUserJapan = tblDetailUserJapanDao.getDetailUserJapanByUserId(userId);
-		System.out.println("null: " + (detailUserJapan == null));
 		try {
 			// transaction
 			baseDao.startTransaction();
@@ -205,8 +204,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 			return success;
 		} catch (SQLException e) {
 			baseDao.rollback();
-			e.printStackTrace();
-			return false;
+			throw e;
 		} finally {
 			baseDao.endTransaction();
 		}
@@ -228,12 +226,13 @@ public class TblUserLogicImpl implements TblUserLogic {
 			} else {
 				baseDao.rollback();
 			}
+			return success;
 		} catch (SQLException e) {
 			baseDao.rollback();
+			throw e;
 		} finally {
 			baseDao.endTransaction();
 		}
-		return success;
 	}
 
 	/* (non-Javadoc)

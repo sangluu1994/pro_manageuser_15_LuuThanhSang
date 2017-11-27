@@ -10,7 +10,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import dao.TblDetailUserJapanDao;
 import entity.TblDetailUserJapan;
 
@@ -31,24 +30,19 @@ public class TblDetailUserJapanDaoImpl extends BaseDaoImpl implements TblDetailU
 		StringBuilder query = new StringBuilder();
 		query.append("INSERT INTO tbl_detail_user_japan (user_id, code_level, start_date, end_date, total) ");
 		query.append("VALUES (?, ?, ?, ?, ?) ");
-		try {
-			if (connection != null) {
-				// thực thi truy vấn sử dụng preparedStatement
-				int i = 0;
-				preparedStatement = connection.prepareStatement(query.toString());
-				preparedStatement.setInt(++i, tblDetailUserJapan.getUserId());
-				preparedStatement.setString(++i, tblDetailUserJapan.getCodeLevel());
-				preparedStatement.setDate(++i, new Date(tblDetailUserJapan.getStartDate().getTime()));
-				preparedStatement.setDate(++i, new Date(tblDetailUserJapan.getEndDate().getTime()));
-				preparedStatement.setString(++i, tblDetailUserJapan.getTotal());
-				// trả về kết quả theo 2 trường hợp add thành công hoặc không thành công
-				result = (preparedStatement.executeUpdate() != 0);
-			}
-			return result;
-		} catch (SQLException e) {
-			result = false;
-			throw e;
+		if (connection != null) {
+			// thực thi truy vấn sử dụng preparedStatement
+			int i = 0;
+			preparedStatement = connection.prepareStatement(query.toString());
+			preparedStatement.setInt(++i, tblDetailUserJapan.getUserId());
+			preparedStatement.setString(++i, tblDetailUserJapan.getCodeLevel());
+			preparedStatement.setDate(++i, new Date(tblDetailUserJapan.getStartDate().getTime()));
+			preparedStatement.setDate(++i, new Date(tblDetailUserJapan.getEndDate().getTime()));
+			preparedStatement.setString(++i, tblDetailUserJapan.getTotal());
+			// trả về kết quả theo 2 trường hợp add thành công hoặc không thành công
+			result = (preparedStatement.executeUpdate() != 0);
 		}
+		return result;
 	}
 
 	/* (non-Javadoc)
@@ -59,33 +53,34 @@ public class TblDetailUserJapanDaoImpl extends BaseDaoImpl implements TblDetailU
 		Connection con = null;
 		TblDetailUserJapan tblDetailUserJapan = null;
 		try {
-			con = getConnection();// get connection
-			// if connect null then return
-			if (con == null) {
-				return null;
+			// khởi tạo kết nối đến db
+			con = getConnection();
+			if (con != null) {
+				// xây dựng truy vấn
+				StringBuilder query = new StringBuilder()
+						.append("SELECT tbl.detail_user_japan_id, tbl.user_id, tbl.code_level, ")
+						.append("tbl.start_date, tbl.end_date, tbl.total FROM tbl_detail_user_japan tbl ")
+						.append("WHERE tbl.user_id = ?");
+				PreparedStatement ps = con.prepareStatement(query.toString());
+				ps.setInt(1, userId);
+				// truy vấn sử dụng preparedStatement
+				ResultSet rs = ps.executeQuery();
+				int i;
+				while (rs.next()) {
+					i = 0;
+					tblDetailUserJapan = new TblDetailUserJapan();
+					tblDetailUserJapan.setDetailUserJapanId(rs.getInt(++i));
+					tblDetailUserJapan.setUserId(rs.getInt(++i));
+					tblDetailUserJapan.setCodeLevel(rs.getString(++i));
+					tblDetailUserJapan.setStartDate(rs.getDate(++i));
+					tblDetailUserJapan.setEndDate(rs.getDate(++i));
+					tblDetailUserJapan.setTotal(rs.getString(++i));
+				}
 			}
-			StringBuilder query = new StringBuilder()
-					.append("SELECT tbl.detail_user_japan_id, tbl.user_id, tbl.code_level, ")
-					.append("tbl.start_date, tbl.end_date, tbl.total FROM tbl_detail_user_japan tbl ")
-					.append("WHERE tbl.user_id = ?");
-			PreparedStatement ps = con.prepareStatement(query.toString());
-			ps.setInt(1, userId);
-			ResultSet rs = ps.executeQuery();// execute sql
-			int i;
-			while (rs.next()) {
-				i = 0;
-				tblDetailUserJapan = new TblDetailUserJapan();
-				tblDetailUserJapan.setDetailUserJapanId(rs.getInt(++i));
-				tblDetailUserJapan.setUserId(rs.getInt(++i));
-				tblDetailUserJapan.setCodeLevel(rs.getString(++i));
-				tblDetailUserJapan.setStartDate(rs.getDate(++i));
-				tblDetailUserJapan.setEndDate(rs.getDate(++i));
-				tblDetailUserJapan.setTotal(rs.getString(++i));
-			}
+			return tblDetailUserJapan;
 		} finally {
 			close(con);
 		}
-		return tblDetailUserJapan;
 	}
 
 	/* (non-Javadoc)
@@ -117,7 +112,6 @@ public class TblDetailUserJapanDaoImpl extends BaseDaoImpl implements TblDetailU
 		query.append("WHERE tbl_detail_user_japan.user_id = ? ");
 		preparedStatement = connection.prepareStatement(query.toString());
 		preparedStatement.setInt(1, userId);
-		System.out.println(preparedStatement.toString());
 		return (preparedStatement.executeUpdate() != 0);
 	}
 

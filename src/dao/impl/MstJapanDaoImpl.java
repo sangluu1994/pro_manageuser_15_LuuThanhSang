@@ -47,10 +47,10 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 					listJapanese.add(mstJapan);
 				}
 			}
+			return listJapanese;
 		} finally {
 			close(con);
 		}
-		return listJapanese;
 	}
 
 	/* (non-Javadoc)
@@ -79,10 +79,10 @@ public class MstJapanDaoImpl extends BaseDaoImpl implements MstJapanDao {
 					mstJapan.setNameLevel(rs.getString("name_level"));
 				}
 			}
+			return mstJapan;
 		} finally {
 			close(con);
 		}
-		return mstJapan;
 	}
 	
 }

@@ -47,10 +47,10 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 					listGroup.add(mstGroup);
 				}
 			}
+			return listGroup;
 		} finally {
 			close(con);
 		}
-		return listGroup;
 	}
 
 	/* (non-Javadoc)
@@ -60,7 +60,7 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 	public MstGroup getGroupById(int id) throws SQLException, ClassNotFoundException {
 		Connection con = null;
 		// khởi tạo đối tượng MstGroup sẽ trả về
-		MstGroup mstGroup = new MstGroup();
+		MstGroup mstGroup = null;
 		try {
 			// khởi tạo connection
 			con = getConnection();
@@ -72,18 +72,17 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 				ps.setInt(1, id);
 				// lấy dữ liệu trả về
 				ResultSet rs = ps.executeQuery();
-				// format dữ liệu trả về sang đối tượng MstGroup tương ứng
+				// chuyển đổi dữ liệu trả về sang đối tượng MstGroup tương ứng
 				if (rs.next()) {
+					mstGroup = new MstGroup();
 					mstGroup.setGroupId(rs.getInt("group_id"));
 					mstGroup.setGroupName(rs.getString("group_name"));
-				} else {
-					mstGroup = null;
-				}
+				} 
 			}
+			return mstGroup;
 		} finally {
 			close(con);
 		}
-		return mstGroup;
 	}
 
 }

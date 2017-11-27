@@ -37,6 +37,7 @@ public interface TblDetailUserJapanDao extends BaseDao {
 
 	/**
 	 * Update detail user japan
+	 * cập nhật bản ghi trong bảng tbl_detail_user_japan
 	 * 
 	 * @param tblDetailUserJapan - đối tượng cần update
 	 * @return boolean - true nếu thành công | false nếu ngược lại
@@ -46,6 +47,7 @@ public interface TblDetailUserJapanDao extends BaseDao {
 
 	/**
 	 * Delete detail user japan
+	 * xóa bản ghi trong bảng tbl_detail_user_japan
 	 * 
 	 * @param userId - userId của đối tượng cần delete
 	 * @return boolean - true nếu thành công | false nếu ngược lại

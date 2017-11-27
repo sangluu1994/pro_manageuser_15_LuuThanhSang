@@ -30,7 +30,9 @@ import logic.impl.TblUserLogicImpl;
  * 
  * @author luuthanhsang
  */
-@WebServlet(Constant.LIST_USER_PATH)
+@WebServlet(
+		name = Constant.LIST_USER_SERVLET,
+		urlPatterns = Constant.LIST_USER_PATH)
 public class ListUserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	// khai báo các đối tượng xử lí logic trong màn hình listUser
@@ -194,7 +196,7 @@ public class ListUserController extends HttpServlet {
 			
 		} catch (Exception e) {
 			// show console log ngoại lệ
-			System.out.println("Error in ListUserController#doPost: " + e.getMessage());
+			e.printStackTrace();
 			Common.redirectErrorPage(request, response);
 		}
 	}

@@ -20,7 +20,9 @@ import properties.MessageProperties;
  * 
  * @author luuthanhsang
  */
-@WebServlet(Constant.SUCCESS_PATH)
+@WebServlet(
+		name = Constant.SUCCESS_SERVLET,
+		urlPatterns = Constant.SUCCESS_PATH)
 public class SuccessController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -56,7 +58,7 @@ public class SuccessController extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM006);
 			rd.forward(request, response);
 		} catch (Exception e) {
-			System.out.println("Error in SuccessController#doGet: " + e.getMessage());
+			e.printStackTrace();
 			Common.redirectErrorPage(request, response);
 		}
 	}

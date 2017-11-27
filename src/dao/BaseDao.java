@@ -31,7 +31,7 @@ public interface BaseDao {
 	public void close(Connection connection) throws SQLException;
 	
 	/**
-	 * Khởi tạo kết nối đến CSDL khi làm việc có transaction
+	 * Khởi tạo kết nối đến CSDL khi làm việc có thao tác với transaction
 	 *
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
@@ -53,7 +53,7 @@ public interface BaseDao {
 	public void rollback() throws SQLException;
 
 	/**
-	 * Đóng kết nối đến CSDL khi làm việc có transaction
+	 * Đóng kết nối đến CSDL khi làm việc có thao tác với transaction
 	 *
 	 * @throws SQLException
 	 */

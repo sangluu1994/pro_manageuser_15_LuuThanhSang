@@ -31,7 +31,9 @@ import validate.ValidateUser;
  * 
  * @author luuthanhsang
  */
-@WebServlet(urlPatterns = {Constant.ADD_USER_INPUT_PATH, Constant.ADD_USER_VALIDATE_PATH, Constant.EDIT_USER_PATH, Constant.EDIT_VALIDATE_PATH})
+@WebServlet(
+		name = Constant.ADD_USER_INPUT_SERVLET,
+		urlPatterns = {Constant.ADD_USER_INPUT_PATH, Constant.ADD_USER_VALIDATE_PATH, Constant.EDIT_USER_PATH, Constant.EDIT_VALIDATE_PATH})
 public class AddUserInputController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	// Khai báo các đối tượng xử lí logic được sử dụng trong class
@@ -75,7 +77,7 @@ public class AddUserInputController extends HttpServlet {
 			rd.forward(request, response);
 			
 		} catch (Exception e) {
-			System.out.println("Error in AddUserInputController#doGet: " + e.getMessage());
+			e.printStackTrace();
 			Common.redirectErrorPage(request, response);
 		}
 	}
@@ -144,7 +146,7 @@ public class AddUserInputController extends HttpServlet {
 				rd.forward(request, response);
 			}
 		} catch (Exception e) {
-			System.out.println("Error in AddUserInputController#doPost: " + e.getMessage());
+			e.printStackTrace();
 			Common.redirectErrorPage(request, response);
 		}
 	}
