@@ -5,17 +5,14 @@
  */
 package controller;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import common.Common;
 import common.Constant;
 import entity.MstGroup;
@@ -37,12 +34,13 @@ import validate.ValidateUser;
 @WebServlet(urlPatterns = {Constant.ADD_USER_INPUT_PATH, Constant.ADD_USER_VALIDATE_PATH, Constant.EDIT_USER_PATH, Constant.EDIT_VALIDATE_PATH})
 public class AddUserInputController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	// Khai báo các đối tượng xử lí logic được sử dụng trong class
 	private MstGroupLogic mstGroupLogic;
 	private MstJapanLogic mstJapanLogic;
 	private TblUserLogic tblUserLogic;
        
     /**
-     * @see HttpServlet#HttpServlet()
+     * Constructor
      */
     public AddUserInputController() {
     	mstGroupLogic = new MstGroupLogicImpl();
@@ -51,7 +49,10 @@ public class AddUserInputController extends HttpServlet {
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * Phương thức xử lí yêu cầu gọi ra màn hình ADM003 trong các trường hợp add, edit, back
+	 * 
+	 * @param request - request gửi đến server
+	 * @param response - response trả về phía client
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 		try {
@@ -74,29 +75,31 @@ public class AddUserInputController extends HttpServlet {
 			rd.forward(request, response);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Error in AddUserInputController#doGet: " + e.getMessage());
 			Common.redirectErrorPage(request, response);
 		}
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * Phương thức xử lí yêu cầu khi submit form tại màn hình ADM003 trong các trường hợp add, edit
+	 * 
+	 * @param request - request gửi đến server
+	 * @param response - response trả về phía client
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			// kiểm tra trường hợp edit user
 			String userId = request.getParameter(Constant.USER_INFOR_ID);
 			if (userId != null) {
 				if (!tblUserLogic.isExistedUser(Common.convertStringToInt(userId, 0))) {
 					// nếu không tồn tại user, điều hướng về trang lỗi
-					StringBuilder errorURL = new StringBuilder(request.getContextPath());
-					response.sendRedirect(errorURL.append(Constant.SYSTEM_ERROR_PATH).toString());
+					Common.redirectErrorPage(request, response);
 					return;
 				}
 			} 
 			// lấy thông tin user từ request
 			UserInfor userInfor = setDefaultValue(request, response);
-			// validate
+			// validate form gửi lên
 			ValidateUser validateUser = new ValidateUser();
 			List<String> listError = validateUser.validateUserInfor(userInfor);
 			if (listError.isEmpty()) { // nếu không có lỗi
@@ -113,12 +116,13 @@ public class AddUserInputController extends HttpServlet {
 				confirmURL.append("=");
 				confirmURL.append(id);
 				// lưu đối tượng userInfor lên session
+				// định dạng ngày sinh
 				userInfor.setBirthday(Common.toDate(Common.convertStringToInt(userInfor.getBirthYear(), 0), 
 						Common.convertStringToInt(userInfor.getBirthMonth(), 0), 
 						Common.convertStringToInt(userInfor.getBirthDate(), 0)));
 				// nếu có chọn trình độ tiếng Nhật
 				String codeLevel = userInfor.getCodeLevel();
-				if (codeLevel != null && !Constant.DEFAULT_CODE_LEVEL.equals(codeLevel)) {
+				if (!Common.isNullOrEmpty(codeLevel)) {
 					userInfor.setStartDate(Common.toDate(Common.convertStringToInt(userInfor.getStartYear(), 0), 
 							Common.convertStringToInt(userInfor.getStartMonth(), 0), 
 							Common.convertStringToInt(userInfor.getStartDay(), 0)));
@@ -126,7 +130,7 @@ public class AddUserInputController extends HttpServlet {
 							Common.convertStringToInt(userInfor.getEndMonth(), 0), 
 							Common.convertStringToInt(userInfor.getEndDay(), 0)));
 				}
-				// set userInfor object lên session
+				// set đối tượng userInfor lên session
 				request.getSession().setAttribute(id, userInfor);
 				// redirect đến AddUserConfirmController
 				response.sendRedirect(confirmURL.toString());
@@ -140,13 +144,8 @@ public class AddUserInputController extends HttpServlet {
 				rd.forward(request, response);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			try {
-				StringBuilder errorPath = new StringBuilder(request.getContextPath());
-				response.sendRedirect(errorPath.append(Constant.SYSTEM_ERROR_PATH).toString());
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			System.out.println("Error in AddUserInputController#doPost: " + e.getMessage());
+			Common.redirectErrorPage(request, response);
 		}
 	}
 	
@@ -203,6 +202,7 @@ public class AddUserInputController extends HttpServlet {
 	private UserInfor setDefaultValue(HttpServletRequest request, HttpServletResponse response) throws ParseException, ClassNotFoundException, SQLException {
 		// lấy tham số "type" để xác định trường hợp vào màn hình ADM003
 		String type = request.getParameter(Constant.TYPE);
+		// khởi tạo đối tượng userInfor trả về
 		UserInfor userInfor = new UserInfor();
 		// gán giá trị mặc định cho đối tượng userInfor sẽ ghi vào db
 		List<Integer> defaultDate = Common.getCurrentYearMonthDay();
@@ -220,7 +220,7 @@ public class AddUserInputController extends HttpServlet {
 		// xét trường hợp vào màn hình ADM003
 		if (type == null) { // nếu là trường hợp thêm mới
 			// do nothing
-		} else if (Constant.CONFIRM_TYPE.equals(type)) { // nếu là trường hợp click button xác nhận
+		} else if (Constant.CONFIRM_TYPE.equals(type)) { // nếu là trường hợp click button xác nhận ở màn hình ADM003
 			// lấy giá trị từ request lưu vào userInfor
 			// kiểm tra trường hợp add và edit
 			String id = request.getParameter(Constant.USER_INFOR_ID);
@@ -232,7 +232,7 @@ public class AddUserInputController extends HttpServlet {
 				userInfor.setUserId(Common.convertStringToInt(id, 0));
 				userInfor.setLoginName(request.getParameter(Constant.LOGIN_NAME_ADM003));
 			}
-			userInfor.setGroupId(Common.convertStringToInt(request.getParameter(Constant.GROUP_ID_ADM003), 0));
+			userInfor.setGroupId(Common.convertStringToInt(request.getParameter(Constant.GROUP_ID_ADM003), Constant.DEFAULT_GROUP_ID));
 			userInfor.setFullName(request.getParameter(Constant.FULL_NAME_ADM003));
 			userInfor.setFullNameKana(request.getParameter(Constant.KANA_NAME_ADM003));
 			userInfor.setBirthYear(request.getParameter(Constant.BIRTH_YEAR_ADM003));
@@ -243,7 +243,7 @@ public class AddUserInputController extends HttpServlet {
 			// kiểm tra xem có những trường thuộc trình độ tiếng Nhật trong request gửi lên hay không
 			String codeLevel = request.getParameter(Constant.CODE_LEVEL_ADM003);
 			// nếu có, lưu vào userInfor
-			if (codeLevel != null && !Constant.DEFAULT_CODE_LEVEL.equals(codeLevel)) {
+			if (!Common.isNullOrEmpty(codeLevel)) {
 				userInfor.setCodeLevel(codeLevel);
 				userInfor.setStartYear(request.getParameter(Constant.START_YEAR_ADM003));
 				userInfor.setStartMonth(request.getParameter(Constant.START_MONTH_ADM003));
@@ -256,9 +256,8 @@ public class AddUserInputController extends HttpServlet {
 		} else if (Constant.TYPE_BACK.equals(type)) { // trường hợp back từ màn hình ADM004
 			// lấy đối tượng userInfor từ session
 			String id = request.getParameter(Constant.USER_INFOR_ID);
-			HttpSession session = request.getSession();
-			userInfor = (UserInfor) session.getAttribute(id);
-		} else if (Constant.TYPE_EDIT.equals(type)) { // trường hợp edit user
+			userInfor = (UserInfor) request.getSession().getAttribute(id);
+		} else if (Constant.TYPE_EDIT.equals(type)) { // trường hợp edit user, đi từ ADM005 sang
 			// lấy đối tượng userInfor từ database
 			int userId = Common.convertStringToInt(request.getParameter(Constant.USER_INFOR_ID), 0);
 			userInfor = tblUserLogic.getUserInforById(userId);

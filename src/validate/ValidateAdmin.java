@@ -12,7 +12,7 @@ import properties.AdminProperties;
 import properties.MessageErrorProperties;
 
 /**
- * Class validate admin login
+ * Class validate yêu cầu đăng nhập vào trang admin
  * 
  * @author luuthanhsang
  */
@@ -33,17 +33,17 @@ public class ValidateAdmin {
 			errList.add(MessageErrorProperties.getErrMsg(Constant.ER001));
 			return errList;
 		}
-		// nếu tên đăng nhập không khớp với admin_user, return lỗi
+		// nếu tên đăng nhập không khớp với admin_user, gán lỗi tương ứng và trả về danh sách lỗi
 		if (!AdminProperties.getValue(Constant.ADMIN_USER).equals(loginName)) {
 			errList.add(MessageErrorProperties.getErrMsg(Constant.ER016));
 			return errList;
 		}
-		// nếu password không trùng với admin password, return lỗi
+		// nếu password không trùng với admin password, gán lỗi tương ứng và trả về danh sách lỗi
 		if (!AdminProperties.getValue(Constant.ADMIN_PASS_HASH).equals(Common.SHA1(password))) {
 			errList.add(MessageErrorProperties.getErrMsg(Constant.ER016));
 			return errList;
 		}
-		// trả về danh sách lỗi là null nếu không có lỗi
+		// trả về danh sách lỗi là rỗng nếu không có lỗi
 		return errList;
 	}
 	

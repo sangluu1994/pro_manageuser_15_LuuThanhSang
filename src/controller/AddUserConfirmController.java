@@ -31,12 +31,13 @@ import logic.impl.TblUserLogicImpl;
 @WebServlet(urlPatterns = {Constant.ADD_USER_CONFIRM_PATH, Constant.ADD_USER_OK_PATH, Constant.EDIT_CONFIRM_PATH, Constant.EDIT_OK_PATH})
 public class AddUserConfirmController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	// khai báo các đối tượng xử lí logic được sử dụng trong class
 	private MstGroupLogic mstGroupLogic;
 	private MstJapanLogic mstJapanLogic;
 	private TblUserLogic tblUserLogic;
        
     /**
-     * @see HttpServlet#HttpServlet()
+     * Constructor
      */
     public AddUserConfirmController() {
     	mstJapanLogic = new MstJapanLogicImpl();
@@ -45,14 +46,16 @@ public class AddUserConfirmController extends HttpServlet {
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * Phương thức xử lí các yêu cầu gọi đến màn hình xác nhận thông tin ADM004
+	 * 
+	 * @param request - request gửi đến server
+	 * @param response - response trả về phía client
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			// Lấy đối tượng userInfor trên session, set thêm thông tin cho userInfor
+			// lấy đối tượng userInfor trên session, set thêm thông tin cho userInfor
 			String id = request.getParameter(Constant.USER_INFOR_ID);
-			HttpSession session = request.getSession();
-			UserInfor userInfor = (UserInfor) session.getAttribute(id);
+			UserInfor userInfor = (UserInfor) request.getSession().getAttribute(id);
 			// kiểm tra userInfor
 			if (userInfor == null) {
 				// điều hướng sang trang lỗi
@@ -63,10 +66,9 @@ public class AddUserConfirmController extends HttpServlet {
 			MstGroup mstGroup = mstGroupLogic.getGroupById(userInfor.getGroupId());
 			userInfor.setGroupName(mstGroup.getGroupName());
 			// set name level
-			MstJapan mstJapan = null;
 			String codeLevel = userInfor.getCodeLevel();
-			if (codeLevel != null && !Constant.DEFAULT_CODE_LEVEL.equals(codeLevel)) {
-				mstJapan = mstJapanLogic.getJpById(codeLevel);
+			if (!Common.isNullOrEmpty(codeLevel)) {
+				MstJapan mstJapan = mstJapanLogic.getJpById(codeLevel);
 				userInfor.setNameLevel(mstJapan.getNameLevel());
 			}
 			// xác định trường hợp add hay edit
@@ -75,20 +77,23 @@ public class AddUserConfirmController extends HttpServlet {
 			String backType = userId > 0 ? Constant.EDIT_USER_PATH : Constant.ADD_USER_INPUT_PATH;
 			request.setAttribute(Constant.ACTION_TYPE, actionType);
 			request.setAttribute(Constant.BACK_TYPE, backType);
-			// chuyển đối tượng userInfor và id của đối tượng sang ADM004
+			// set đối tượng userInfor và id của đối tượng sang ADM004
 			request.setAttribute(Constant.USER_INFOR, userInfor);
 			request.setAttribute(Constant.USER_INFOR_ID, id);
 			// forward đến ADM004
 			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM004);
 			rd.forward(request, response);
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Error in AddUserConfirmController#doGet: " + e.getMessage());
 			Common.redirectErrorPage(request, response);
 		}
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * Phương thức xử lí insert, update đối tượng userInfor vào CSDL
+	 * 
+	 * @param request - request gửi lên server
+	 * @param response - response trả về phía client
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 		try {
@@ -96,15 +101,14 @@ public class AddUserConfirmController extends HttpServlet {
 			HttpSession session = request.getSession();
 			String userInforId = request.getParameter(Constant.USER_INFOR_ID);
 			UserInfor userInfor = (UserInfor) session.getAttribute(userInforId);
-			boolean insertSuccess = false;
+			boolean taskSuccess = false;
 			String type = null;
 			int userId = userInfor.getUserId();
 			if (userId == 0) { // trường hợp insert
 				// insert userInfor vào cơ sở dữ liệu
 				if (userInfor != null) {
-					insertSuccess = tblUserLogic.createUser(userInfor);
+					taskSuccess = tblUserLogic.createUser(userInfor);
 					session.removeAttribute(userInforId);
-					type = Constant.TASK_DONE;
 				}
 			} else { // trường hợp edit
 				if (!tblUserLogic.isExistedUser(userId)) {
@@ -113,23 +117,20 @@ public class AddUserConfirmController extends HttpServlet {
 					return;
 				}
 				// gọi hàm xử lí logic edit user
-				insertSuccess = tblUserLogic.editUser(userInfor);
-				type = Constant.TASK_DONE;
+				taskSuccess = tblUserLogic.editUser(userInfor);
+				session.removeAttribute(userInforId);
 			}
-			// điều hướng sang trang kết quả insert với các trường hợp thành công/ không thành công
+			// điều hướng sang trang kết quả insert tùy theo các trường hợp thành công/không thành công
 			StringBuilder successURL = new StringBuilder(request.getContextPath());
 			successURL.append(Constant.SUCCESS_PATH);
 			successURL.append("?");
 			successURL.append(Constant.TYPE);
 			successURL.append("=");
-			if (insertSuccess) {
-				successURL.append(type);
-			} else {
-				successURL.append(Constant.ERROR);
-			}
+			type = taskSuccess ? Constant.TASK_DONE : Constant.TASK_FAIL;
+			successURL.append(type);
 			response.sendRedirect(successURL.toString());
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Error in AddUserConfirmController#doPost: " + e.getMessage());
 			Common.redirectErrorPage(request, response);
 		}
 	}

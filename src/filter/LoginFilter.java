@@ -56,7 +56,12 @@ public class LoginFilter implements Filter {
 		
 		// lấy đường dẫn của request gửi đến
 		String path = req.getRequestURI().substring(req.getContextPath().length());
+		// lấy user đang đăng nhập
+		String loginUser = (String) req.getSession().getAttribute(Constant.CURRENT_LOGIN_USER);
+		// lấy contextPath
+		String contextPath = req.getContextPath();
 		
+		// kiểm tra đường dẫn được yêu cầu
 		if (Constant.LOG_OUT_PATH.equals(path)) {
 			// nếu gọi đến url logout
 			// cho phép vượt qua LoginFilter
@@ -64,9 +69,9 @@ public class LoginFilter implements Filter {
 		} else if (Constant.LOG_IN_PATH.equals(path) || Constant.ROOT_PATH.equals(path)) {
 			// nếu gọi đến url login hoặc đến đường dẫn mặc định "/"
 			// kiểm tra có user đang đăng nhập không
-			if (req.getSession().getAttribute(Constant.CURRENT_LOGIN_USER) != null) {
+			if (loginUser != null) {
 				// nếu đã đăng nhập, redirect về trang list user
-				res.sendRedirect(req.getContextPath() + Constant.LIST_USER_PATH);
+				res.sendRedirect(contextPath + Constant.LIST_USER_PATH);
 			} else {
 				// nếu chưa đăng nhập
 				// cho phép request vượt qua Filter
@@ -80,8 +85,8 @@ public class LoginFilter implements Filter {
 		} else if (path.matches(Constant.JSP_FOLDER_PATTERN)) {
 			// nếu gọi đến thư mục chứa file jsp
 			// redirect về trang login
-			res.sendRedirect(req.getContextPath() + Constant.LOG_IN_PATH);
-		} else if (req.getSession().getAttribute(Constant.CURRENT_LOGIN_USER) != null) {
+			res.sendRedirect(contextPath + Constant.LOG_IN_PATH);
+		} else if (loginUser != null) {
 			// nếu không phải các đường dẫn trên
 			// kiểm tra có user đang đăng nhập không
 			// nếu đã có user đăng nhập
@@ -89,7 +94,7 @@ public class LoginFilter implements Filter {
 			chain.doFilter(req, res);
 		} else {
 			// nếu chưa đăng nhập, redirect về trang login
-			res.sendRedirect(req.getContextPath() + Constant.LOG_IN_PATH);
+			res.sendRedirect(contextPath + Constant.LOG_IN_PATH);
 		}
 
 	}

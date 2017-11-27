@@ -25,15 +25,17 @@ public class SuccessController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
-     * @see HttpServlet#HttpServlet()
+     * Constructor
      */
     public SuccessController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * Phương thức xử lí in ra màn hình thông báo kết quả của các thao tác thay đổi dữ liệu trong CSDL
+	 * 
+	 * @param request - request gửi đến server
+	 * @param response - response trả về phía client
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 		try {
@@ -54,7 +56,7 @@ public class SuccessController extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM006);
 			rd.forward(request, response);
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Error in SuccessController#doGet: " + e.getMessage());
 			Common.redirectErrorPage(request, response);
 		}
 	}

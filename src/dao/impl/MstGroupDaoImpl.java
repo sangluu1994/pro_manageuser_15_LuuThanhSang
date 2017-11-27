@@ -39,7 +39,7 @@ public class MstGroupDaoImpl extends BaseDaoImpl implements MstGroupDao {
 				PreparedStatement ps = con.prepareStatement(query);
 				// lấy dữ liệu trả về
 				ResultSet rs = ps.executeQuery();
-				// format dữ liệu trả về thành các đối tượng MstGroup tương ứng
+				// chuyển đổi dữ liệu trả về thành các đối tượng MstGroup tương ứng
 				while (rs.next()) {
 					MstGroup mstGroup = new MstGroup();
 					mstGroup.setGroupId(rs.getInt("group_id"));

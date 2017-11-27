@@ -27,18 +27,20 @@ public class ErrorController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
-     * @see HttpServlet#HttpServlet()
+     * Constructor
      */
     public ErrorController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * Phương thức xử lí in ra màn hình lỗi hệ thống
+	 * 
+	 * @param request - request gửi đến server
+	 * @param response - response trả về phía client
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// forward đến ADM_SYSTEM_ERROR
+		// thiết lập thông báo lỗi lên request, forward đến view ADM_SYSTEM_ERROR
 		String errMsg = MessageErrorProperties.getErrMsg(Constant.ER015);
 		request.setAttribute(Constant.ERR_MSG, errMsg);
 		RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM_SYSTEM_ERROR);

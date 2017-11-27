@@ -26,7 +26,7 @@ public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
-     * @see HttpServlet#HttpServlet()
+     * Constructor
      */
     public LoginController() {
     	super();
@@ -34,7 +34,10 @@ public class LoginController extends HttpServlet {
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * Method trả về giao diện màn hình đăng nhập
+	 * 
+	 * @param request - request được gửi đến server
+	 * @param response - response trả về cho client
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 		try {
@@ -49,21 +52,26 @@ public class LoginController extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * Phương thức xử lí yêu cầu khi submit form đăng nhập
+	 * 
+	 * @param request - request được gửi đến server
+	 * @param response - response trả về phía client
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			// lấy thông tin username, password
 			String loginName = request.getParameter(Constant.TXT_LOGIN_ID);
 			String password = request.getParameter(Constant.TXT_PASSWORD);
-			// gán giá trị trường txtUsername vào request để view in ra
-			request.setAttribute(Constant.TXT_USERNAME, loginName);
+			
 			// khởi tạo danh sách lỗi đăng nhập
 			ArrayList<String> errMsgList = ValidateAdmin.validateLogin(loginName, password);
 			// nếu có lỗi đăng nhập:
 			if (errMsgList.size() > 0) {
 				// thiết lập biến lỗi lên request và forward về view ADM001
+				// gán giá trị tên đăng nhập vừa gửi lên vào request để giữ lại giá trị trong textbox của view ADM001
+				request.setAttribute(Constant.TXT_USERNAME, loginName);
 				request.setAttribute(Constant.LIST_ERROR, errMsgList);
+				// forward về view ADM001
 				RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM001);
 				rd.forward(request, response);
 				

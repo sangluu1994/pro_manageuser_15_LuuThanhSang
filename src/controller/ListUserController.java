@@ -20,9 +20,10 @@ import common.Common;
 import common.Constant;
 import entity.MstGroup;
 import entity.UserInfor;
+import logic.MstGroupLogic;
+import logic.TblUserLogic;
 import logic.impl.MstGroupLogicImpl;
 import logic.impl.TblUserLogicImpl;
-import properties.MessageErrorProperties;
 
 /**
  * Controller xử lí in, tìm kiếm danh sách user
@@ -32,28 +33,36 @@ import properties.MessageErrorProperties;
 @WebServlet(Constant.LIST_USER_PATH)
 public class ListUserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	// khai báo các đối tượng logic xử lí trong màn hình listUser
-	private TblUserLogicImpl tblUserLogicImpl;
-	private MstGroupLogicImpl mstGroupLogicImpl;
+	// khai báo các đối tượng xử lí logic trong màn hình listUser
+	private TblUserLogic tblUserLogic;
+	private MstGroupLogic mstGroupLogic;
        
     /**
-     * @see HttpServlet#HttpServlet()
+     * Constructor
      */
     public ListUserController() {
     	// khởi tạo các đối tượng logic
-    	tblUserLogicImpl = new TblUserLogicImpl();
-		mstGroupLogicImpl = new MstGroupLogicImpl();
+    	tblUserLogic = new TblUserLogicImpl();
+		mstGroupLogic = new MstGroupLogicImpl();
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * Call doPost
+	 * 
+	 * @param request - request được gửi đến server
+	 * @param response - response trả về cho client
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * Phương thức xử lí các yêu cầu đến màn hình list user
+	 * từ các trường hợp khác nhau: lần đầu vào màn hình list user,
+	 * back từ màn hình khác, tìm kiếm, sort, paging
+	 * 
+	 * @param request - request được gửi đến server
+	 * @param response - response trả về cho client
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 		try {
@@ -71,7 +80,7 @@ public class ListUserController extends HttpServlet {
 			int limit = Common.getLimit();
 			int pageLimit = Common.getPageLimit();
 			
-			// kiểm tra trường hợp gọi đến màn hình listUser:
+			// kiểm tra các trường hợp gọi đến màn hình listUser:
 			String type = request.getParameter(Constant.TYPE);
 			if (type == null) { // trường hợp lần đầu vào trang
 				// khởi tạo các tham số để lấy danh sách user
@@ -96,13 +105,13 @@ public class ListUserController extends HttpServlet {
 				
 				if (Constant.TYPE_SEARCH.equals(type)) { // trường hợp tìm kiếm
 					// lấy điều kiện tìm kiếm từ request
-					groupId = Common.convertStringToInt(request.getParameter(Constant.SL_GROUP_ID), 0);
+					groupId = Common.convertStringToInt(request.getParameter(Constant.SL_GROUP_ID), Constant.DEFAULT_GROUP_ID);
 					fullName = request.getParameter(Constant.TXT_FULL_NAME);
-					// về trang đầu
+					// về trang đầu (theo requirement)
 					currentPage = Constant.DEFAULT_PAGE;
 					
 				} else if (Constant.TYPE_SORT.equals(type)) { // trường hợp click vào các button sắp xếp
-					// thiết lập trang hiện tại về trang 1
+					// thiết lập trang hiện tại về trang 1 (theo requirement)
 					currentPage = Constant.DEFAULT_PAGE;
 					// lấy điều kiện sắp xếp
 					sortType = request.getParameter(Constant.SORT_TYPE_PARAM);
@@ -133,19 +142,20 @@ public class ListUserController extends HttpServlet {
 					
 				} else if (Constant.TYPE_PAGING.equals(type)) { // trường hợp click vào phân trang
 					// lấy trang được yêu cầu
-					currentPage = Common.convertStringToInt(request.getParameter(Constant.PAGE_PARAM), 1);
+					currentPage = Common.convertStringToInt(request.getParameter(Constant.PAGE_PARAM), Constant.DEFAULT_PAGE);
 					
 				} else if (Constant.TYPE_BACK.equals(type)) { // trường hợp quay lại màn hình listUser
 					// sử dụng các điều kiện tìm kiếm đã lấy từ session
+					// do nothing
 				}
 			}
 			
 			// lấy và gán danh sách tất cả group lên request
-			List<MstGroup> listGroup = mstGroupLogicImpl.getAllMstGroups();
+			List<MstGroup> listGroup = mstGroupLogic.getAllMstGroups();
 			request.setAttribute(Constant.LIST_GROUP, listGroup);
 			
 			// lấy tổng số user
-			int totalUsers = tblUserLogicImpl.getTotalUsers(groupId, fullName);
+			int totalUsers = tblUserLogic.getTotalUsers(groupId, fullName);
 			
 			// lấy tổng số trang phục vụ việc phân trang
 			int totalPage = Common.getTotalPage(totalUsers, limit);
@@ -159,7 +169,7 @@ public class ListUserController extends HttpServlet {
 				
 				// lấy danh sách user của trang hiện tại
 				int offset = Common.getOffset(currentPage, limit);
-				List<UserInfor> listUser = tblUserLogicImpl.getListUsers(offset, limit, groupId, fullName, sortType, sortByFullName, sortByCodeLevel, sortByEndDate);
+				List<UserInfor> listUser = tblUserLogic.getListUsers(offset, limit, groupId, fullName, sortType, sortByFullName, sortByCodeLevel, sortByEndDate);
 				request.setAttribute(Constant.LIST_USER, listUser);
 			}
 			
@@ -175,28 +185,17 @@ public class ListUserController extends HttpServlet {
 			searchCondition.put(Constant.LIMIT, limit);
 			searchCondition.put(Constant.PAGE_LIMIT, pageLimit);
 			
-			// lưu đối tượng lưu trữ vào session
+			// lưu đối tượng lưu trữ điều kiện tìm kiếm, hiển thị vào session
 			session.setAttribute(Constant.SEARCH_CONDITION, searchCondition);
 			
-			// forward sang màn hình listUser
+			// forward sang view ADM002
 			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM002);
 			rd.forward(request, response);
 			
 		} catch (Exception e) {
 			// show console log ngoại lệ
-			System.out.println(e.getMessage());
-			try {
-				// khai báo, truyền message lỗi sang view
-				String errMsg = MessageErrorProperties.getErrMsg(Constant.ER015);
-				request.setAttribute(Constant.ERR_MSG, errMsg);
-				// forward sang màn hình listUser
-				RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM_SYSTEM_ERROR);
-				rd.forward(request, response);
-			} catch (ServletException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
+			System.out.println("Error in ListUserController#doPost: " + e.getMessage());
+			Common.redirectErrorPage(request, response);
 		}
 	}
 

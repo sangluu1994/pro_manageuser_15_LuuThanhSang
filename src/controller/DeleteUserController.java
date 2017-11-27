@@ -15,27 +15,33 @@ import logic.TblUserLogic;
 import logic.impl.TblUserLogicImpl;
 
 /**
- * Servlet implementation class DeleteUserController
+ * Class xử lí yêu cầu delete user
+ * 
+ * @author luuthanhsang
  */
 @WebServlet(Constant.DELETE_USER_PATH)
 public class DeleteUserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	// khai báo các đối tượng xử lí logic sẽ được sử dụng trong class
 	private TblUserLogic tblUserLogic;
        
     /**
-     * @see HttpServlet#HttpServlet()
+     * Constructor
      */
     public DeleteUserController() {
     	tblUserLogic = new TblUserLogicImpl();
     }
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * Phương thức xử lí yêu cầu delete user
+	 * 
+	 * @param request - request gửi đến server
+	 * @param response - response trả về phía client
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 		try {
-			int userId = Common.convertStringToInt(request.getParameter(Constant.USER_INFOR_ID), 0);
 			// check userId tồn tại
+			int userId = Common.convertStringToInt(request.getParameter(Constant.USER_INFOR_ID), 0);
 			if (!tblUserLogic.isExistedUser(userId)) {
 				Common.redirectErrorPage(request, response);
 				return;
@@ -49,7 +55,7 @@ public class DeleteUserController extends HttpServlet {
 			successURL.append(type);
 			response.sendRedirect(successURL.toString());
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Error in DeleteUserController#doPost: " + e.getMessage());
 			Common.redirectErrorPage(request, response);
 		}
 	}

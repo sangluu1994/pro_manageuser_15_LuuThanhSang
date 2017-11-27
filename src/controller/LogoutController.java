@@ -9,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import common.Common;
 import common.Constant;
 
@@ -23,21 +22,22 @@ public class LogoutController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
-     * @see HttpServlet#HttpServlet()
+     * Constructor
      */
     public LogoutController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * Phương thức xử lí yêu cầu logout
+	 * 
+	 * @param request - request được gửi đến server
+	 * @param response - response trả về cho client
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			// hủy session và redirect về màn hình login
-			HttpSession session = request.getSession();
-			session.invalidate();
+			request.getSession().invalidate();
 			response.sendRedirect(request.getContextPath() + Constant.LOG_IN_PATH);
 		} catch (Exception e) {
 			e.printStackTrace();
