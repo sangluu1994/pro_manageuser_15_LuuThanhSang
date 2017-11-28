@@ -6,7 +6,6 @@
 package logic.impl;
 
 import java.sql.SQLException;
-import java.time.Instant;
 import java.util.List;
 import common.Common;
 import common.Constant;
@@ -45,6 +44,8 @@ public class TblUserLogicImpl implements TblUserLogic {
 	 */
 	@Override
 	public int getTotalUsers(int groupId, String fullName) throws SQLException, ClassNotFoundException {
+		// escape giá trị wildcard trong fullName
+		fullName = Common.escapeWildCard(fullName);
 		return tblUserDao.getTotalUsers(groupId, fullName);
 	}
 
@@ -54,6 +55,16 @@ public class TblUserLogicImpl implements TblUserLogic {
 	@Override
 	public List<UserInfor> getListUsers(int offset, int limit, int groupId, String fullName, String sortType,
 			String sortByFullName, String sortByCodeLevel, String sortByEndDate) throws SQLException, ClassNotFoundException {
+		// định dạng lại sortType, chống tấn công SQL Injection vào câu lệnh ORDER BY
+		if (Constant.SORT_BY_FULL_NAME.equals(sortType)) {
+			sortByFullName = Common.preparedSortType(sortByFullName);
+		} else if (Constant.SORT_BY_CODE_LEVEL.equals(sortType)) {
+			sortByCodeLevel = Common.preparedSortType(sortByCodeLevel);
+		} else {
+			sortByEndDate = Common.preparedSortType(sortByEndDate);
+		}
+		// escape giá trị wildcard trong fullName
+		fullName = Common.escapeWildCard(fullName);
 		return tblUserDao.getListUsers(offset, limit, groupId, fullName, sortType, sortByFullName, sortByCodeLevel, sortByEndDate);
 	}
 
@@ -86,20 +97,12 @@ public class TblUserLogicImpl implements TblUserLogic {
 	public boolean createUser(UserInfor userInfor) throws SQLException, ClassNotFoundException {
 		boolean result = false;
 		// lấy current timestamp làm salt cho userInfor
-		Long timeStampMillis = Instant.now().toEpochMilli();
-		String salt = timeStampMillis.toString();
+		String salt = Common.getTimeStampMillis();
 		String password = Common.SHA1(userInfor.getPass() + salt);
 		// tạo đối tượng TblUser để add vào bảng tbl_user
-		TblUser tblUser = new TblUser();
-		tblUser.setGroupId(userInfor.getGroupId());
-		tblUser.setLoginName(userInfor.getLoginName());
+		userInfor.setSalt(salt);
+		TblUser tblUser = getTblUserFromUserInfor(userInfor);
 		tblUser.setPassword(password);
-		tblUser.setFullName(userInfor.getFullName());
-		tblUser.setFullNameKana(userInfor.getFullNameKana());
-		tblUser.setEmail(userInfor.getEmail());
-		tblUser.setTel(userInfor.getTel());
-		tblUser.setBirthday(userInfor.getBirthday());
-		tblUser.setSalt(salt);
 		try {
 			// làm việc với transaction
 			baseDao.startTransaction();
@@ -109,12 +112,8 @@ public class TblUserLogicImpl implements TblUserLogic {
 				return false;
 			} else if (userInfor.getCodeLevel() != null && !Constant.DEFAULT_CODE_LEVEL.equals(userInfor.getCodeLevel())) {
 				// nếu có các trường trình độ tiếng Nhật, insert vào bảng tbl_detail_user_japan
-				TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
-				tblDetailUserJapan.setUserId(userId);
-				tblDetailUserJapan.setCodeLevel(userInfor.getCodeLevel());
-				tblDetailUserJapan.setStartDate(userInfor.getStartDate());
-				tblDetailUserJapan.setEndDate(userInfor.getEndDate());
-				tblDetailUserJapan.setTotal(userInfor.getTotal());
+				userInfor.setUserId(userId);
+				TblDetailUserJapan tblDetailUserJapan = getTblDetailUserJapanFromUserInfor(userInfor);
 				result = tblDetailUserJapanDao.insertDetailUserJapan(tblDetailUserJapan);
 			} else { // nếu không có vùng trình độ tiếng Nhật
 				result = true;
@@ -132,7 +131,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 			baseDao.rollback();
 			throw e;
 		} finally {
-			// đóng kết nối
+			// kết thúc phiên làm việc có transaction
 			baseDao.endTransaction();
 		}
 		
@@ -161,17 +160,9 @@ public class TblUserLogicImpl implements TblUserLogic {
 	@Override
 	public boolean editUser(UserInfor userInfor) throws ClassNotFoundException, SQLException {
 		boolean success = false;
-		int groupId = userInfor.getGroupId();
 		int userId = userInfor.getUserId();
 		// chuẩn bị các đối tượng TblUser, TblDetailUserJapan sẽ update
-		TblUser tblUser = new TblUser();
-		tblUser.setUserId(userId);
-		tblUser.setGroupId(groupId);
-		tblUser.setFullName(userInfor.getFullName());
-		tblUser.setFullNameKana(userInfor.getFullNameKana());
-		tblUser.setEmail(userInfor.getEmail());
-		tblUser.setTel(userInfor.getTel());
-		tblUser.setBirthday(userInfor.getBirthday());
+		TblUser tblUser = getTblUserFromUserInfor(userInfor);
 		TblDetailUserJapan detailUserJapan = tblDetailUserJapanDao.getDetailUserJapanByUserId(userId);
 		try {
 			// transaction
@@ -179,13 +170,7 @@ public class TblUserLogicImpl implements TblUserLogic {
 			success = tblUserDao.updateUser(tblUser);
 			// check vùng trình độ tiếng Nhật
 			if (!Constant.DEFAULT_CODE_LEVEL.equals(userInfor.getCodeLevel())) {
-				String total = userInfor.getTotal();
-				TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
-				tblDetailUserJapan.setUserId(userInfor.getUserId());
-				tblDetailUserJapan.setCodeLevel(userInfor.getCodeLevel());
-				tblDetailUserJapan.setStartDate(userInfor.getStartDate());
-				tblDetailUserJapan.setEndDate(userInfor.getEndDate());
-				tblDetailUserJapan.setTotal(total);
+				TblDetailUserJapan tblDetailUserJapan = getTblDetailUserJapanFromUserInfor(userInfor);
 				if (detailUserJapan == null) {
 					success = tblDetailUserJapanDao.insertDetailUserJapan(tblDetailUserJapan);
 				} else {
@@ -243,6 +228,38 @@ public class TblUserLogicImpl implements TblUserLogic {
 		TblUser tblUser = tblUserDao.getTblUserById(userId);
 		String newPassword = Common.SHA1(passWord, tblUser.getSalt());
 		return tblUserDao.updatePassword(userId, newPassword);
+	}
+
+	/* (non-Javadoc)
+	 * @see logic.TblUserLogic#getTblDetailUserJapanFromUserInfor(entity.UserInfor)
+	 */
+	@Override
+	public TblDetailUserJapan getTblDetailUserJapanFromUserInfor(UserInfor userInfor) {
+		TblDetailUserJapan tblDetailUserJapan = new TblDetailUserJapan();
+		tblDetailUserJapan.setUserId(userInfor.getUserId());
+		tblDetailUserJapan.setCodeLevel(userInfor.getCodeLevel());
+		tblDetailUserJapan.setStartDate(userInfor.getStartDate());
+		tblDetailUserJapan.setEndDate(userInfor.getEndDate());
+		tblDetailUserJapan.setTotal(userInfor.getTotal());
+		return tblDetailUserJapan;
+	}
+
+	/* (non-Javadoc)
+	 * @see logic.TblUserLogic#getTblUserFromUserInfor(entity.UserInfor)
+	 */
+	@Override
+	public TblUser getTblUserFromUserInfor(UserInfor userInfor) {
+		TblUser tblUser = new TblUser();
+		tblUser.setUserId(userInfor.getUserId());
+		tblUser.setLoginName(userInfor.getLoginName());
+		tblUser.setGroupId(userInfor.getGroupId());
+		tblUser.setFullName(userInfor.getFullName());
+		tblUser.setFullNameKana(userInfor.getFullNameKana());
+		tblUser.setEmail(userInfor.getEmail());
+		tblUser.setTel(userInfor.getTel());
+		tblUser.setBirthday(userInfor.getBirthday());
+		tblUser.setSalt(userInfor.getSalt());
+		return tblUser;
 	}
 	
 }

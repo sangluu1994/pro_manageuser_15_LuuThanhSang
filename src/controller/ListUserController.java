@@ -133,7 +133,7 @@ public class ListUserController extends HttpServlet {
 						sortByFullName = Constant.ASC;
 						sortByEndDate = Constant.DESC;
 						
-					} else if (Constant.SORT_BY_END_DATE.equals(sortType)) { // trường hợp sắp xếp theo ngày hết hạn
+					} else { // trường hợp sắp xếp theo ngày hết hạn
 						// lấy kiểu sắp xếp theo ngày hết hạn
 						sortByEndDate = request.getParameter(Constant.SORT_BY_END_DATE);
 						// thiết lập kiểu sắp xếp theo fullName, trình độ tiếng Nhật về mặc định

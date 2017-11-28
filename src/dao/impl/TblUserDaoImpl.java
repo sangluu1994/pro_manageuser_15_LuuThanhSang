@@ -13,8 +13,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-import common.Common;
 import common.Constant;
 import dao.TblUserDao;
 import entity.TblUser;
@@ -45,22 +43,24 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 					.append("FROM tbl_user u ")
 					.append("INNER JOIN mst_group g ON u.group_id = g.group_id ")
 					.append("WHERE 1 = 1 ");
-				if (groupId != 0) {
+				boolean hasGroupSearch = (groupId != 0);
+				if (hasGroupSearch) {
 					query.append("AND u.group_id = ? ");
 				}
-				if (!Constant.EMPTY_STRING.equals(fullName) && fullName != null) {
+				boolean hasFullNameSearch = (fullName != null && !Constant.EMPTY_STRING.equals(fullName));
+				if (hasFullNameSearch) {
 					query.append("AND u.full_name LIKE ?");
 				}
 				// truy vấn sử dụng preparedStatement
 				PreparedStatement ps = con.prepareStatement(query.toString());
 				int i = 0;
-				if (groupId != 0) {
+				if (hasGroupSearch) {
 					ps.setInt(++i, groupId);
 				}
-				if (!Constant.EMPTY_STRING.equals(fullName)) {
+				if (hasFullNameSearch) {
 					StringBuilder fullNameInput = new StringBuilder();
 					fullNameInput.append("%");
-					fullNameInput.append(Common.escapeWildCard(fullName));
+					fullNameInput.append(fullName);
 					fullNameInput.append("%");
 					ps.setString(++i, fullNameInput.toString());
 				}
@@ -96,10 +96,12 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 						.append("ON u.user_id = de.user_id ")
 						.append("INNER JOIN mst_group g ON u.group_id = g.group_id ")
 						.append("WHERE 1 = 1 ");
-				if (groupId != 0) {
+				boolean hasGroupSearch = (groupId != 0);
+				if (hasGroupSearch) {
 					queryBuilder.append("AND u.group_id = ? ");
 				}
-				if (!Constant.EMPTY_STRING.equals(fullName) && fullName != null) {
+				boolean hasFullNameSearch = (fullName != null && !Constant.EMPTY_STRING.equals(fullName));
+				if (hasFullNameSearch) {
 					queryBuilder.append("AND u.full_name LIKE ? ");
 				}
 				queryBuilder.append("ORDER BY ");
@@ -119,13 +121,13 @@ public class TblUserDaoImpl extends BaseDaoImpl implements TblUserDao {
 				// truy vấn sử dụng preparedStatement
 				PreparedStatement ps = con.prepareStatement(query);
 				int i = 0;
-				if (groupId != 0) {
+				if (hasGroupSearch) {
 					ps.setInt(++i, groupId);
 				}
-				if (!Constant.EMPTY_STRING.equals(fullName) && fullName != null) {
+				if (hasFullNameSearch) {
 					StringBuilder fullNameInput = new StringBuilder();
 					fullNameInput.append("%");
-					fullNameInput.append(Common.escapeWildCard(fullName));
+					fullNameInput.append(fullName);
 					fullNameInput.append("%");
 					ps.setString(++i, fullNameInput.toString());
 				}

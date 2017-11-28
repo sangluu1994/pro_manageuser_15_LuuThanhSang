@@ -17,10 +17,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import properties.ConfigProperties;
 
 /**
@@ -29,6 +27,17 @@ import properties.ConfigProperties;
  * @author luuthanhsang
  */
 public class Common {
+	/**
+	 * Phương thức lấy kiểu sort ASC/DESC trong màn hình list user
+	 * chống tấn công SQLInjection vào câu lệnh ORDER BY
+	 *
+	 * @param sortType - tham số sortType người dùng truyền vào từ request
+	 * @return preparedSortType - tham số sortType chỉ nhận 2 giá trị ASC | DESC
+	 */
+	public static String preparedSortType(String sortType) {
+		String preparedSortType = (Constant.ASC.equals(sortType)) ? Constant.ASC : Constant.DESC;
+		return preparedSortType;
+	}
 	/**
 	 * Phương thức lấy giá trị current timestamp
 	 *
@@ -52,6 +61,7 @@ public class Common {
 	
 	/**
 	 * Hàm kiểm tra input truyền vào có phải là số không
+	 * 
 	 * @param input - đầu vào
 	 * @return boolean - true nếu là số | false nếu ngược lại
 	 */
@@ -104,21 +114,11 @@ public class Common {
 	 * Phương thức format điều kiện search, format lại kí tự wildcard
 	 * đối với câu lệnh LIKE
 	 * 
-	 * @param ioString
-	 * @return ioString
+	 * @param value - chuỗi cần escape kí tự wildcard
+	 * @return chuỗi sau khi escape
 	 */
-	public static String escapeWildCard(String ioString) {
-		// Khai báo danh sách các kí tự cần escape
-		final String[] specialChars = { "\\", "%", "_", "[", "]", "-", "!" };
-		// Thêm \ vào trước các kí tự đặc biệt
-		int specialCharsLeng = specialChars.length;
-		for (int i = 0; i < specialCharsLeng; i++) {
-			if (ioString.contains(specialChars[i])) {
-				ioString = ioString.replace(specialChars[i], "\\" + specialChars[i]);
-			}
-		}
-		// trả về chuỗi đã format
-		return ioString;
+	public static String escapeWildCard(String value) {
+		return (value == null) ? value : value.replace("%", "\\%").replace("_", "\\_").replace("\\", "\\\\");
 	}
 
 	/**

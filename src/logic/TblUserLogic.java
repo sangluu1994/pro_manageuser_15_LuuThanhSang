@@ -7,6 +7,9 @@ package logic;
 
 import java.sql.SQLException;
 import java.util.List;
+
+import entity.TblDetailUserJapan;
+import entity.TblUser;
 import entity.UserInfor;
 
 /**
@@ -125,4 +128,20 @@ public interface TblUserLogic {
 	 * @throws ClassNotFoundException 
 	 */
 	public boolean changePassword(int userId, String passWord) throws ClassNotFoundException, SQLException;
+	
+	/**
+	 * Lấy TblDetailUserJapan từ UserInfor
+	 *
+	 * @param userInfor - object UserInfor
+	 * @return tblDetailUserJapan - object TblDetailUserJapan
+	 */
+	public TblDetailUserJapan getTblDetailUserJapanFromUserInfor(UserInfor userInfor);
+	
+	/**
+	 * Lấy TblUser từ UserInfor
+	 *
+	 * @param userInfor - object UserInfor
+	 * @return tblUser - object TblUser
+	 */
+	public TblUser getTblUserFromUserInfor(UserInfor userInfor);
 }

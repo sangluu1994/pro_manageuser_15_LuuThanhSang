@@ -76,7 +76,7 @@
 				<tr class="tr2">
 					<th align="center" width="20px">ID</th>
 					<th align="left">氏名 
-						<a href="${pageContext.request.contextPath}${Constant.LIST_USER_PATH}?type=sort&sortType=sortByFullName&sortByFullName=${sessionScope.searchCondition.sortByFullName == Constant.ASC ? Constant.DESC : Constant.ASC}" 
+						<a href="javascript:sort('sortByFullName')" 
 							class="${sessionScope.searchCondition.sortType == Constant.SORT_BY_FULL_NAME ? 'is-sorted' : 'unsorted'}">
 							${sessionScope.searchCondition.sortByFullName == Constant.ASC ? '▲▽' : '△▼'}
 						</a>
@@ -86,13 +86,13 @@
 					<th align="left">メールアドレス</th>
 					<th align="left" width="70px">電話番号</th>
 					<th align="left">日本語能力 
-						<a href="${pageContext.request.contextPath}${Constant.LIST_USER_PATH}?type=sort&sortType=sortByCodeLevel&sortByCodeLevel=${sessionScope.searchCondition.sortByCodeLevel == Constant.ASC ? Constant.DESC : Constant.ASC}"
+						<a href="javascript:sort('sortByCodeLevel')"
 							class="${sessionScope.searchCondition.sortType == Constant.SORT_BY_CODE_LEVEL ? 'is-sorted' : 'unsorted'}">
 							${sessionScope.searchCondition.sortByCodeLevel == Constant.ASC? '▲▽' : '△▼'}
 						</a>
 					</th>
 					<th align="left" width="70px">失効日 
-						<a href="${pageContext.request.contextPath}${Constant.LIST_USER_PATH}?type=sort&sortType=sortByEndDate&sortByEndDate=${sessionScope.searchCondition.sortByEndDate == Constant.ASC ? Constant.DESC : Constant.ASC}"
+						<a href="javascript:sort('sortByEndDate')"
 							class="${sessionScope.searchCondition.sortType == Constant.SORT_BY_END_DATE ? 'is-sorted' : 'unsorted'}">
 							${sessionScope.searchCondition.sortByEndDate == Constant.ASC ? '▲▽' : '△▼'}
 						</a>
@@ -157,6 +157,36 @@
 	<!-- End vung paging -->
 
 	<%@ include file = "../layout/footer.jsp" %>
+	<script>
+		function sort(sortField) {
+			var sortForm = document.createElement("form");
+			sortForm.method = "post";
+			sortForm.action = "${pageContext.request.contextPath}${Constant.LIST_USER_PATH}";
+			var typeItem = document.createElement("input");
+			typeItem.type = "hidden";
+			typeItem.name = "type";
+			typeItem.value = "sort";
+			sortForm.appendChild(typeItem);
+			var sortFieldItem = document.createElement("input");
+			sortFieldItem.type = "hidden";
+			sortFieldItem.name = "sortType";
+			sortFieldItem.value = sortField;
+			sortForm.appendChild(sortFieldItem);
+			var sortTypeItem = document.createElement("input");
+			sortTypeItem.type = "hidden";
+			sortTypeItem.name = sortField;
+			if ("sortByFullName" == sortField) {
+				sortTypeItem.value = "${sessionScope.searchCondition.sortByFullName == Constant.ASC ? Constant.DESC : Constant.ASC}";
+			} else if ("sortByCodeLevel" == sortField) {
+				sortTypeItem.value = "${sessionScope.searchCondition.sortByCodeLevel == Constant.ASC ? Constant.DESC : Constant.ASC}";
+			} else {
+				sortTypeItem.value = "${sessionScope.searchCondition.sortByEndDate == Constant.ASC ? Constant.DESC : Constant.ASC}";
+			}
+			sortForm.appendChild(sortTypeItem);
+			document.getElementsByTagName('body')[0].appendChild(sortForm);
+			sortForm.submit();
+		}
+	</script>
 
 </body>
 </html>

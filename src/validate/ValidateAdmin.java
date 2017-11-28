@@ -30,7 +30,7 @@ public class ValidateAdmin {
 		
 		// kiểm tra username, nếu rỗng thì gán lỗi vào danh sách lỗi và trả về
 		if (Common.isNullOrEmpty(loginName)) {
-			errList.add(MessageErrorProperties.getErrMsg(Constant.ER001));
+			errList.add(MessageErrorProperties.getErrMsg(Constant.ER001LOGIN));
 			return errList;
 		}
 		// nếu tên đăng nhập không khớp với admin_user, gán lỗi tương ứng và trả về danh sách lỗi
