@@ -1,7 +1,7 @@
 /**
  * Copyright(C) 2017 Luvina Software Company
  *
- * ConstantProperties.java, 2017-10-23 luuthanhsang
+ * Constant.java, 2017-10-23 luuthanhsang
  */
 package common;
 
@@ -242,9 +242,10 @@ public class Constant {
 	public static final String BACK_TYPE = "backType";
 	public static final String ACTION_TYPE = "actionType";
 	public static final String ERROR = "error";
-	public static final String TASK_DONE = "taskDone";
-	public static final String TASK_FAIL = "taskFail";
 	public static final String FULL_NAME_KATA_PATTERN = "^[ア-ンーッ ]*$";
 	public static final String TOTAL_PATTERN = "^[1-9]{1}[0-9]{0,10}$";
+	public static final String INSERT = "insert";
+	public static final String UPDATE = "update";
+	public static final String DELETE = "delete";
 	
 }

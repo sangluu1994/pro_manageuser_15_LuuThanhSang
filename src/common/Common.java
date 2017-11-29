@@ -115,14 +115,14 @@ public class Common {
 	}
 	
 	/**
-	 * Phương thức format điều kiện search, format lại kí tự wildcard
+	 * Phương thức format điều kiện search, format lại kí tự wildcard, kí tự "\"
 	 * đối với câu lệnh LIKE
 	 * 
 	 * @param value - chuỗi cần escape kí tự wildcard
 	 * @return chuỗi sau khi escape
 	 */
 	public static String escapeWildCard(String value) {
-		return (value == null) ? value : value.replace("%", "\\%").replace("_", "\\_").replace("\\", "\\\\");
+		return (value == null) ? value : value.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_");
 	}
 
 	/**
@@ -367,7 +367,6 @@ public class Common {
 	 * @param year - năm cần kiểm tra.
 	 * @param month - tháng cần kiểm tra.
 	 * @param day - ngày cần kiểm tra
-	 * 
 	 * @return true nếu ngày nhập vào có tồn tại | false nếu ngược lại.
 	 */
 	public static boolean isRealDay(int year, int month, int day) {

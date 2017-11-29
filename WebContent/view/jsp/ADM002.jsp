@@ -11,7 +11,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="shortcut icon" href="${pageContext.request.contextPath}/view/img/logo-icon.png">
 <link href="${pageContext.request.contextPath}/view/css/style.css" rel="stylesheet" type="text/css" />
-<script src="${pageContext.request.contextPath}/view/js/fn.js"></script>
 <title>ユーザ管理</title>
 </head>
 <body>
@@ -59,7 +58,7 @@
 							<td align="left">
 								<input type="hidden" name="type" value="search" />
 								<input class="btn" type="submit" value="検索" />
-								<input class="btn" type="button" onclick="addUser()" value="新規追加" />
+								<input class="btn" type="button" onclick="window.location.href='${pageContext.request.contextPath}${Constant.ADD_USER_INPUT_PATH}';" value="新規追加" />
 							</td>
 						</tr>
 					</table>
@@ -123,7 +122,7 @@
 		</c:when>
 		<c:otherwise>
 			<br/>
-			<center>該当するユーザは存在していません。</center>
+			<center>検索条件に該当するユーザが見つかりません。</center>
 		</c:otherwise>
 	</c:choose>
 	<!-- End vung hien thi danh sach user -->
@@ -157,6 +156,7 @@
 	<!-- End vung paging -->
 
 	<%@ include file = "../layout/footer.jsp" %>
+	
 	<script>
 		function sort(sortField) {
 			var sortForm = document.createElement("form");

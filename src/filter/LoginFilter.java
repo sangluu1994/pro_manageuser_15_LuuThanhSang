@@ -29,14 +29,12 @@ public class LoginFilter implements Filter {
      * Default constructor. 
      */
     public LoginFilter() {
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see Filter#destroy()
 	 */
 	public void destroy() {
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -50,9 +48,6 @@ public class LoginFilter implements Filter {
 		res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 		res.setHeader("Pragma", "no-cache");
 		res.setDateHeader("Expires", 0);
-		
-		// set timeout
-		req.getSession().setMaxInactiveInterval(300);
 		
 		// lấy đường dẫn của request gửi đến
 		String path = req.getRequestURI().substring(req.getContextPath().length());
@@ -103,7 +98,6 @@ public class LoginFilter implements Filter {
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO Auto-generated method stub
 	}
 
 }

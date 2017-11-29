@@ -4,4 +4,7 @@
   <welcome-file-list>
     <welcome-file>view/jsp/ADM001.jsp</welcome-file>
   </welcome-file-list>
+  <session-config>
+		<session-timeout>5</session-timeout>
+	</session-config>
 </web-app>

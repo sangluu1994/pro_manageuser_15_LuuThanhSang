@@ -146,7 +146,7 @@ public class ListUserController extends HttpServlet {
 					// lấy trang được yêu cầu
 					currentPage = Common.convertStringToInt(request.getParameter(Constant.PAGE_PARAM), Constant.DEFAULT_PAGE);
 					
-				} else if (Constant.TYPE_BACK.equals(type)) { // trường hợp quay lại màn hình listUser
+				} else { // trường hợp quay lại màn hình listUser
 					// sử dụng các điều kiện tìm kiếm đã lấy từ session
 					// do nothing
 				}
@@ -195,7 +195,6 @@ public class ListUserController extends HttpServlet {
 			rd.forward(request, response);
 			
 		} catch (Exception e) {
-			// show console log ngoại lệ
 			e.printStackTrace();
 			Common.redirectErrorPage(request, response);
 		}

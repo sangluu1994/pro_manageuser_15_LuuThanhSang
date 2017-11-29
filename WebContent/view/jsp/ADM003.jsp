@@ -1,9 +1,7 @@
 <%@ page import="common.Constant"%>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -213,23 +211,25 @@
 					<input class="btn" type="submit" value="確認" />					
 				</td>	
 				<td>
-					<input class="btn" type="button" onclick="back(${userInfor.userId})" value="戻る" />						
+					<input class="btn" type="button" onclick="backFromInput(${userInfor.userId})" value="戻る" />						
 				</td>
 		</tr>		
 	</table>
 	<!-- End vung button -->	
 </form>
 <!-- End vung input -->
+
+<%@ include file = "../layout/footer.jsp" %>
+
 <script>
-	function back(userId) {
+	function backFromInput(userId) {
 		if (userId != 0) {
-			window.location.href = 'detailUser.do?userId=' + userId;
+			window.location.href = '${pageContext.request.contextPath}${Constant.DETAIL_USER_PATH}' + '?userId=' + userId;
 		} else {
-			window.location.href = 'listAllUser.do?type=back';
+			window.location.href = '${pageContext.request.contextPath}${Constant.LIST_USER_PATH}' + '?type=back';
 		}
 	}
 </script>
 
-<%@ include file = "../layout/footer.jsp" %>
 </body>
 </html>

@@ -5,15 +5,11 @@
  */
 package controller;
 
-import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import common.Constant;
 import properties.MessageErrorProperties;
 
@@ -41,12 +37,16 @@ public class ErrorController extends HttpServlet {
 	 * @param request - request gửi đến server
 	 * @param response - response trả về phía client
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// thiết lập thông báo lỗi lên request, forward đến view ADM_SYSTEM_ERROR
-		String errMsg = MessageErrorProperties.getErrMsg(Constant.ER015);
-		request.setAttribute(Constant.ERR_MSG, errMsg);
-		RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM_SYSTEM_ERROR);
-		rd.forward(request, response);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			// thiết lập thông báo lỗi lên request, forward đến view ADM_SYSTEM_ERROR
+			String errMsg = MessageErrorProperties.getErrMsg(Constant.ER015);
+			request.setAttribute(Constant.ERR_MSG, errMsg);
+			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM_SYSTEM_ERROR);
+			rd.forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

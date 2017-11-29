@@ -52,10 +52,13 @@ public class DeleteUserController extends HttpServlet {
 			// gọi hàm xử lí logic delete user
 			boolean success = tblUserLogic.removeUser(userId);
 			// điều hướng đến trang xử lí hiện kết quả xóa user
-			StringBuilder successURL = new StringBuilder(request.getContextPath()).append(Constant.SUCCESS_PATH).append("?type=");
-			String type = success ? Constant.TASK_DONE : Constant.TASK_FAIL;
-			successURL.append(type);
-			response.sendRedirect(successURL.toString());
+			if (success) {
+				StringBuilder successURL = new StringBuilder();
+				successURL.append(request.getContextPath()).append(Constant.SUCCESS_PATH).append("?").append(Constant.TYPE).append("=").append(Constant.DELETE);
+				response.sendRedirect(successURL.toString());
+			} else {
+				Common.redirectErrorPage(request, response);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			Common.redirectErrorPage(request, response);

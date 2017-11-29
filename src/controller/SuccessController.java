@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import common.Common;
 import common.Constant;
-import properties.MessageErrorProperties;
 import properties.MessageProperties;
 
 /**
@@ -43,17 +42,16 @@ public class SuccessController extends HttpServlet {
 		try {
 			// lấy tham số được gửi sang để xác định thông báo thành công hoặc không thành công
 			String type = request.getParameter(Constant.TYPE);
+			// tạo message hiển thị trên màn hình ADM006
 			StringBuilder msg = new StringBuilder();
-			StringBuilder status = new StringBuilder();
-			if (Constant.TASK_DONE.equals(type)) {
+			if (Constant.INSERT.equals(type)) {
 				msg.append(MessageProperties.getString(Constant.MSG001));
-				status.append(Constant.SUCCESS);
-			} else if (Constant.TASK_FAIL.equals(type)) {
-				msg.append(MessageErrorProperties.getErrMsg(Constant.ER015));
-				status.append(Constant.FAIL);
+			} else if (Constant.UPDATE.equals(type)) {
+				msg.append(MessageProperties.getString(Constant.MSG002));
+			} else {
+				msg.append(MessageProperties.getString(Constant.MSG003));
 			}
 			request.setAttribute(Constant.MESSAGE, msg.toString());
-			request.setAttribute(Constant.STATUS, status.toString());
 			// forward đến ADM006
 			RequestDispatcher rd = request.getRequestDispatcher(Constant.ADM006);
 			rd.forward(request, response);

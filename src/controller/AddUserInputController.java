@@ -27,7 +27,7 @@ import logic.impl.TblUserLogicImpl;
 import validate.ValidateUser;
 
 /**
- * Controller xử lí cho màn hình ADM003 trường hợp Add
+ * Controller xử lí cho màn hình ADM003 trường hợp Add, Edit
  * 
  * @author luuthanhsang
  */

@@ -24,7 +24,7 @@ import logic.impl.MstJapanLogicImpl;
 import logic.impl.TblUserLogicImpl;
 
 /**
- * Controller xử lí xác nhận add user
+ * Controller xử lí xác nhận add user, edit user
  * 
  * @author luuthanhsang
  */
@@ -106,7 +106,8 @@ public class AddUserConfirmController extends HttpServlet {
 			boolean taskSuccess = false;
 			String type = null;
 			int userId = userInfor.getUserId();
-			if (userId == 0) { // trường hợp insert
+			boolean isInsert = (userId == 0);
+			if (isInsert) { // trường hợp insert
 				// insert userInfor vào cơ sở dữ liệu
 				if (userInfor != null) {
 					taskSuccess = tblUserLogic.createUser(userInfor);
@@ -123,14 +124,18 @@ public class AddUserConfirmController extends HttpServlet {
 				session.removeAttribute(userInforId);
 			}
 			// điều hướng sang trang kết quả insert tùy theo các trường hợp thành công/không thành công
-			StringBuilder successURL = new StringBuilder(request.getContextPath());
-			successURL.append(Constant.SUCCESS_PATH);
-			successURL.append("?");
-			successURL.append(Constant.TYPE);
-			successURL.append("=");
-			type = taskSuccess ? Constant.TASK_DONE : Constant.TASK_FAIL;
-			successURL.append(type);
-			response.sendRedirect(successURL.toString());
+			if (taskSuccess) {
+				StringBuilder successURL = new StringBuilder(request.getContextPath());
+				successURL.append(Constant.SUCCESS_PATH);
+				successURL.append("?");
+				successURL.append(Constant.TYPE);
+				successURL.append("=");
+				type = isInsert ? Constant.INSERT : Constant.UPDATE;
+				successURL.append(type);
+				response.sendRedirect(successURL.toString());
+			} else {
+				Common.redirectErrorPage(request, response);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			Common.redirectErrorPage(request, response);
