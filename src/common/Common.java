@@ -38,6 +38,7 @@ public class Common {
 		String preparedSortType = (Constant.ASC.equals(sortType)) ? Constant.ASC : Constant.DESC;
 		return preparedSortType;
 	}
+	
 	/**
 	 * Phương thức lấy giá trị current timestamp
 	 *
@@ -62,7 +63,7 @@ public class Common {
 	/**
 	 * Hàm kiểm tra input truyền vào có phải là số không
 	 * 
-	 * @param input - đầu vào
+	 * @param input - giá trị đầu vào
 	 * @return boolean - true nếu là số | false nếu ngược lại
 	 */
 	public static boolean isNumber(String input) {
@@ -100,8 +101,11 @@ public class Common {
 	public static String SHA1(String value) {
 		String hashString = "";
 		try {
+			// tạo đối tượng chứa cài đặt của thuật toán SHA-1
 			MessageDigest m = MessageDigest.getInstance("SHA-1");
+			// update dữ liệu muốn băm SHA-1 vào đối tượng vừa tạo
 			m.update(value.getBytes(), 0, value.length());
+			// hoàn thành hành động băm và định dạng lại chuỗi kết quả băm
 			hashString = new BigInteger(1, m.digest()).toString(16).toUpperCase();
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
