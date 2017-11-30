@@ -28,9 +28,13 @@ public class ValidateAdmin {
 		// khởi tạo danh sách lỗi
 		ArrayList<String> errList = new ArrayList<String>();
 		
-		// kiểm tra username, nếu rỗng thì gán lỗi vào danh sách lỗi và trả về
+		// kiểm tra username, nếu rỗng thì gán lỗi vào danh sách lỗi
 		if (Common.isNullOrEmpty(loginName)) {
 			errList.add(MessageErrorProperties.getErrMsg(Constant.ER001LOGIN));
+		}
+		// kiểm tra password, nếu rỗng thì gán lỗi vào danh sách lỗi và trả về
+		if (Common.isNullOrEmpty(password)) {
+			errList.add(MessageErrorProperties.getErrMsg(Constant.ER001PASS));
 			return errList;
 		}
 		// nếu tên đăng nhập không khớp với admin_user, gán lỗi tương ứng và trả về danh sách lỗi
