@@ -112,6 +112,7 @@ public class BaseDaoImpl implements BaseDao {
 	@Override
 	public void endTransaction() throws SQLException {
 		close(connection);
+		connection = null;
 	}
 
 }
